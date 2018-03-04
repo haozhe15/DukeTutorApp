@@ -7,9 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class RegistrationActivity extends AppCompatActivity {
     EditText etUsername;
@@ -39,15 +45,31 @@ public class RegistrationActivity extends AppCompatActivity {
                 final String lastname = etLastname.getText().toString();
                 final String email = etEmail.getText().toString();
                 final String password = etPassword.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+                HashMap<String, String> params = new HashMap<>();
+                params.put("username", username);
+                params.put("password", password);
+                params.put("email", email);
+                params.put("first_name", firstname);
+                params.put("last_name", lastname);
+                JsonAuthRequest registerRequest = new JsonAuthRequest(
+                    Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/users/",
+                        params, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         Intent registerFinish = new Intent(RegistrationActivity.this, loginActivity.class);
                         RegistrationActivity.this.startActivity(registerFinish);
                     }
-                };
 
-                RegisterRequest registerRequest = new RegisterRequest(username,firstname,lastname,email,password, responseListener);
+                    }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+                );
+
                 RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
                 queue.add(registerRequest);
             }
