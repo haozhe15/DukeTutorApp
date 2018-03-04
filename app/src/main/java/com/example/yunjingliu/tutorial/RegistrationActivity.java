@@ -52,9 +52,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 params.put("email", email);
                 params.put("first_name", firstname);
                 params.put("last_name", lastname);
-                JsonAuthRequest registerRequest = new JsonAuthRequest(
+                JsonObjectAuthRequest registerRequest = new JsonObjectAuthRequest(
                     Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/users/",
-                        params, new Response.Listener<JSONObject>() {
+                        new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Intent registerFinish = new Intent(RegistrationActivity.this, loginActivity.class);
@@ -65,6 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                       // TODO show error message
 
                     }
                 }
