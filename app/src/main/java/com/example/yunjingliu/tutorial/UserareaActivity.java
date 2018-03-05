@@ -1,7 +1,9 @@
 package com.example.yunjingliu.tutorial;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class UserareaActivity extends AppCompatActivity {
@@ -19,5 +21,17 @@ public class UserareaActivity extends AppCompatActivity {
         username = b.getString("username");
         String msg = "Welcome! " +username;
         welcomeUser.setText(msg);
+    }
+
+    public void addNew(View view){
+        Intent intent = new Intent(this, TutorSessionPostActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void skipToSearch(View view){
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
+
     }
 }
