@@ -36,6 +36,7 @@ public class loginActivity extends AppCompatActivity {
         btLogin = (Button) findViewById(R.id.btLogin );
         etRegisterLink = (TextView) findViewById(R.id.tvRegisterHere);
 
+        System.out.println("login : "+ etUsername.toString());
         etRegisterLink.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -47,14 +48,18 @@ public class loginActivity extends AppCompatActivity {
         btLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                final String username = etUsername.getText().toString();
+                final String password = etPassword.getText().toString();
                 JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
                         Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/users/",
-                        etUsername.getText().toString(),etPassword.getText().toString(),
+                        username,password,
                         null,
                         new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         System.out.println("log in response: "+ response.toString());
+                        myApp appInfo = (myApp)getApplicationContext();
+                        appInfo.setInfo(username,password);
                         Intent LoginIntent = new Intent(loginActivity.this, UserareaActivity.class);
                         loginActivity.this.startActivity(LoginIntent);
                     }
