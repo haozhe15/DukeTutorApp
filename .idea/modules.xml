@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DukeTutorApp.iml" filepath="$PROJECT_DIR$/DukeTutorApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\wangh\AndroidStudioProjects\DukeTutorApp\app\app.iml" filepath="D:\wangh\AndroidStudioProjects\DukeTutorApp\app\app.iml" />
-      <module fileurl="file://D:\wangh\AndroidStudioProjects\DukeTutorApp\tutorial.iml" filepath="D:\wangh\AndroidStudioProjects\DukeTutorApp\tutorial.iml" />
     </modules>
   </component>
 </project>
