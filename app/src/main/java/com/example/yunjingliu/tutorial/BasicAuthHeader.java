@@ -28,7 +28,7 @@ public class BasicAuthHeader {
         params.put("Content-Type", "application/json");
         if (username != null) {
             String encoded = Base64.encodeToString((username + ":" + password).getBytes(), Base64.NO_WRAP);
-            params.put("Authentication", "Basic " + encoded);
+            params.put("Authorization", "Basic " + encoded);
         }
         return params;
     }

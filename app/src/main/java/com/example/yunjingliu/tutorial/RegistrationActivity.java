@@ -57,8 +57,9 @@ public class RegistrationActivity extends AppCompatActivity {
                         new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Intent registerFinish = new Intent(RegistrationActivity.this, loginActivity.class);
-                        RegistrationActivity.this.startActivity(registerFinish);
+                        finish();
+                        //Intent registerFinish = new Intent(RegistrationActivity.this, loginActivity.class);
+                        //RegistrationActivity.this.startActivity(registerFinish);
                     }
 
                     }, new Response.ErrorListener() {
