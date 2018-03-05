@@ -28,7 +28,8 @@
                 android:value=".loginActivity" />
         </activity>
         <activity android:name=".UserareaActivity" />
-        <activity android:name=".TutorSessionPostActivity"></activity>
+        <activity android:name=".TutorSessionPostActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

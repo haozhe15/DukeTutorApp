@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.yunjingliu.tutorial.TutorSessionPostActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="TextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="32dp" />
 </android.support.constraint.ConstraintLayout>
