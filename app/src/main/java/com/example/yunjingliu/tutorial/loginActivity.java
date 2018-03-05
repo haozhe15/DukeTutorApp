@@ -36,7 +36,6 @@ public class loginActivity extends AppCompatActivity {
         btLogin = (Button) findViewById(R.id.btLogin );
         etRegisterLink = (TextView) findViewById(R.id.tvRegisterHere);
 
-        System.out.println("login : "+ etUsername.toString());
         etRegisterLink.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
