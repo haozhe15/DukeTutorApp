@@ -49,12 +49,12 @@ public class loginActivity extends AppCompatActivity {
             public void onClick(View v){
                 JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
                         Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/users/",
-                        etUsername.toString(),etPassword.toString(),
+                        etUsername.getText().toString(),etPassword.getText().toString(),
                         null,
                         new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        System.out.println(response.toString());
+                        System.out.println("log in response: "+ response.toString());
                         Intent LoginIntent = new Intent(loginActivity.this, UserareaActivity.class);
                         loginActivity.this.startActivity(LoginIntent);
                     }
@@ -64,7 +64,7 @@ public class loginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO show error message
-                        System.out.println(error.toString());
+                        //System.out.println(error.toString());
                     }
                 }
                 );
