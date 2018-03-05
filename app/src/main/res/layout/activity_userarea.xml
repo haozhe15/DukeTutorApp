@@ -6,42 +6,50 @@
     android:layout_height="match_parent"
     tools:context="com.example.yunjingliu.tutorial.UserareaActivity">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="you"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/sessionView"
-        android:layout_width="292dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Your Tutor Session:"
-        app:layout_constraintBottom_toTopOf="@+id/addNew"
-        app:layout_constraintHorizontal_bias="0.173"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
-        app:layout_constraintVertical_bias="0.074" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <TextView
+                android:id="@+id/tvTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Help us to get more information of youself! Start your journey!"
+                tools:layout_editor_absoluteX="28dp"
+                tools:layout_editor_absoluteY="21dp" />
+
+            <EditText
+                android:id="@+id/sessionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:text="@string/session_profile_head" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/addNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginStart="16dp"
         android:onClick="addNew"
         android:text="@string/action_add_new"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/skipthis"
+        app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -49,21 +57,25 @@
         android:id="@+id/skipthis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="16dp"
         android:onClick="skipToSearch"
         android:text="@string/action_skip"
-        app:layout_constraintBaseline_toBaselineOf="@+id/addNew"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/addNew" />
+        app:layout_constraintStart_toEndOf="@+id/button" />
 
-    <TextView
-        android:id="@+id/tvTest"
+    <Button
+        android:id="@+id/session_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="Help us to get more information of youself! Start your journey!"
-        app:layout_constraintBottom_toTopOf="@+id/sessionView"
-        app:layout_constraintStart_toStartOf="@+id/sessionView" />
+        android:layout_marginBottom="32dp"
+        android:onClick="onClickRefresh"
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/skipthis"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/addNew" />
 
 </android.support.constraint.ConstraintLayout>

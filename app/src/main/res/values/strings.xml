@@ -5,6 +5,7 @@
     <string name="action_sumbit_form">Submit</string>
     <string name="session_title">Title</string>
     <string name="session_description">Description</string>
+    <string name="session_profile_head">Your Tutor Session:</string>
     <string-array name="week_array">
         <item>Sunday</item>
         <item>Monday</item>
