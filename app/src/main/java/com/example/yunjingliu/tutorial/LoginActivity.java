@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(View view) {
+        final MyApp app = (MyApp) getApplication();
         final String username = etUsername.getText().toString();
         final String password = etPassword.getText().toString();
         final BasicAuthProvider authProvider = new BasicAuthProvider();
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = app.getRequestQueue();
         queue.add(registerRequest);
     }
 

@@ -36,6 +36,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void onClickRegister(View view) {
+        final MyApp app = (MyApp) getApplication();
         final String username = etUsername.getText().toString();
         final String firstname = etFirstname.getText().toString();
         final String lastname = etLastname.getText().toString();
@@ -62,7 +63,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 // TODO show error message
             }
         });
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = app.getRequestQueue();
         queue.add(registerRequest);
     }
 }

@@ -47,10 +47,10 @@ public class UserareaActivity extends AppCompatActivity {
     }
 
     public void getProfile(){
-        AuthProvider authProvider = ((MyApp) getApplication()).getAuthProvider();
+        final MyApp app = (MyApp) getApplication();
         JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
                 Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/sessions/",
-                authProvider,
+                app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -71,7 +71,7 @@ public class UserareaActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = app.getRequestQueue();
         queue.add(getProfileRequest);
     }
 

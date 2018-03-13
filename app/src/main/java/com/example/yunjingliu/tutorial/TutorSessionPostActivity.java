@@ -48,20 +48,19 @@ public class TutorSessionPostActivity extends AppCompatActivity {
     }
 
     public void onClickSubmit(View view) {
+        final MyApp app = (MyApp) getApplication();
         HashMap<String, String> params = new HashMap<>();
         params.put("title", title.getText().toString());
         params.put("description", description.getText().toString());
         params.put("time", time.getText().toString());
         params.put("place", location.getText().toString());
 
-        AuthProvider authProvider = ((MyApp) getApplication()).getAuthProvider();
         int i = spinner.getSelectedItemPosition();
         String date = dateChoices[i];
         params.put("day", date);
-        assert authProvider != null;
         JsonObjectAuthRequest postSessionRequest = new JsonObjectAuthRequest(
                 Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/sessions/",
-                authProvider,
+                app.getAuthProvider(),
                 new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -72,7 +71,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         });
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = app.getRequestQueue();
         queue.add(postSessionRequest);
     }
 }
