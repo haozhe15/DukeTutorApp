@@ -15,11 +15,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.util.HashMap;
-
-public class loginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText etUsername;
     EditText etPassword;
     Button btLogin;
@@ -39,8 +36,8 @@ public class loginActivity extends AppCompatActivity {
         etRegisterLink.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent registerIntent = new Intent(loginActivity.this, RegistrationActivity.class);
-                loginActivity.this.startActivity(registerIntent);
+                Intent registerIntent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                LoginActivity.this.startActivity(registerIntent);
             }
         });
 
@@ -57,10 +54,10 @@ public class loginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         System.out.println("log in response: "+ response.toString());
-                        myApp appInfo = (myApp)getApplicationContext();
+                        MyApp appInfo = (MyApp)getApplicationContext();
                         appInfo.setInfo(username,password);
-                        Intent LoginIntent = new Intent(loginActivity.this, UserareaActivity.class);
-                        loginActivity.this.startActivity(LoginIntent);
+                        Intent LoginIntent = new Intent(LoginActivity.this, UserareaActivity.class);
+                        LoginActivity.this.startActivity(LoginIntent);
                     }
 
                 }, new Response.ErrorListener() {
@@ -73,7 +70,7 @@ public class loginActivity extends AppCompatActivity {
                 }
                 );
 
-                RequestQueue queue = Volley.newRequestQueue(loginActivity.this);
+                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(registerRequest);
 
 

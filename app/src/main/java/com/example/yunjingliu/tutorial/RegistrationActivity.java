@@ -58,7 +58,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         finish();
-                        //Intent registerFinish = new Intent(RegistrationActivity.this, loginActivity.class);
+                        //Intent registerFinish = new Intent(RegistrationActivity.this, LoginActivity.class);
                         //RegistrationActivity.this.startActivity(registerFinish);
                     }
 

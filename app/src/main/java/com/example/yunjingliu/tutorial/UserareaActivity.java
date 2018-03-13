@@ -28,7 +28,7 @@ public class UserareaActivity extends AppCompatActivity {
         String username;
         Bundle b;
         welcomeUser = (TextView) findViewById(R.id.tvWelcome);
-        b = ((myApp)getApplicationContext()).getInfo();
+        b = ((MyApp)getApplicationContext()).getInfo();
         username = b.getString("username");
         String msg = "Welcome! " +username;
         welcomeUser.setText(msg);
@@ -54,7 +54,7 @@ public class UserareaActivity extends AppCompatActivity {
         String username;
         String password;
         Bundle b;
-        b = ((myApp)getApplicationContext()).getInfo();
+        b = ((MyApp)getApplicationContext()).getInfo();
         username = b.getString("username");
         password = b.getString("password");
 

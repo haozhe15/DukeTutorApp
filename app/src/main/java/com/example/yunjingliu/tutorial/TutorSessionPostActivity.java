@@ -60,7 +60,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
                 params.put("time", time.getText().toString());
                 params.put("place", location.getText().toString());
 
-                Bundle b = ((myApp) getApplicationContext()).getInfo();
+                Bundle b = ((MyApp) getApplicationContext()).getInfo();
                 String username = b.getString("username");
                 String password = b.getString("password");
                 int i = spinner.getSelectedItemPosition();
