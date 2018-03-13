@@ -23,10 +23,9 @@ public class TutorSessionPostActivity extends AppCompatActivity {
 
     EditText title;
     EditText description;
-    //Spinner date;
+    Spinner spinner;
     EditText time;
     EditText location;
-    Button submit;
     String[] datechoices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     @Override
@@ -34,7 +33,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_session_post);
 
-        final Spinner spinner = (Spinner) findViewById(R.id.spDatechoose);
+        spinner = (Spinner) findViewById(R.id.spDatechoose);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.week_array, android.R.layout.simple_spinner_item);
@@ -45,43 +44,36 @@ public class TutorSessionPostActivity extends AppCompatActivity {
 
         title = (EditText) findViewById(R.id.etTitle);
         description = (EditText) findViewById(R.id.etDescription);
-        //date = (Spinner) findViewById(R.id.spDatechoose);
         time = (EditText) findViewById(R.id.etTimechoose);
         location = (EditText) findViewById(R.id.etLocationinput);
-        submit = (Button) findViewById(R.id.btSubmit);
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("title", title.getText().toString());
-                params.put("description", description.getText().toString());
-                params.put("time", time.getText().toString());
-                params.put("place", location.getText().toString());
-
-                AuthProvider authProvider = ((MyApp) getApplication()).getAuthProvider();
-                int i = spinner.getSelectedItemPosition();
-                String date = datechoices[i];
-                params.put("day", date);
-                assert authProvider != null;
-                JsonObjectAuthRequest postSessionRequest = new JsonObjectAuthRequest(
-                        Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/sessions/",
-                        authProvider,
-                        new JSONObject(params), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        finish();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });
-                RequestQueue queue = Volley.newRequestQueue(TutorSessionPostActivity.this);
-                queue.add(postSessionRequest);
-            }
-        });
     }
 
+    public void onClickSubmit(View view) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("title", title.getText().toString());
+        params.put("description", description.getText().toString());
+        params.put("time", time.getText().toString());
+        params.put("place", location.getText().toString());
 
+        AuthProvider authProvider = ((MyApp) getApplication()).getAuthProvider();
+        int i = spinner.getSelectedItemPosition();
+        String date = datechoices[i];
+        params.put("day", date);
+        assert authProvider != null;
+        JsonObjectAuthRequest postSessionRequest = new JsonObjectAuthRequest(
+                Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/sessions/",
+                authProvider,
+                new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(postSessionRequest);
+    }
 }
