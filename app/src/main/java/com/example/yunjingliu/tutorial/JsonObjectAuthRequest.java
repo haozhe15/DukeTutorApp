@@ -13,8 +13,21 @@ import java.util.Map;
  * Created by YunjingLiu on 3/4/18.
  */
 
+/**
+ * A JsonObjectRequest that contains authorization information.
+ */
 class JsonObjectAuthRequest extends JsonObjectRequest {
     private JsonRequestAuthAdapter authAdapter;
+
+    /**
+     * Constructor.
+     * @param method The request method.
+     * @param url The URL of the request.
+     * @param auth The AuthProvider object (null for no authorization).
+     * @param jsonRequest The JSON request object (null for no request body).
+     * @param listener The response listener.
+     * @param errorListener The error listener.
+     */
     public JsonObjectAuthRequest(int method, String url, AuthProvider auth, JSONObject jsonRequest,
                                  Response.Listener<JSONObject> listener,
                                  Response.ErrorListener errorListener) {
