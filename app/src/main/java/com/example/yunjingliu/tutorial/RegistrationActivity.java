@@ -1,8 +1,7 @@
 package com.example.yunjingliu.tutorial;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,9 +36,9 @@ public class RegistrationActivity extends AppCompatActivity {
         etEmail = (EditText) findViewById(R.id.etEmail);
         btRegister = (Button) findViewById(R.id.btRegister);
 
-        btRegister.setOnClickListener(new View.OnClickListener(){
+        btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 final String username = etUsername.getText().toString();
                 final String firstname = etFirstname.getText().toString();
                 final String lastname = etLastname.getText().toString();
@@ -53,7 +52,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 params.put("first_name", firstname);
                 params.put("last_name", lastname);
                 JsonObjectAuthRequest registerRequest = new JsonObjectAuthRequest(
-                    Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/users/",
+                        Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/users/",
+                        null,
                         new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -61,21 +61,16 @@ public class RegistrationActivity extends AppCompatActivity {
                         //Intent registerFinish = new Intent(RegistrationActivity.this, LoginActivity.class);
                         //RegistrationActivity.this.startActivity(registerFinish);
                     }
-
-                    }, new Response.ErrorListener() {
-
+                }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                       // TODO show error message
+                        // TODO show error message
 
                     }
-                }
-                );
-
+                });
                 RequestQueue queue = Volley.newRequestQueue(RegistrationActivity.this);
                 queue.add(registerRequest);
             }
         });
-
     }
 }

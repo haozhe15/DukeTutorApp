@@ -8,17 +8,13 @@ import android.os.Bundle;
  */
 
 public class MyApp extends Application{
-    String usname;
-    String pwd;
+    private AuthProvider authProvider;
 
-    public Bundle getInfo(){
-        Bundle b = new Bundle();
-        b.putString("username",usname);
-        b.putString("password",pwd);
-        return b;
+    public AuthProvider getAuthProvider() {
+        return authProvider;
     }
-    public void setInfo(String username, String password){
-        usname = username;
-        pwd = password;
+
+    public void setAuthProvider(AuthProvider authProvider) {
+        this.authProvider = authProvider;
     }
 }
