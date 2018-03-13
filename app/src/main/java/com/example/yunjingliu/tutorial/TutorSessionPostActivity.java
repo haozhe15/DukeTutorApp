@@ -80,8 +80,6 @@ public class TutorSessionPostActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(TutorSessionPostActivity.this);
                 queue.add(postSessionRequest);
             }
-
-
         });
     }
 
