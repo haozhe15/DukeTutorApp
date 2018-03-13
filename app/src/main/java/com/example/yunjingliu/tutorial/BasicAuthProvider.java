@@ -6,7 +6,7 @@ import android.util.Base64;
  * Created by YunjingLiu on 3/4/18.
  */
 
-public class BasicAuthProvider implements AuthProvider {
+class BasicAuthProvider implements AuthProvider {
     private String authorization;
 
     public void setUsernamePassword(String username, String password) {
