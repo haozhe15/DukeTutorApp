@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -26,7 +25,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
     Spinner spinner;
     EditText time;
     EditText location;
-    String[] datechoices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    final String[] dateChoices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
 
         AuthProvider authProvider = ((MyApp) getApplication()).getAuthProvider();
         int i = spinner.getSelectedItemPosition();
-        String date = datechoices[i];
+        String date = dateChoices[i];
         params.put("day", date);
         assert authProvider != null;
         JsonObjectAuthRequest postSessionRequest = new JsonObjectAuthRequest(
