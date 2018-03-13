@@ -108,7 +108,7 @@ public class UserareaActivity extends AppCompatActivity {
                     "place: "+place+"\n"+
                     "\n";
         }
-        EditText sessionView = (EditText) findViewById(R.id.sessionView);
+        TextView sessionView = (TextView) findViewById(R.id.sessionView);
         sessionView.setText(msg);
     }
 }
