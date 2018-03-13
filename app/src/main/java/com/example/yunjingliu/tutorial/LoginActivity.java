@@ -43,8 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         final MyApp app = (MyApp) getApplication();
         final String username = etUsername.getText().toString();
         final String password = etPassword.getText().toString();
-        final BasicAuthProvider authProvider = new BasicAuthProvider();
-        authProvider.setUsernamePassword(username, password);
+        final BasicAuthProvider authProvider = new BasicAuthProvider(username, password);
         JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
                 Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/users/",
                 authProvider,

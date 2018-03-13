@@ -6,10 +6,25 @@ import android.util.Base64;
  * Created by YunjingLiu on 3/4/18.
  */
 
+/**
+ * An AuthProvider that implements the basic authorization
+ * conforming to RFC 2617.
+ */
 class BasicAuthProvider implements AuthProvider {
+    /**
+     * The authorization string.
+     * It contains the word "Basic" and a base64-encoded string
+     * containing username and password information.
+     */
     private String authorization;
 
-    public void setUsernamePassword(String username, String password) {
+    /**
+     * Constructor.
+     *
+     * @param username The username for authorization.
+     * @param password The password for authorization.
+     */
+    public BasicAuthProvider(String username, String password) {
         // HTTP Basic authentication. See:
         // https://tools.ietf.org/html/rfc2617#section-2
         String userpass = username + ":" + password;
