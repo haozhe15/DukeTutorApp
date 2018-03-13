@@ -19,7 +19,6 @@ import org.json.JSONArray;
 public class LoginActivity extends AppCompatActivity {
     EditText etUsername;
     EditText etPassword;
-    Button btLogin;
     TextView etRegisterLink;
 
     @Override
@@ -27,10 +26,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
-        btLogin = (Button) findViewById(R.id.btLogin);
         etRegisterLink = (TextView) findViewById(R.id.tvRegisterHere);
 
         etRegisterLink.setOnClickListener(new View.OnClickListener() {
@@ -40,35 +37,32 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.startActivity(registerIntent);
             }
         });
+    }
 
-        btLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String username = etUsername.getText().toString();
-                final String password = etPassword.getText().toString();
-                final BasicAuthProvider authProvider = new BasicAuthProvider();
-                authProvider.setUsernamePassword(username, password);
-                JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
-                        Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/users/",
-                        authProvider,
-                        null,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                LoginActivity.this.onLoginSuccess(authProvider);
-                            }
-                        }, new Response.ErrorListener() {
+    public void onClickLogin(View view) {
+        final String username = etUsername.getText().toString();
+        final String password = etPassword.getText().toString();
+        final BasicAuthProvider authProvider = new BasicAuthProvider();
+        authProvider.setUsernamePassword(username, password);
+        JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
+                Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/users/",
+                authProvider,
+                null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO show error message
-                        //System.out.println(error.toString());
+                    public void onResponse(JSONArray response) {
+                        LoginActivity.this.onLoginSuccess(authProvider);
                     }
-                });
-
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(registerRequest);
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO show error message
+                //System.out.println(error.toString());
             }
         });
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(registerRequest);
     }
 
     public void onLoginSuccess(AuthProvider authProvider) {
