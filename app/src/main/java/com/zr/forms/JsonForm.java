@@ -84,7 +84,7 @@ public class JsonForm {
 
     public JSONObject getJson() {
         HashMap<String, String> params = new HashMap<>();
-        for (Map.Entry<String, FormEntryAdapter> e: viewMap.entrySet()) {
+        for (Map.Entry<String, FormEntryAdapter> e : viewMap.entrySet()) {
             params.put(e.getKey(), e.getValue().toString());
         }
         return new JSONObject(params);

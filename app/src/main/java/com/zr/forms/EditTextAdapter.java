@@ -11,6 +11,7 @@ public class EditTextAdapter extends FormEntryAdapter {
     public EditTextAdapter(View view) {
         super(view);
     }
+
     @Override
     public String toString() {
         return ((EditText) view).getText().toString();

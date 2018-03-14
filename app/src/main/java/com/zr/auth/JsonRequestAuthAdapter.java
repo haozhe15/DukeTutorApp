@@ -14,6 +14,7 @@ class JsonRequestAuthAdapter {
 
     /**
      * Constructor.
+     *
      * @param auth The AuthProvider to be used for the request.
      */
     JsonRequestAuthAdapter(AuthProvider auth) {
@@ -24,6 +25,7 @@ class JsonRequestAuthAdapter {
      * Updates the headers to include the authorization information.
      * It will set the "Authorization" field to the value that
      * the AuthProvider provides.
+     *
      * @param headers The map to be updated.
      */
     void updateHeaders(Map<String, String> headers) {

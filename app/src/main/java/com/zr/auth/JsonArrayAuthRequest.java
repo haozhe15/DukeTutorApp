@@ -21,11 +21,12 @@ public class JsonArrayAuthRequest extends JsonArrayRequest {
 
     /**
      * Constructor.
-     * @param method The request method.
-     * @param url The URL of the request.
-     * @param auth The AuthProvider object (null for no authorization).
-     * @param jsonRequest The JSON request object (null for no request body).
-     * @param listener The response listener.
+     *
+     * @param method        The request method.
+     * @param url           The URL of the request.
+     * @param auth          The AuthProvider object (null for no authorization).
+     * @param jsonRequest   The JSON request object (null for no request body).
+     * @param listener      The response listener.
      * @param errorListener The error listener.
      */
     public JsonArrayAuthRequest(int method, String url, AuthProvider auth, JSONArray jsonRequest,

@@ -1,7 +1,6 @@
 package com.zr.forms;
 
 import android.view.View;
-import android.widget.EditText;
 
 /**
  * Created by rui on 3/13/18.
@@ -19,5 +18,6 @@ public abstract class FormEntryAdapter {
     }
 
     public abstract String toString();
+
     public abstract void setError(String error);
 }
