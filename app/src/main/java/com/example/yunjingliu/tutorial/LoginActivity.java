@@ -18,18 +18,20 @@ import com.zr.auth.JsonArrayAuthRequest;
 import org.json.JSONArray;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText etUsername;
-    EditText etPassword;
-    TextView etRegisterLink;
+    private final JsonForm form;
+
+    public LoginActivity() {
+        form = new JsonForm(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = (EditText) findViewById(R.id.etUsername);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        etRegisterLink = (TextView) findViewById(R.id.tvRegisterHere);
+        form.put("username", R.id.etUsername);
+        form.put("password", R.id.etPassword);
+        final TextView etRegisterLink = (TextView) findViewById(R.id.tvRegisterHere);
 
         etRegisterLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,11 +43,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickLogin(View view) {
         final MyApp app = (MyApp) getApplication();
-        final String username = etUsername.getText().toString();
-        final String password = etPassword.getText().toString();
+        final String username = form.getString("username");
+        final String password = form.getString("password");
         final BasicAuthProvider authProvider = new BasicAuthProvider(username, password);
         JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
-                Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/users/",
+                Request.Method.GET,
+                "http://vcm-3307.vm.duke.edu:8000/users/",
                 authProvider,
                 null,
                 new Response.Listener<JSONArray>() {
@@ -53,13 +56,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         onLoginSuccess(authProvider);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO show error message
-                //System.out.println(error.toString());
-            }
-        });
+                },
+                new JsonFormErrorListener(form)
+        );
 
         RequestQueue queue = app.getRequestQueue();
         queue.add(registerRequest);
