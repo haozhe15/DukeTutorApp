@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.zr.auth;
 
 /**
  * Created by rui on 3/13/18.
@@ -9,7 +9,7 @@ package com.example.yunjingliu.tutorial;
  * that will be used in the header of HTTP requests.
  */
 
-interface AuthProvider {
+public interface AuthProvider {
     /**
      * Returns a string that will be used as the value of
      * the "Authorization" header field.

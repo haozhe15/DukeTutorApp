@@ -3,14 +3,13 @@ package com.example.yunjingliu.tutorial;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+import com.zr.auth.JsonObjectAuthRequest;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.zr.auth;
 
 import android.util.Base64;
 
@@ -10,7 +10,7 @@ import android.util.Base64;
  * An AuthProvider that implements the basic authorization
  * conforming to RFC 2617.
  */
-class BasicAuthProvider implements AuthProvider {
+public class BasicAuthProvider implements AuthProvider {
     /**
      * The authorization string.
      * It contains the word "Basic" and a base64-encoded string

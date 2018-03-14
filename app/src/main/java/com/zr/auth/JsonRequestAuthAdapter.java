@@ -1,10 +1,4 @@
-package com.example.yunjingliu.tutorial;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonRequest;
-
-import org.json.JSONArray;
+package com.zr.auth;
 
 import java.util.Map;
 
@@ -22,7 +16,7 @@ class JsonRequestAuthAdapter {
      * Constructor.
      * @param auth The AuthProvider to be used for the request.
      */
-    public JsonRequestAuthAdapter(AuthProvider auth) {
+    JsonRequestAuthAdapter(AuthProvider auth) {
         this.auth = auth;
     }
 
@@ -32,7 +26,7 @@ class JsonRequestAuthAdapter {
      * the AuthProvider provides.
      * @param headers The map to be updated.
      */
-    public void updateHeaders(Map<String, String> headers) {
+    void updateHeaders(Map<String, String> headers) {
         if (auth == null) {
             return; // no authorization
         }

@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.zr.auth;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * A JsonObjectRequest that contains authorization information.
  */
-class JsonObjectAuthRequest extends JsonObjectRequest {
+public class JsonObjectAuthRequest extends JsonObjectRequest {
     private JsonRequestAuthAdapter authAdapter;
 
     /**

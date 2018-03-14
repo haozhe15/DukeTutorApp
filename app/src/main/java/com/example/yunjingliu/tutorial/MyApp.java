@@ -1,10 +1,10 @@
 package com.example.yunjingliu.tutorial;
 
 import android.app.Application;
-import android.os.Bundle;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.zr.auth.AuthProvider;
 
 /**
  * Created by YunjingLiu on 3/4/18.
