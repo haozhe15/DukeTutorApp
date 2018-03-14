@@ -1,5 +1,7 @@
 package com.zr.forms;
 
+import android.widget.Toast;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -20,7 +22,6 @@ public class JsonFormErrorListener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        // TODO deal with network failure, etc.
         NetworkResponse response = error.networkResponse;
         if (response != null && response.data != null) {
             try {
@@ -28,12 +29,20 @@ public class JsonFormErrorListener implements Response.ErrorListener {
                 JSONObject errorObject = new JSONObject(jsonString);
                 String detail = errorObject.optString("detail");
                 if (!detail.isEmpty()) {
-                    // TODO show error message.
+                    generalError(detail);
                 }
                 form.setError(errorObject);
             } catch (JSONException e) {
                 e.printStackTrace();
+                generalError(error.getMessage());
             }
+        } else {
+            generalError(error.getMessage());
         }
+    }
+
+    protected void generalError(String error) {
+        Toast toast = Toast.makeText(form.getActivity(), error, Toast.LENGTH_LONG);
+        toast.show();
     }
 }
