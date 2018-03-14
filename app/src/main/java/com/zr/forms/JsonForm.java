@@ -1,7 +1,6 @@
-package com.example.yunjingliu.tutorial;
+package com.zr.forms;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,7 +12,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
