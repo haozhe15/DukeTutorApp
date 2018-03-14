@@ -75,7 +75,11 @@ public class JsonForm {
     }
 
     public String getString(String name) {
-        return get(name).toString();
+        FormEntryAdapter v = viewMap.get(name);
+        if (v == null) {
+            return null;
+        }
+        return v.toString();
     }
 
     public JSONObject getJson() {
