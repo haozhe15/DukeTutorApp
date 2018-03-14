@@ -34,8 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         etRegisterLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
+                onClickRegister(v);
             }
         });
     }
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        LoginActivity.this.onLoginSuccess(authProvider);
+                        onLoginSuccess(authProvider);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -71,5 +70,10 @@ public class LoginActivity extends AppCompatActivity {
         app.setAuthProvider(authProvider);
         Intent LoginIntent = new Intent(this, UserareaActivity.class);
         startActivity(LoginIntent);
+    }
+
+    public void onClickRegister(View view) {
+        Intent registerIntent = new Intent(this, RegistrationActivity.class);
+        LoginActivity.this.startActivity(registerIntent);
     }
 }
