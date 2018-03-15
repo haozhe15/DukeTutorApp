@@ -22,7 +22,7 @@ class DayPickerAdapter extends FormEntryAdapter {
     // Note: consider using OPTION to retrieve this information.
     private final static String[] choices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-    public DayPickerAdapter(Spinner spinner) {
+    public DayPickerAdapter(View spinner) {
         super(spinner);
     }
 
