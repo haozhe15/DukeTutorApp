@@ -1,8 +1,8 @@
 package com.example.yunjingliu.tutorial;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,7 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+import com.zr.auth.JsonArrayAuthRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,14 +26,10 @@ public class UserareaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userarea);
-        //print
-        String username;
-        Bundle b;
-        welcomeUser = (TextView) findViewById(R.id.tvWelcome);
-        b = ((MyApp)getApplicationContext()).getInfo();
-        username = b.getString("username");
-        String msg = "Welcome! " +username;
-        welcomeUser.setText(msg);
+        // TODO welcome message is removed
+        // we cannot rely on the username stored in MyApp.
+        // instead, we should make a request to retrieve the
+        // name
     }
 
     public void addNew(View view){
@@ -53,16 +49,10 @@ public class UserareaActivity extends AppCompatActivity {
     }
 
     public void getProfile(){
-        String username;
-        String password;
-        Bundle b;
-        b = ((MyApp)getApplicationContext()).getInfo();
-        username = b.getString("username");
-        password = b.getString("password");
-
+        final MyApp app = (MyApp) getApplication();
         JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
                 Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/sessions/",
-                username,password,
+                app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -80,14 +70,11 @@ public class UserareaActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // TODO: show error message
                 //System.out.println(error.toString());
-
             }
-        }
-        );
+        });
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = app.getRequestQueue();
         queue.add(getProfileRequest);
-
     }
 
     public void onReceiveSessionList(JSONArray array) throws JSONException {
