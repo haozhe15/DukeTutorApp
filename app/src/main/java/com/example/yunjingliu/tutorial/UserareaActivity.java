@@ -32,26 +32,27 @@ public class UserareaActivity extends AppCompatActivity {
         // name
     }
 
-    public void addNew(View view){
+    public void addNew(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
         startActivity(intent);
 
     }
 
-    public void skipToSearch(View view){
+    public void skipToSearch(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
 
     }
 
-    public void onClickRefresh(View view){
+    public void onClickRefresh(View view) {
         getProfile();
     }
 
-    public void getProfile(){
+    public void getProfile() {
         final MyApp app = (MyApp) getApplication();
         JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
-                Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/sessions/",
+                Request.Method.GET,
+                Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONArray>() {
@@ -78,23 +79,23 @@ public class UserareaActivity extends AppCompatActivity {
     }
 
     public void onReceiveSessionList(JSONArray array) throws JSONException {
-        System.out.println("log in response: "+ array.toString());
+        System.out.println("log in response: " + array.toString());
         // TODO: populate a list in UI
-        String msg=new String("Your Tutor Session: \n\n");
-        for (int i = 0; i<array.length(); i++){
+        String msg = new String("Your Tutor Session: \n\n");
+        for (int i = 0; i < array.length(); i++) {
             JSONObject JObject = array.getJSONObject(i);
-            System.out.println("JObject: "+JObject.toString());
+            System.out.println("JObject: " + JObject.toString());
             String title = JObject.getString("title");
             String description = JObject.getString("description");
             String day = JObject.getString("day");
             String time = JObject.getString("time");
             String place = JObject.getString("place");
 
-            msg=msg+"title: "+title+"\n"+
-                    "description: "+description+"\n"+
-                    "day: "+day+"\n"+
-                    "time: "+time+"\n"+
-                    "place: "+place+"\n"+
+            msg = msg + "title: " + title + "\n" +
+                    "description: " + description + "\n" +
+                    "day: " + day + "\n" +
+                    "time: " + time + "\n" +
+                    "place: " + place + "\n" +
                     "\n";
         }
         TextView sessionView = (TextView) findViewById(R.id.sessionView);
