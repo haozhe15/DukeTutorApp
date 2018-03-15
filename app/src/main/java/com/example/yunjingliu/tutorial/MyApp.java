@@ -7,7 +7,7 @@ import android.os.Bundle;
  * Created by YunjingLiu on 3/4/18.
  */
 
-public class myApp extends Application{
+public class MyApp extends Application{
     String usname;
     String pwd;
 

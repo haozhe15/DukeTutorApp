@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/title"
+                android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -25,7 +25,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/description"
+                android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -33,40 +33,40 @@
                 android:inputType="textMultiLine" />
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Date" />
 
             <Spinner
-                android:id="@+id/date_choose"
+                android:id="@+id/spDatechoose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="150dp" />
 
             <TextView
-                android:id="@+id/time"
+                android:id="@+id/tvTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Time (in a day)" />
 
             <EditText
-                android:id="@+id/time_choose"
+                android:id="@+id/etTimechoose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="HH:MM"
+                android:hint="HH:MM:SS"
                 android:inputType="time" />
 
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/tvLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ideal tutoring place " />
 
             <EditText
-                android:id="@+id/location_input"
+                android:id="@+id/etLocationinput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -75,7 +75,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/submit"
+        android:id="@+id/btSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
