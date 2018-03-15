@@ -36,7 +36,8 @@ public class RegistrationActivity extends AppCompatActivity {
         final MyApp app = (MyApp) getApplication();
 
         JsonObjectAuthRequest registerRequest = new JsonObjectAuthRequest(
-                Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/users/",
+                Request.Method.POST,
+                Backend.url("/users/"),
                 null,
                 form.getJson(),
                 new Response.Listener<JSONObject>() {

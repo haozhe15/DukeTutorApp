@@ -49,7 +49,8 @@ public class UserareaActivity extends AppCompatActivity {
     public void getProfile() {
         final MyApp app = (MyApp) getApplication();
         JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
-                Request.Method.GET, "http://vcm-3307.vm.duke.edu:8000/sessions/",
+                Request.Method.GET,
+                Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONArray>() {

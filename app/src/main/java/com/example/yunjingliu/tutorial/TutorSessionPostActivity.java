@@ -20,7 +20,7 @@ import org.json.JSONObject;
 class DayPickerAdapter extends FormEntryAdapter {
     // To match backend definitions
     // Note: consider using OPTION to retrieve this information.
-    final private String[] choices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private final static String[] choices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     public DayPickerAdapter(Spinner spinner) {
         super(spinner);
@@ -71,7 +71,8 @@ public class TutorSessionPostActivity extends AppCompatActivity {
         final MyApp app = (MyApp) getApplication();
 
         JsonObjectAuthRequest postSessionRequest = new JsonObjectAuthRequest(
-                Request.Method.POST, "http://vcm-3307.vm.duke.edu:8000/sessions/",
+                Request.Method.POST,
+                Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 form.getJson(),
                 new Response.Listener<JSONObject>() {

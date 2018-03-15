@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         final BasicAuthProvider authProvider = new BasicAuthProvider(username, password);
         JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
                 Request.Method.GET,
-                "http://vcm-3307.vm.duke.edu:8000/users/",
+                Backend.url("/users/"),
                 authProvider,
                 null,
                 new Response.Listener<JSONArray>() {
