@@ -16,7 +16,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+/**
+ * Created by Haozhe Wang on 3/4/18.
+ */
 public class UserareaActivity extends AppCompatActivity {
     TextView welcomeUser;
 
