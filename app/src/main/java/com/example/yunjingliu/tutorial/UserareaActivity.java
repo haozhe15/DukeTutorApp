@@ -30,12 +30,19 @@ public class UserareaActivity extends AppCompatActivity {
         // we cannot rely on the username stored in MyApp.
         // instead, we should make a request to retrieve the
         // name
+        getProfile();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getProfile();
     }
 
     public void addNew(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
-        startActivity(intent);
-
+        //startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void skipToSearch(View view) {
@@ -44,9 +51,9 @@ public class UserareaActivity extends AppCompatActivity {
 
     }
 
-    public void onClickRefresh(View view) {
-        getProfile();
-    }
+    //public void onClickRefresh(View view) {
+      //  getProfile();
+    //}
 
     public void getProfile() {
         final MyApp app = (MyApp) getApplication();
