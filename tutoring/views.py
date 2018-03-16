@@ -12,10 +12,11 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
     serializer_class = SessionSerializer
 
     def get_queryset(self):
+        queryset = Session.objects.all()
         user = self.request.user
-        if user.is_staff:
-            queryset = Session.objects.all()
-        else:
+        if self.action == 'list' and not user.is_staff:
+            # `list' view limits the sessions
+            # to only those owned by the user
             queryset = Session.objects.filter(tutor=user)
         return queryset
 
