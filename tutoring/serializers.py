@@ -7,5 +7,7 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'title', 'description', 'day', 'time', 'place', 'tutor')
         read_only_fields = ('tutor', )
     def save(self, **kwargs):
-        print(kwargs)
         super().save(**kwargs)
+
+class SearchSerializer(serializers.Serializer):
+    keyword = serializers.CharField()
