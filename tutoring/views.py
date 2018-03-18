@@ -14,9 +14,9 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Session.objects.all()
         user = self.request.user
-        if self.action == 'list' and not user.is_staff:
-            # `list' view limits the sessions
-            # to only those owned by the user
+        if not user.is_staff and self.action != 'retrieve':
+            # non-staff cannot update, delete or list
+            # sessions not owned by himself
             queryset = Session.objects.filter(tutor=user)
         return queryset
 
