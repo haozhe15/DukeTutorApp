@@ -1,12 +1,18 @@
 from django.shortcuts import render
-from rest_framework import views, viewsets, generics, mixins
-from .models import Session
-from .serializers import SessionSerializer, SearchSerializer
-from rest_framework.permissions import IsAuthenticated
+from django.db import transaction
+from django.db.models import Q
 from django.contrib.postgres.search import SearchVector
+from rest_framework import views, viewsets, generics, mixins, exceptions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+
+from .models import Session, Application, Message
+from .serializers import SessionSerializer, ApplicationSerializer, MessageSerializer, SearchSerializer
+
+
 # Create your views here.
+
 class TutorSessionViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, )
     serializer_class = SessionSerializer
@@ -17,11 +23,77 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
         if not user.is_staff and self.action != 'retrieve':
             # non-staff cannot update, delete or list
             # sessions not owned by himself
-            queryset = Session.objects.filter(tutor=user)
+            queryset = queryset.filter(tutor=user)
         return queryset
 
     def perform_create(self, serializer):
         serializer.save(tutor=self.request.user)
+
+
+class ApplicationViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = ApplicationSerializer
+
+    def get_queryset(self):
+        queryset = Application.objects.all()
+        action = self.action
+        user = self.request.user
+        if action == 'list':
+            queryset = queryset.filter(applicant=user)
+        return queryset
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        user = self.request.user
+        application = serializer.save(applicant=user)
+        if application.accepted != None:
+            raise exceptions.ValidationError(
+                    "'accepted' must be unset on creation")
+        message = Message(
+                sender=user,
+                recipient=application.session.tutor,
+                application=application)
+        # TODO what to put in the message?
+        message.message = "new application"
+        message.save()
+
+    @transaction.atomic
+    def perform_update(self, serializer):
+        # Note: only the owner can access this view
+        application = serializer.instance
+        session = application.session
+        user = self.request.user
+        if session.tutor != user:
+            raise exceptions.PermissionDenied()
+        accepted = serializer.validated_data['accepted']
+        if application.accepted not in (None, accepted):
+            raise exceptions.ValidationError(
+                    "cannot change the accepted state")
+        serializer.save()
+        # FIXME there is a race condition here
+        if Application.objects.filter(session=application.session, accepted=True).count() > 1:
+            raise exceptions.ValidationError(
+                    "more than one accepted applications")
+        if accepted is not None:
+            message = Message(
+                    sender=self.request.user,
+                    recipient=application.applicant,
+                    application=application)
+            message.message = accepted and \
+                    "your application is accepted" or \
+                    "your application is declined"
+            message.save()
+
+
+class MessageViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        query = Q(sender=user) | Q(recipient=user)
+        queryset = Message.objects.filter(query).order_by('-timestamp')
+        return queryset
 
 
 class ListResponseMixin:

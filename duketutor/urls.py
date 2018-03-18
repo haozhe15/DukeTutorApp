@@ -29,6 +29,8 @@ import tutoring.views
 router = routers.DefaultRouter()
 router.register(r'users', users.views.UserViewSet, base_name='user')
 router.register(r'sessions', tutoring.views.TutorSessionViewSet, base_name='session')
+router.register(r'applications', tutoring.views.ApplicationViewSet, base_name='application')
+router.register(r'messages', tutoring.views.MessageViewSet, base_name='message')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

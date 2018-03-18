@@ -26,6 +26,12 @@ class Session(models.Model):
     SEARCH_VECTOR = SearchVector('title', weight='A') + \
             SearchVector('description', weight='B')
 
+    class Meta:
+        indexes = [GinIndex(fields=['search_vector'])]
+
+    def __str__(self):
+        return self.title
+
     @transaction.atomic
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs);
@@ -35,5 +41,20 @@ class Session(models.Model):
         self.search_vector = self.SEARCH_VECTOR
         super().save(update_fields=('search_vector', ))
 
-    class Meta:
-        indexes = [GinIndex(fields=['search_vector'])]
+class Application(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
+    # three-value logic:
+    # True - accepted
+    # False - declined
+    # None - not decided
+    accepted = models.NullBooleanField()
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE,
+            related_name='sent_messages')
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE,
+            related_name='received_messages')
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now=True)
