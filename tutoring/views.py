@@ -49,12 +49,13 @@ class SessionSearchView(ListResponseMixin, generics.GenericAPIView):
     response_serializer_class = SessionSerializer
 
     def get_queryset(self):
+        if self.queryset:
+            return self.queryset
         data = self.request.data
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
-        return Session.objects.annotate(
-            search = SearchVector('title', 'description'),
-        ).filter(search=data['keyword'])
+        self.queryset = Session.objects.filter(search_vector=data['keyword'])
+        return self.queryset
 
     def post(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
