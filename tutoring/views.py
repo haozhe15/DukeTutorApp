@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.db import transaction
+from django.db import IntegrityError
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector
 from rest_framework import views, viewsets, generics, mixins, exceptions
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 
 
@@ -27,11 +28,22 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        serializer.save(tutor=self.request.user)
+        serializer.save(tutor=self.request.user, is_open=True)
+
+
+class ApplicationPermission(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        action = view.action
+        user = request.user
+        if action in ('retrieve', 'destroy'):
+            return obj.applicant == user
+        if action in ('update', ):
+            tutor = obj.session.tutor
+            return tutor == user
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, ApplicationPermission)
     serializer_class = ApplicationSerializer
 
     def get_queryset(self):
@@ -45,6 +57,12 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     def perform_create(self, serializer):
         user = self.request.user
+        session = serializer.validated_data['session']
+        if Application.objects.filter(
+                session=session,
+                applicant=user).exists():
+            raise exceptions.ValidationError(
+                    "duplicate application")
         application = serializer.save(applicant=user)
         if application.accepted != None:
             raise exceptions.ValidationError(
@@ -61,29 +79,40 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         # Note: only the owner can access this view
         application = serializer.instance
-        session = application.session
-        user = self.request.user
-        if session.tutor != user:
-            raise exceptions.PermissionDenied()
         accepted = serializer.validated_data['accepted']
         if application.accepted not in (None, accepted):
             raise exceptions.ValidationError(
                     "cannot change the accepted state")
-        serializer.save()
-        # FIXME there is a race condition here
-        if Application.objects.filter(session=application.session, accepted=True).count() > 1:
+        if accepted is None:
+            # this is a no-op
+            return
+        session = Session.objects\
+                .filter(pk=application.session.pk)\
+                .select_for_update()\
+                .get()
+        if not session.is_open:
             raise exceptions.ValidationError(
-                    "more than one accepted applications")
-        if accepted is not None:
-            message = Message(
-                    sender=self.request.user,
-                    recipient=application.applicant,
-                    application=application)
-            message.message = accepted and \
-                    "your application is accepted" or \
-                    "your application is declined"
-            message.save()
+                    "cannot accepted a closed session")
+        session.is_open = False
+        session.save()
+        serializer.save()
+        message = Message(
+                sender=self.request.user,
+                recipient=application.applicant,
+                application=application)
+        message.message = accepted and \
+                "your application is accepted" or \
+                "your application is declined"
+        message.save()
 
+    @transaction.atomic()
+    def perform_destroy(self, instance):
+        if instance.accepted == True:
+            session = Session.objects\
+                    .filter(pk=instance.session.pk)\
+                    .get()
+            session.is_open = True
+        instance.delete()
 
 class MessageViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (IsAuthenticated, )

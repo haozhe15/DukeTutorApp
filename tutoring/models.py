@@ -25,6 +25,7 @@ class Session(models.Model):
     search_vector = SearchVectorField(null=True)
     SEARCH_VECTOR = SearchVector('title', weight='A') + \
             SearchVector('description', weight='B')
+    is_open = models.BooleanField(editable=False)
 
     class Meta:
         indexes = [GinIndex(fields=['search_vector'])]
@@ -49,6 +50,10 @@ class Application(models.Model):
     # False - declined
     # None - not decided
     accepted = models.NullBooleanField()
+
+    class Meta:
+        # a user cannot apply for the same session more than once
+        unique_together = ('session', 'applicant')
 
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE,

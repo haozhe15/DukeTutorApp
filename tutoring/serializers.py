@@ -6,8 +6,6 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
         model = Session
         fields = ('url', 'title', 'description', 'day', 'time', 'place', 'tutor')
         read_only_fields = ('tutor', )
-    def save(self, **kwargs):
-        super().save(**kwargs)
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
