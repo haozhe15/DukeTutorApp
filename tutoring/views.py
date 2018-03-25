@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db import transaction
 from django.db import IntegrityError
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.contrib.postgres.search import SearchVector
 from rest_framework import views, viewsets, generics, mixins, exceptions
 from rest_framework.permissions import IsAuthenticated, BasePermission
@@ -35,11 +35,10 @@ class ApplicationPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
         action = view.action
         user = request.user
-        if action in ('retrieve', 'destroy'):
-            return obj.applicant == user
-        if action in ('update', ):
-            tutor = obj.session.tutor
-            return tutor == user
+        if obj.applicant == user: # tutee's view
+            return action in ('retrieve', 'destroy')
+        elif obj.session.tutor == user: # tutor's view
+            return action in ('retrieve', 'update')
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):
@@ -51,7 +50,11 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         action = self.action
         user = self.request.user
         if action == 'list':
-            queryset = queryset.filter(applicant=user)
+            queryset = queryset\
+                    .filter(applicant=user)
+#                    .annotate(max_message_timestamp=Max('message__timestamp'))\
+#                    .order_by('-max_message_timestamp')
+            print(queryset.query)
         return queryset
 
     @transaction.atomic
@@ -114,14 +117,14 @@ class ApplicationViewSet(viewsets.ModelViewSet):
             session.is_open = True
         instance.delete()
 
-class MessageViewSet(viewsets.ReadOnlyModelViewSet):
+class MessageViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = (IsAuthenticated, )
     serializer_class = MessageSerializer
 
     def get_queryset(self):
         user = self.request.user
-        query = Q(sender=user) | Q(recipient=user)
-        queryset = Message.objects.filter(query).order_by('-timestamp')
+        query = Q(recipient=user)
+        queryset = Message.objects.filter(query).order_by('read', '-timestamp')
         return queryset
 
 

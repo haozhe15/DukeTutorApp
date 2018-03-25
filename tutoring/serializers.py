@@ -16,7 +16,7 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
 class MessageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Message
-        fields = ('url', 'sender', 'recipient', 'application', 'message', 'timestamp')
+        fields = ('url', 'sender', 'recipient', 'application', 'message', 'timestamp', 'read')
         read_only_fields = ('sender', 'recipient', 'application', 'message')
 
 class SearchSerializer(serializers.Serializer):

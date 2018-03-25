@@ -63,3 +63,4 @@ class Message(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)
+    read = models.BooleanField(default=False)
