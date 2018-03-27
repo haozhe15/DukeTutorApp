@@ -25,7 +25,7 @@ class Session(models.Model):
     search_vector = SearchVectorField(null=True)
     SEARCH_VECTOR = SearchVector('title', weight='A') + \
             SearchVector('description', weight='B')
-    is_open = models.BooleanField(editable=False)
+    is_open = models.BooleanField(editable=False, default=True)
 
     class Meta:
         indexes = [GinIndex(fields=['search_vector'])]
