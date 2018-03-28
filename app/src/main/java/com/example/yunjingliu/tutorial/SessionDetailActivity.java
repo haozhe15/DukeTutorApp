@@ -23,7 +23,7 @@ public class SessionDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.session_detail);
+        setContentView(R.layout.session_detail_show);
         getProfile();
     }
 
@@ -80,7 +80,9 @@ public class SessionDetailActivity extends AppCompatActivity {
                 "\n";
         sessionDetail.setText(msg);
     }
-
+    public void sessionBack(View view) {
+        finish();
+    }
 
     public void sessionEdit(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
