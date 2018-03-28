@@ -28,8 +28,8 @@ import java.util.Map;
  */
 public class UserareaActivity extends AppCompatActivity {
 
-    ArrayList<Bundle> sessionDetails = new ArrayList<>();
-    ArrayList<String> items = new ArrayList<String>();
+    ArrayList<Bundle> urls = new ArrayList<>();
+    ArrayList<String> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class UserareaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(UserareaActivity.this, SessionDetailActivity.class);
-                intent.putExtras(sessionDetails.get(i));
+                intent.putExtras(urls.get(i));
                 startActivity(intent);
             }
         });
@@ -74,12 +74,6 @@ public class UserareaActivity extends AppCompatActivity {
 
     }
 
-    public void sessionDetail(View view) {
-        getProfile();
-        Intent intent = new Intent(this, SessionDetailActivity.class);
-        startActivity(intent);
-
-    }
 
     public void getProfile() {
         final MyApp app = (MyApp) getApplication();
@@ -119,23 +113,16 @@ public class UserareaActivity extends AppCompatActivity {
         // TODO: populate a list in UI
         //String msg = new String("Your Tutor Session: \n\n");
         items.clear();
-        sessionDetails.clear();
+        urls.clear();
         for (int i = 0; i < array.length(); i++) {
             JSONObject JObject = array.getJSONObject(i);
             System.out.println("JObject: " + JObject.toString());
             String title = JObject.getString("title");
             items.add(title);
-            String description = JObject.getString("description");
-            String day = JObject.getString("day");
-            String time = JObject.getString("time");
-            String place = JObject.getString("place");
+            String url = JObject.getString("url");
             Bundle temp = new Bundle();
-            temp.putString("title", title);
-            temp.putString("description", description);
-            temp.putString("day", day);
-            temp.putString("time", time);
-            temp.putString("place", place);
-            sessionDetails.add(temp);
+            temp.putString("url", url);
+            urls.add(temp);
         }
     }
 
