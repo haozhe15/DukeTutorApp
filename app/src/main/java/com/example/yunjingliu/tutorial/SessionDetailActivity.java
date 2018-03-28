@@ -1,8 +1,10 @@
 package com.example.yunjingliu.tutorial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -31,5 +33,14 @@ public class SessionDetailActivity extends AppCompatActivity {
                     "\n";
         sessionDetail.setText(msg);
         //System.out.println("session detail : " + msg);
+    }
+
+
+    public void sessionEdit(View view) {
+        Intent intent = new Intent(this, TutorSessionPostActivity.class);
+        Bundle msg = getIntent().getExtras();
+        intent.putExtras(msg);
+        startActivity(intent);
+
     }
 }
