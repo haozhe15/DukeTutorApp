@@ -57,6 +57,12 @@ public class SessionDetailActivity extends AppCompatActivity {
         queue.add(getDetailRequest);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getProfile();
+    }
+
     public void onReceiveSessionList(JSONObject JObject) throws JSONException {
         TextView sessionDetail = (TextView) findViewById(R.id.tvSessionDetail);
         String title = JObject.getString("title");
