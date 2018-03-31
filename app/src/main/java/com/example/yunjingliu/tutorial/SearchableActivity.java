@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.SearchView;
-
+/**
+ * Created by Haozhe Wang on 3/30/18.
+ */
 public class SearchableActivity extends AppCompatActivity {
 
     @Override
@@ -31,6 +33,7 @@ public class SearchableActivity extends AppCompatActivity {
 
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -46,6 +49,4 @@ public class SearchableActivity extends AppCompatActivity {
 
         return true;
     }
-
-
 }
