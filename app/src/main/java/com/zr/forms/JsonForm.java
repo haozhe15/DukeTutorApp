@@ -40,7 +40,7 @@ public class JsonForm {
             return;
         }
         if (view instanceof EditText) {
-            put(name, id, EditTextAdapter.class);
+            put(name, new EditTextAdapter(view));
         } else {
             // TODO more views
             throw new UnsupportedOperationException("JsonForm does not support this class");
@@ -54,7 +54,7 @@ public class JsonForm {
         }
         try {
             Constructor<? extends FormEntryAdapter> ctor = cls.getConstructor(View.class);
-            viewMap.put(name, ctor.newInstance(view));
+            put(name, ctor.newInstance(view));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -64,6 +64,10 @@ public class JsonForm {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    public void put(String name, FormEntryAdapter adapter) {
+        viewMap.put(name, adapter);
     }
 
     public View get(String name) {

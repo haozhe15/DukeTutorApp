@@ -16,44 +16,16 @@ import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.FormEntryAdapter;
 import com.zr.forms.JsonForm;
 import com.zr.forms.JsonFormErrorListener;
+import com.zr.forms.SpinnerAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-class DayPickerAdapter extends FormEntryAdapter {
-    // To match backend definitions
-    // Note: consider using OPTION to retrieve this information.
-    private final static String[] choices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
-    public DayPickerAdapter(View spinner) {
-        super(spinner);
-    }
-
-    @Override
-    public String getString() {
-        int i = ((Spinner) getView()).getSelectedItemPosition();
-        return choices[i];
-    }
-
-    @Override
-    public void setString(String value) {
-        for (int i = 0; i < choices.length; i++) {
-            if (choices[i].equals(value)) {
-                ((Spinner) getView()).setSelection(i);
-            }
-        }
-    }
-
-    @Override
-    public void setError(String error) {
-        Spinner spinner = (Spinner) getView();
-        ((TextView) spinner.getSelectedView()).setError(error);
-    }
-}
-
 public class TutorSessionPostActivity extends AppCompatActivity {
     private final JsonForm form;
-
+    // To match backend definitions
+    // Note: consider using OPTION to retrieve this information.
+    private static final String[] dayChoices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     public TutorSessionPostActivity() {
         form = new JsonForm(this);
     }
@@ -70,7 +42,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
         form.put("description", R.id.etDescription);
         form.put("time", R.id.etTimechoose);
         form.put("place", R.id.etLocationinput);
-        form.put("day", R.id.spDatechoose, DayPickerAdapter.class);
+        form.put("day", new SpinnerAdapter(findViewById(R.id.spDatechoose), dayChoices));
 
         final Spinner spinner = findViewById(R.id.spDatechoose);
         // Create an ArrayAdapter using the string array and a default spinner layout
