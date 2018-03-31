@@ -17,7 +17,7 @@ public abstract class FormEntryAdapter {
         return view;
     }
 
-    public abstract String toString();
+    public abstract String getString();
 
     public abstract void setError(String error);
 }

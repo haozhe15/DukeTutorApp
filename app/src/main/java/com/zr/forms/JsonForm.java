@@ -79,13 +79,13 @@ public class JsonForm {
         if (v == null) {
             return null;
         }
-        return v.toString();
+        return v.getString();
     }
 
     public JSONObject getJson() {
         HashMap<String, String> params = new HashMap<>();
         for (Map.Entry<String, FormEntryAdapter> e : viewMap.entrySet()) {
-            params.put(e.getKey(), e.getValue().toString());
+            params.put(e.getKey(), e.getValue().getString());
         }
         return new JSONObject(params);
     }

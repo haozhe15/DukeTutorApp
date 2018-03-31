@@ -13,7 +13,7 @@ public class EditTextAdapter extends FormEntryAdapter {
     }
 
     @Override
-    public String toString() {
+    public String getString() {
         return ((EditText) view).getText().toString();
     }
 

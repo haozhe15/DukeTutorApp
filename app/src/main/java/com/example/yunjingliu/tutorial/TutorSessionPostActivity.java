@@ -30,7 +30,7 @@ class DayPickerAdapter extends FormEntryAdapter {
     }
 
     @Override
-    public String toString() {
+    public String getString() {
         int i = ((Spinner) getView()).getSelectedItemPosition();
         return choices[i];
     }
