@@ -37,7 +37,8 @@ public class UserareaActivity extends AppCompatActivity {
         // TODO welcome message is removed
         // we cannot rely on the username stored in MyApp.
         // instead, we should make a request to retrieve the
-        // name
+        // name. This has nothing to do with the code below!
+
         getProfile();
         ListView sessionList = (ListView) findViewById(R.id.lvSessionList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
