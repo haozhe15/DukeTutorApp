@@ -43,19 +43,7 @@ public class SearchableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        // Similar as in UserareaActivity.java
-        ListView searchList = (ListView) findViewById(R.id.lvSearchResult);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        searchList.setAdapter(adapter);
-        searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(SearchableActivity.this, SessionDetailActivity.class);
-                intent.putExtras(urls.get(i));
-                startActivity(intent);
-            }
-        });
-        // Stop the similarity
+
 
         handleIntent(getIntent());
     }
@@ -77,13 +65,40 @@ public class SearchableActivity extends AppCompatActivity {
             getSearchResult(kwJSON);
         }
     }
+//    public void getSearchResult(JSONObject kwJSON) {
+//        final MyApp app = (MyApp) getApplication();
+//        JsonArrayAuthRequest getSearchResult = new JsonArrayAuthRequest(
+//                Request.Method.POST,
+//                Backend.url("/search/"),
+//                app.getAuthProvider(),
+//                kwJSON,
+//                new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//                        try {
+//                            onReceiveSearchResult(response);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//
+//                }, new Response.ErrorListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // TODO: show error message
+//                //System.out.println(error.toString());
+//            }
+//        });
+
+    //Temporally test getSearchResult function
     public void getSearchResult(JSONObject kwJSON) {
         final MyApp app = (MyApp) getApplication();
         JsonArrayAuthRequest getSearchResult = new JsonArrayAuthRequest(
-                Request.Method.POST,
-                Backend.url("/search/"),
+                Request.Method.GET,
+                Backend.url("/sessions/"),
                 app.getAuthProvider(),
-                kwJSON,
+                null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -123,6 +138,19 @@ public class SearchableActivity extends AppCompatActivity {
             temp.putString("url", url);
             urls.add(temp);
         }
+        // Similar as in UserareaActivity.java
+        ListView searchList = (ListView) findViewById(R.id.lvSearchResult);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        searchList.setAdapter(adapter);
+        searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(SearchableActivity.this, SessionDetailActivity.class);
+                intent.putExtras(urls.get(i));
+                startActivity(intent);
+            }
+        });
+        // Stop the similarity
     }
 
     @Override

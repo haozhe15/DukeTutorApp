@@ -52,9 +52,6 @@ public class UserareaActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 
     @Override
@@ -126,11 +123,6 @@ public class UserareaActivity extends AppCompatActivity {
             urls.add(temp);
         }
     }
-
-
-
-
-
 }
 
 
