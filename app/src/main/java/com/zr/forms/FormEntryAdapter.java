@@ -19,5 +19,7 @@ public abstract class FormEntryAdapter {
 
     public abstract String getString();
 
+    public abstract void setString(String value);
+
     public abstract void setError(String error);
 }

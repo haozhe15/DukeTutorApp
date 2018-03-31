@@ -36,6 +36,15 @@ class DayPickerAdapter extends FormEntryAdapter {
     }
 
     @Override
+    public void setString(String value) {
+        for (int i = 0; i < choices.length; i++) {
+            if (choices[i].equals(value)) {
+                ((Spinner) getView()).setSelection(i);
+            }
+        }
+    }
+
+    @Override
     public void setError(String error) {
         Spinner spinner = (Spinner) getView();
         ((TextView) spinner.getSelectedView()).setError(error);
@@ -116,11 +125,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            onReceiveSessionList(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        form.setJson(response);
                     }
 
                 }, new Response.ErrorListener() {
@@ -134,18 +139,5 @@ public class TutorSessionPostActivity extends AppCompatActivity {
 
         RequestQueue queue = app.getRequestQueue();
         queue.add(getDetailRequest);
-    }
-
-    public void onReceiveSessionList(JSONObject JObject) throws JSONException {
-        EditText title = (EditText) findViewById(R.id.etTitle);
-        EditText description = (EditText) findViewById(R.id.etDescription);
-        Spinner day = (Spinner) findViewById(R.id.spDatechoose);
-        EditText time = (EditText) findViewById(R.id.etTimechoose);
-        EditText place = (EditText) findViewById(R.id.etLocationinput);
-        title.setText(JObject.getString("title"));
-        description.setText(JObject.getString("description"));
-        time.setText(JObject.getString("time"));
-        place.setText(JObject.getString("place"));
-        day.setTop(3);
     }
 }

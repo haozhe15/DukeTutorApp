@@ -18,6 +18,11 @@ public class EditTextAdapter extends FormEntryAdapter {
     }
 
     @Override
+    public void setString(String value) {
+        ((EditText) view).setText(value);
+    }
+
+    @Override
     public void setError(String error) {
         ((EditText) view).setError(error);
     }

@@ -90,6 +90,23 @@ public class JsonForm {
         return new JSONObject(params);
     }
 
+    public void setJson(JSONObject obj) {
+        Iterator<String> it = obj.keys();
+        while (it.hasNext()) {
+            try {
+                String key = it.next();
+                String value = obj.getString(key);
+                FormEntryAdapter v = viewMap.get(key);
+                if (v == null) {
+                    continue;
+                }
+                v.setString(value);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void setError(JSONObject error) {
         Iterator<String> it = error.keys();
         while (it.hasNext()) {
