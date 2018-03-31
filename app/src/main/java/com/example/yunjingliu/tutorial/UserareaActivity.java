@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -16,12 +19,17 @@ import com.zr.auth.JsonArrayAuthRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * Created by Haozhe Wang on 3/4/18.
  */
 public class UserareaActivity extends AppCompatActivity {
-    TextView welcomeUser;
 
+    ArrayList<Bundle> urls = new ArrayList<>();
+    ArrayList<String> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +38,34 @@ public class UserareaActivity extends AppCompatActivity {
         // we cannot rely on the username stored in MyApp.
         // instead, we should make a request to retrieve the
         // name
+        getProfile();
+        ListView sessionList = (ListView) findViewById(R.id.lvSessionList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        sessionList.setAdapter(adapter);
+
+        sessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(UserareaActivity.this, SessionDetailActivity.class);
+                intent.putExtras(urls.get(i));
+                startActivity(intent);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getProfile();
     }
 
     public void addNew(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
-        startActivity(intent);
-
+        //startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void skipToSearch(View view) {
@@ -44,9 +74,6 @@ public class UserareaActivity extends AppCompatActivity {
 
     }
 
-    public void onClickRefresh(View view) {
-        getProfile();
-    }
 
     public void getProfile() {
         final MyApp app = (MyApp) getApplication();
@@ -59,7 +86,10 @@ public class UserareaActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            onReceiveSessionList(response);
+
+                                onReceiveSessionList(response);
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -79,26 +109,27 @@ public class UserareaActivity extends AppCompatActivity {
     }
 
     public void onReceiveSessionList(JSONArray array) throws JSONException {
-        System.out.println("log in response: " + array.toString());
+        //System.out.println("log in response: " + array.toString());
         // TODO: populate a list in UI
-        String msg = new String("Your Tutor Session: \n\n");
+        //String msg = new String("Your Tutor Session: \n\n");
+        items.clear();
+        urls.clear();
         for (int i = 0; i < array.length(); i++) {
             JSONObject JObject = array.getJSONObject(i);
             System.out.println("JObject: " + JObject.toString());
             String title = JObject.getString("title");
-            String description = JObject.getString("description");
-            String day = JObject.getString("day");
-            String time = JObject.getString("time");
-            String place = JObject.getString("place");
-
-            msg = msg + "title: " + title + "\n" +
-                    "description: " + description + "\n" +
-                    "day: " + day + "\n" +
-                    "time: " + time + "\n" +
-                    "place: " + place + "\n" +
-                    "\n";
+            items.add(title);
+            String url = JObject.getString("url");
+            Bundle temp = new Bundle();
+            temp.putString("url", url);
+            urls.add(temp);
         }
-        TextView sessionView = (TextView) findViewById(R.id.sessionView);
-        sessionView.setText(msg);
     }
+
+
+
+
+
 }
+
+
