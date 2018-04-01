@@ -9,10 +9,8 @@ import android.widget.Spinner;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.JsonForm;
-import com.zr.forms.JsonFormErrorListener;
 import com.zr.forms.SpinnerAdapter;
 
 import org.json.JSONObject;
@@ -22,8 +20,9 @@ public class TutorSessionPostActivity extends AppCompatActivity {
     // To match backend definitions
     // Note: consider using OPTION to retrieve this information.
     private static final String[] dayChoices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
     public TutorSessionPostActivity() {
-        form = new JsonForm(this);
+        form = new JsonForm(this, new ErrorListener(this));
     }
 
     @Override
@@ -77,7 +76,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
                         finish();
                     }
                 },
-                new JsonFormErrorListener(form));
+                form);
         RequestQueue queue = app.getRequestQueue();
         queue.add(postSessionRequest);
     }

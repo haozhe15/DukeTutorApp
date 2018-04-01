@@ -7,6 +7,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,18 +26,20 @@ import java.util.Map;
  * JsonForm is a helper class that can convert from
  * Android views to a JSONObject and vice-versa.
  */
-public class JsonForm {
+public class JsonForm implements Response.ErrorListener {
     private final HashMap<String, FormEntryAdapter> viewMap;
     private final Activity activity;
+    private final Response.ErrorListener errorListener;
 
     /**
      * Constructor.
      *
      * @param activity The activity this form belongs to.
      */
-    public JsonForm(Activity activity) {
+    public JsonForm(Activity activity, Response.ErrorListener errorListener) {
         this.viewMap = new HashMap<>();
         this.activity = activity;
+        this.errorListener = errorListener;
     }
 
     public Activity getActivity() {
@@ -180,6 +186,33 @@ public class JsonForm {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        NetworkResponse response = error.networkResponse;
+        if (response != null && response.data != null) {
+            try {
+                String jsonString = new String(response.data);
+                JSONObject errorObject = new JSONObject(jsonString);
+                String detail = errorObject.optString("detail");
+                if (!detail.isEmpty()) {
+                    generalError(new VolleyError(detail));
+                }
+                setError(errorObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                generalError(error);
+            }
+        } else {
+            generalError(error);
+        }
+    }
+
+    private void generalError(VolleyError error) {
+        if (errorListener != null) {
+            errorListener.onErrorResponse(error);
         }
     }
 }

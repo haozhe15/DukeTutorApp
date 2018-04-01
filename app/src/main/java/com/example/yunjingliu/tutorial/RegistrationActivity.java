@@ -9,7 +9,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.JsonForm;
-import com.zr.forms.JsonFormErrorListener;
 
 import org.json.JSONObject;
 
@@ -17,7 +16,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private final JsonForm form;
 
     public RegistrationActivity() {
-        form = new JsonForm(this);
+        form = new JsonForm(this, new ErrorListener(this));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         finish();
                     }
                 },
-                new JsonFormErrorListener(form));
+                form);
         RequestQueue queue = app.getRequestQueue();
         queue.add(registerRequest);
     }

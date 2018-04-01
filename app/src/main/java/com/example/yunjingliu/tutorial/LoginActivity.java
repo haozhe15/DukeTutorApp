@@ -13,7 +13,6 @@ import com.zr.auth.AuthProvider;
 import com.zr.auth.BasicAuthProvider;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.forms.JsonForm;
-import com.zr.forms.JsonFormErrorListener;
 import com.zr.json.Conversions;
 
 import org.json.JSONArray;
@@ -23,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private final JsonForm form;
 
     public LoginActivity() {
-        form = new JsonForm(this);
+        form = new JsonForm(this, new ErrorListener(this));
     }
 
     @Override
@@ -59,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                         onLoginSuccess(response, authProvider);
                     }
                 },
-                new JsonFormErrorListener(form)
+                form
         );
 
         RequestQueue queue = app.getRequestQueue();
