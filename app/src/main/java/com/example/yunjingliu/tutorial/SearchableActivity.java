@@ -14,7 +14,6 @@ import android.widget.SearchView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
@@ -28,7 +27,7 @@ import java.util.HashMap;
  * Created by Haozhe Wang on 3/30/18.
  */
 public class SearchableActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, Response.Listener<JSONArray> {
-    SessionListAdapter sessionListAdapter;
+    private SessionListAdapter sessionListAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
