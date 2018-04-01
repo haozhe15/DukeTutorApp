@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Created by Haozhe Wang on 3/4/18.
  */
-public class UserareaActivity extends AppCompatActivity {
+public class UserareaActivity extends JSonArrayReceiveActivity {
 
     ArrayList<Bundle> urls = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
@@ -38,7 +38,9 @@ public class UserareaActivity extends AppCompatActivity {
         // we cannot rely on the username stored in MyApp.
         // instead, we should make a request to retrieve the
         // name
-        getProfile();
+        int method = Request.Method.GET;
+        String url = Backend.url("/sessions/");
+        getProfile(method, url);
         ListView sessionList = (ListView) findViewById(R.id.lvSessionList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         sessionList.setAdapter(adapter);
@@ -86,10 +88,7 @@ public class UserareaActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-
                                 onReceiveSessionList(response);
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -125,11 +124,6 @@ public class UserareaActivity extends AppCompatActivity {
             urls.add(temp);
         }
     }
-
-
-
-
-
 }
 
 

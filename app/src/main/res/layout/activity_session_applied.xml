@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvSDdetail"
+        android:layout_width="614dp"
+        android:layout_height="74dp"
+        android:text="Here are all the sessions you have applied:"
+        tools:layout_editor_absoluteX="22dp"
+        tools:layout_editor_absoluteY="34dp" />
+
+    <ListView
+        android:id="@+id/lvSessionApplied"
+        android:layout_width="711dp"
+        android:layout_height="463dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="116dp" />
+
+    <Button
+        android:id="@+id/btBack"
+        android:layout_width="711dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="773dp" />
+</android.support.constraint.ConstraintLayout>

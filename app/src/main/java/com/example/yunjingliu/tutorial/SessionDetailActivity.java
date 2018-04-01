@@ -85,9 +85,10 @@ public class SessionDetailActivity extends AppCompatActivity {
     }
 
     public void sessionEdit(View view) {
-        Intent intent = new Intent(this, TutorSessionPostActivity.class);
-        Bundle msg = getIntent().getExtras();
-        intent.putExtras(msg);
+       // Intent intent = new Intent(this, TutorSessionPostActivity.class);
+       // Bundle msg = getIntent().getExtras();
+       // intent.putExtras(msg);
+        Intent intent = new Intent(this, SessionAppliedActivity.class);
         startActivityForResult(intent, 1);
     }
 }
