@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zr.widget.JsonArrayAdapter;
+import com.zr.json.JsonArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
