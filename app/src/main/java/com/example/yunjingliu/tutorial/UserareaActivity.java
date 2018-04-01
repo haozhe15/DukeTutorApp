@@ -6,9 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,15 +19,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Haozhe Wang on 3/4/18.
  */
 public class UserareaActivity extends AppCompatActivity {
-
     ArrayList<Bundle> urls = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
+    ArrayAdapter<String> sessionListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +39,8 @@ public class UserareaActivity extends AppCompatActivity {
 
         getProfile();
         ListView sessionList = (ListView) findViewById(R.id.lvSessionList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        sessionList.setAdapter(adapter);
-
+        sessionListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        sessionList.setAdapter(sessionListAdapter);
         sessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -69,9 +66,7 @@ public class UserareaActivity extends AppCompatActivity {
     public void skipToSearch(View view) {
         Intent intent = new Intent(this, SearchableActivity.class);
         startActivity(intent);
-
     }
-
 
     public void getProfile() {
         final MyApp app = (MyApp) getApplication();
@@ -84,17 +79,12 @@ public class UserareaActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-
-                                onReceiveSessionList(response);
-
-
+                            onReceiveSessionList(response);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-
                 }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
                 // TODO: show error message
@@ -122,6 +112,7 @@ public class UserareaActivity extends AppCompatActivity {
             temp.putString("url", url);
             urls.add(temp);
         }
+        sessionListAdapter.notifyDataSetChanged();
     }
 }
 
