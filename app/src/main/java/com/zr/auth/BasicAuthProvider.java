@@ -16,7 +16,7 @@ public class BasicAuthProvider implements AuthProvider {
      * It contains the word "Basic" and a base64-encoded string
      * containing username and password information.
      */
-    private String authorization;
+    private final String authorization;
 
     /**
      * Constructor.

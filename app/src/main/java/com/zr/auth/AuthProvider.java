@@ -19,7 +19,7 @@ public interface AuthProvider {
      * <p>
      * Authorization: Basic xyzzy
      *
-     * @returns The authorization string.
+     * @return The authorization string.
      */
     String getAuthorization();
 }

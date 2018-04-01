@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 /**
  * Created by rui on 3/31/18.

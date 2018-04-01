@@ -31,7 +31,7 @@ public class SessionDetailActivity extends AppCompatActivity {
         final MyApp app = (MyApp) getApplication();
         JsonObjectAuthRequest getDetailRequest = new JsonObjectAuthRequest(
                 Request.Method.GET,
-                getIntent().getExtras().getString("url"),
+                getIntent().getStringExtra("url"),
                 app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONObject>() {
@@ -64,15 +64,13 @@ public class SessionDetailActivity extends AppCompatActivity {
     }
 
     public void onReceiveSessionList(JSONObject JObject) throws JSONException {
-        TextView sessionDetail = (TextView) findViewById(R.id.tvSessionDetail);
+        TextView sessionDetail = findViewById(R.id.tvSessionDetail);
         String title = JObject.getString("title");
-        String url = JObject.getString("url");
         String description = JObject.getString("description");
         String day = JObject.getString("day");
         String time = JObject.getString("time");
         String place = JObject.getString("place");
-        String msg = new String();
-        msg= msg + "title: " + title + "\n" +
+        String msg = "title: " + title + "\n" +
                 "description: " + description + "\n" +
                 "day: " + day + "\n" +
                 "time: " + time + "\n" +
@@ -80,6 +78,7 @@ public class SessionDetailActivity extends AppCompatActivity {
                 "\n";
         sessionDetail.setText(msg);
     }
+
     public void sessionBack(View view) {
         finish();
     }

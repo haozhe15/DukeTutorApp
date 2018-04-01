@@ -4,21 +4,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.zr.auth.JsonObjectAuthRequest;
-import com.zr.forms.FormEntryAdapter;
 import com.zr.forms.JsonForm;
 import com.zr.forms.JsonFormErrorListener;
 import com.zr.forms.SpinnerAdapter;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class TutorSessionPostActivity extends AppCompatActivity {
@@ -91,7 +87,7 @@ public class TutorSessionPostActivity extends AppCompatActivity {
         final MyApp app = (MyApp) getApplication();
         JsonObjectAuthRequest getDetailRequest = new JsonObjectAuthRequest(
                 Request.Method.GET,
-                getIntent().getExtras().getString("url"),
+                getIntent().getStringExtra("url"),
                 app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONObject>() {

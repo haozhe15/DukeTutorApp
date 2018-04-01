@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
         form.put("username", R.id.etUsername);
         form.put("password", R.id.etPassword);
-        final TextView etRegisterLink = (TextView) findViewById(R.id.tvRegisterHere);
+        final TextView etRegisterLink = findViewById(R.id.tvRegisterHere);
 
         etRegisterLink.setOnClickListener(new View.OnClickListener() {
             @Override
