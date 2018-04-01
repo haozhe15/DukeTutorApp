@@ -22,4 +22,12 @@ public class Conversions {
         }
         return bundle;
     }
+    public static JSONObject bundleToJson(Bundle bundle) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        for (String key : bundle.keySet()) {
+            String value = bundle.getString(key);
+            jsonObject.put(key, value);
+        }
+        return jsonObject;
+    }
 }

@@ -30,15 +30,17 @@ public class TutorSessionPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_session_post);
-        Bundle msg = getIntent().getExtras();
-        if(msg != null) {
-           getProfile();
-        }
+
         form.put("title", R.id.etTitle);
         form.put("description", R.id.etDescription);
         form.put("time", R.id.etTimechoose);
         form.put("place", R.id.etLocationinput);
         form.put("day", new SpinnerAdapter(findViewById(R.id.spDatechoose), dayChoices));
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            form.setBundle(extras);
+        }
 
         final Spinner spinner = findViewById(R.id.spDatechoose);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -48,20 +50,19 @@ public class TutorSessionPostActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
-
     }
 
     public void onClickSubmit(View view) {
         final MyApp app = (MyApp) getApplication();
         int method;
-        String url;
-        Bundle msg = getIntent().getExtras();
-        if(msg != null) {
-            method = Request.Method.PUT;
-            url = msg.getString("url");
+        String url = null;
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            url = extras.getString("url");
         }
-        else{
+        if (url != null) {
+            method = Request.Method.PUT;
+        } else {
             method = Request.Method.POST;
             url = Backend.url("/sessions/");
         }
@@ -79,33 +80,5 @@ public class TutorSessionPostActivity extends AppCompatActivity {
                 new JsonFormErrorListener(form));
         RequestQueue queue = app.getRequestQueue();
         queue.add(postSessionRequest);
-
-    }
-
-
-    public void getProfile() {
-        final MyApp app = (MyApp) getApplication();
-        JsonObjectAuthRequest getDetailRequest = new JsonObjectAuthRequest(
-                Request.Method.GET,
-                getIntent().getStringExtra("url"),
-                app.getAuthProvider(),
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        form.setJson(response);
-                    }
-
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: show error message
-                //System.out.println(error.toString());
-            }
-        });
-
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getDetailRequest);
     }
 }

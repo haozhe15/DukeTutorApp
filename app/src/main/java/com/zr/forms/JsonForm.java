@@ -1,6 +1,7 @@
 package com.zr.forms;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.View;
@@ -129,6 +130,23 @@ public class JsonForm {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Set the value of form entries given by a Bundle.
+     *
+     * The rules are similar to setJson.
+     *
+     * @param bundle The Bundle containing form values.
+     */
+    public void setBundle(Bundle bundle) {
+        for (String key : bundle.keySet()) {
+            String value = bundle.getString(key);
+            FormEntryAdapter v = viewMap.get(key);
+            if (v != null && value != null) {
+                v.setString(value);
             }
         }
     }

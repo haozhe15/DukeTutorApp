@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.zr.auth.JsonArrayAuthRequest;
+import com.zr.json.Conversions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +83,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         try {
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = sessionListAdapter.getItem(i);
-            intent.putExtra("url", object.getString("url"));
+            intent.putExtras(Conversions.jsonToBundle(object));
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
