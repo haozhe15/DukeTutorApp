@@ -40,4 +40,9 @@ public class MyApp extends Application {
     public void setUserInfo(Bundle userInfo) {
         this.userInfo = userInfo;
     }
+
+    public boolean isCurrentUser(String url) {
+        String userUrl = userInfo.getString("url");
+        return userUrl != null && userUrl.equals(url);
+    }
 }

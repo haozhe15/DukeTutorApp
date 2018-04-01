@@ -16,8 +16,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.zr.auth.JsonArrayAuthRequest;
+import com.zr.json.Conversions;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -95,7 +97,14 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        // TODO: enter session detail
+        try {
+            Intent intent = new Intent(this, SessionDetailActivity.class);
+            JSONObject object = sessionListAdapter.getItem(i);
+            intent.putExtras(Conversions.jsonToBundle(object));
+            startActivity(intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

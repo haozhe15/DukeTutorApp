@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -66,6 +67,15 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
         }
         TextView sessionDetail = findViewById(R.id.tvSessionDetail);
         sessionDetail.setText(b);
+
+        Button editBtn = findViewById(R.id.btEdit);
+        MyApp app = (MyApp) getApplication();
+        String tutor = bundle.getString("tutor");
+        if (!app.isCurrentUser(tutor)) {
+            editBtn.setVisibility(View.INVISIBLE);
+        } else {
+            editBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     public void sessionBack(View view) {
