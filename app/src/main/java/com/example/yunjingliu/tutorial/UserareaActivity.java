@@ -30,7 +30,8 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         // TODO welcome message is removed
         // we cannot rely on the username stored in MyApp.
         // instead, we should make a request to retrieve the
-        // name
+        // name. This has nothing to do with the code below!
+
         getProfile();
         ListView sessionList = findViewById(R.id.lvSessionList);
         sessionListAdapter = new SessionListAdapter(this, android.R.layout.simple_list_item_1, null);
@@ -51,7 +52,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
     }
 
     public void skipToSearch() {
-        Intent intent = new Intent(this, SearchActivity.class);
+        Intent intent = new Intent(this, SearchableActivity.class);
         startActivity(intent);
     }
 

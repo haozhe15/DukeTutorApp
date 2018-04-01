@@ -15,4 +15,5 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
+    <string name="search_hint">Search class...</string>
 </resources>
