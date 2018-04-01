@@ -45,13 +45,13 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         getProfile();
     }
 
-    public void addNew() {
+    public void addNew(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
         //startActivity(intent);
         startActivityForResult(intent, 1);
     }
 
-    public void skipToSearch() {
+    public void skipToSearch(View view) {
         Intent intent = new Intent(this, SearchableActivity.class);
         startActivity(intent);
     }
