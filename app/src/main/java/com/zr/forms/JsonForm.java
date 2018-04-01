@@ -19,12 +19,19 @@ import java.util.Map;
 
 /**
  * Created by rui on 3/13/18.
+ *
+ * JsonForm is a helper class that can convert from
+ * Android views to a JSONObject and vice-versa.
  */
-
 public class JsonForm {
     private final HashMap<String, FormEntryAdapter> viewMap;
     private final Activity activity;
 
+    /**
+     * Constructor.
+     *
+     * @param activity The activity this form belongs to.
+     */
     public JsonForm(Activity activity) {
         this.viewMap = new HashMap<>();
         this.activity = activity;
@@ -34,6 +41,14 @@ public class JsonForm {
         return activity;
     }
 
+    /**
+     * Convenience function that finds a view by its ID
+     * and binds a name to it.
+     *
+     * Note: currently only EditText is supported.
+     * @param name The name of the form entry.
+     * @param id The ID of the Android view.
+     */
     public void put(String name, @IdRes int id) {
         View view = activity.findViewById(id);
         if (view == null) {
@@ -47,25 +62,14 @@ public class JsonForm {
         }
     }
 
-    public void put(String name, @IdRes int id, Class<? extends FormEntryAdapter> cls) {
-        View view = activity.findViewById(id);
-        if (view == null) {
-            return;
-        }
-        try {
-            Constructor<? extends FormEntryAdapter> ctor = cls.getConstructor(View.class);
-            put(name, ctor.newInstance(view));
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * Binds a name to a view.
+     *
+     * The caller must provide a FormEntryAdapter instead of a view.
+     *
+     * @param name The name of the entry.
+     * @param adapter An adapter associated to the view.
+     */
     public void put(String name, FormEntryAdapter adapter) {
         viewMap.put(name, adapter);
     }
@@ -78,6 +82,11 @@ public class JsonForm {
         return v.getView();
     }
 
+    /**
+     * Get the string value of an form entry by a name.
+     * @param name The name of the entry.
+     * @return The string value of the entry.
+     */
     public String getString(String name) {
         FormEntryAdapter v = viewMap.get(name);
         if (v == null) {
@@ -86,6 +95,10 @@ public class JsonForm {
         return v.getString();
     }
 
+    /**
+     * Get a JSONObject representation of the form.
+     * @return The JSONObject.
+     */
     public JSONObject getJson() {
         HashMap<String, String> params = new HashMap<>();
         for (Map.Entry<String, FormEntryAdapter> e : viewMap.entrySet()) {
@@ -94,6 +107,18 @@ public class JsonForm {
         return new JSONObject(params);
     }
 
+    /**
+     * Set the value of form entries given by a JSONObject.
+     *
+     * In the JSONObject, the keys corresponds to the names
+     * registered by put, and the values must be strings.
+     *
+     * Note: unknown names or invalid values are ignored.
+     * If the name of an entry does not appear in the JSONObject,
+     * its value is unchanged.
+     *
+     * @param obj The JSONObject containing form values.
+     */
     public void setJson(JSONObject obj) {
         Iterator<String> it = obj.keys();
         while (it.hasNext()) {
@@ -101,16 +126,26 @@ public class JsonForm {
                 String key = it.next();
                 String value = obj.getString(key);
                 FormEntryAdapter v = viewMap.get(key);
-                if (v == null) {
-                    continue;
+                if (v != null) {
+                    v.setString(value);
                 }
-                v.setString(value);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    /**
+     * Set the error prompt of form entries given by a JSONObject.
+     *
+     * In the JSONObject, the keys corresponds to the names
+     * registered by put, and each value must be an array
+     * of strings which contains error messages for an entry.
+     *
+     * Note: unknown names or invalid values are ignored.
+     *
+     * @param error The JSONObject containing error messages.
+     */
     public void setError(JSONObject error) {
         Iterator<String> it = error.keys();
         while (it.hasNext()) {
