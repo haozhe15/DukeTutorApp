@@ -37,14 +37,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
                 getIntent().getStringExtra("url"),
                 app.getAuthProvider(),
                 null,
-                this, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: show error message
-                //System.out.println(error.toString());
-            }
-        });
+                this, new ErrorListener(this));
 
         RequestQueue queue = app.getRequestQueue();
         queue.add(getDetailRequest);

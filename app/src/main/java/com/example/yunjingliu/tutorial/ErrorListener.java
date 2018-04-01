@@ -19,7 +19,11 @@ class ErrorListener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast toast = Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG);
+        String msg = error.getMessage();
+        if (msg == null) {
+            msg = new String(error.networkResponse.data);
+        }
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         toast.show();
     }
 }

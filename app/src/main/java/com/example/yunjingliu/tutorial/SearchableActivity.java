@@ -69,14 +69,7 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
                 Backend.url("/search/"),
                 app.getAuthProvider(),
                 kwJSON,
-                this, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: show error message
-                //System.out.println(error.toString());
-            }
-        });
+                this, new ErrorListener(this));
         app.getRequestQueue().add(req);
     }
 

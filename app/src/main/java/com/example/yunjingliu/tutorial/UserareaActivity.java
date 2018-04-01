@@ -62,14 +62,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
                 Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 null,
-                this, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: show error message
-                //System.out.println(error.toString());
-            }
-        });
-
+                this, new ErrorListener(this));
         RequestQueue queue = app.getRequestQueue();
         queue.add(getProfileRequest);
     }
