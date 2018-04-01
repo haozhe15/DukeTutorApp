@@ -14,8 +14,10 @@ import com.zr.auth.BasicAuthProvider;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.forms.JsonForm;
 import com.zr.forms.JsonFormErrorListener;
+import com.zr.json.Conversions;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 public class LoginActivity extends AppCompatActivity {
     private final JsonForm form;
@@ -54,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        onLoginSuccess(authProvider);
+                        onLoginSuccess(response, authProvider);
                     }
                 },
                 new JsonFormErrorListener(form)
@@ -64,11 +66,17 @@ public class LoginActivity extends AppCompatActivity {
         queue.add(registerRequest);
     }
 
-    public void onLoginSuccess(AuthProvider authProvider) {
+    public void onLoginSuccess(JSONArray response, AuthProvider authProvider) {
         MyApp app = (MyApp) getApplication();
-        app.setAuthProvider(authProvider);
-        Intent LoginIntent = new Intent(this, UserareaActivity.class);
-        startActivity(LoginIntent);
+        try {
+            Bundle userInfo = Conversions.jsonToBundle(response.getJSONObject(0));
+            app.setUserInfo(userInfo);
+            app.setAuthProvider(authProvider);
+            Intent LoginIntent = new Intent(this, UserareaActivity.class);
+            startActivity(LoginIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onClickRegister(View view) {

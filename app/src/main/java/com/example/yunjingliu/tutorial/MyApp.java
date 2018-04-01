@@ -1,6 +1,7 @@
 package com.example.yunjingliu.tutorial;
 
 import android.app.Application;
+import android.os.Bundle;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -13,6 +14,7 @@ import com.zr.auth.AuthProvider;
 public class MyApp extends Application {
     private AuthProvider authProvider;
     private RequestQueue requestQueue;
+    private Bundle userInfo;
 
     public AuthProvider getAuthProvider() {
         return authProvider;
@@ -29,5 +31,13 @@ public class MyApp extends Application {
 
     public RequestQueue getRequestQueue() {
         return requestQueue;
+    }
+
+    public Bundle getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(Bundle userInfo) {
+        this.userInfo = userInfo;
     }
 }

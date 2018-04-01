@@ -28,9 +28,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userarea);
         // TODO welcome message is removed
-        // we cannot rely on the username stored in MyApp.
-        // instead, we should make a request to retrieve the
-        // name. This has nothing to do with the code below!
+        // we can use app.getUserInfo to get user name, etc.
 
         getProfile();
         ListView sessionList = findViewById(R.id.lvSessionList);
