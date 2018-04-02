@@ -9,7 +9,7 @@ from rest_framework.response import Response
 
 
 from .models import Session, Application, Message
-from .serializers import SessionSerializer, ApplicationSerializer, MessageSerializer, SearchSerializer
+from .serializers import SessionSerializer, ApplicationSerializer, ApplicationListSerialzer, MessageSerializer, SearchSerializer
 
 
 # Create your views here.
@@ -56,6 +56,11 @@ class ApplicationViewSet(viewsets.ModelViewSet):
 #                    .order_by('-max_message_timestamp')
             print(queryset.query)
         return queryset
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ApplicationListSerialzer
+        return ApplicationSerializer
 
     @transaction.atomic
     def perform_create(self, serializer):
