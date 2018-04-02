@@ -8,5 +8,20 @@ The tutee can directly contact the interested tutor via a private chat system. T
 
 The app is developed in Java language and released on the Google Play app store.  The user data is stored and arranged on a Linux server system, so the app needs to communicate with the server to fetch data to the user.
 
+# Get started
+## Pre-requisites
+This app is developed on Android studio.
+## Installing
+
+# Running the tests
+To be continued...
+
+# Project structure
+
+# User guide
+## Login and registration
+When you first
+## User area
+## Search
 
 
