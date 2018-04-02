@@ -32,6 +32,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
         super.onCreate(savedInstanceState);
         setContentView(R.layout.session_detail_show);
         updateDetail();
+        requestDetail();
     }
 
     @Override
