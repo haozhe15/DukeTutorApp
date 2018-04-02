@@ -35,12 +35,20 @@ public class ApplicationListAdapter extends JsonArrayAdapter {
         view.setText("");
         JSONObject item = getItem(i);
         try {
-            if(item.getString("accepted").equals("null")){
-                view.setText(item.getString("url") + "\nUndecided");
+            JSONObject session = item.getJSONObject("session");
+            String text = session.getString("title");
+            String status;
+            if(item.isNull("accepted")){
+                status = "Undecided";
             }
-            else {
-                view.setText(item.getString("url") + "\n" + item.getString("accepted"));
+            else if(item.getBoolean("accepted")){
+                status = "Accepted";
             }
+            else{
+                status = "Denied";
+            }
+            text = "Session Title: "+text+"\nStatus: "+status;
+            view.setText(text);
         } catch (JSONException e) {
             e.printStackTrace();
         }
