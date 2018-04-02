@@ -30,6 +30,9 @@ public class UserareaActivity extends JSonArrayReceiveActivity {
 
     ArrayList<Bundle> urls = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
+    int method = Request.Method.GET;
+    String url = Backend.url("/sessions/");
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +41,10 @@ public class UserareaActivity extends JSonArrayReceiveActivity {
         // we cannot rely on the username stored in MyApp.
         // instead, we should make a request to retrieve the
         // name
-        int method = Request.Method.GET;
-        String url = Backend.url("/sessions/");
+
         getProfile(method, url);
         ListView sessionList = (ListView) findViewById(R.id.lvSessionList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         sessionList.setAdapter(adapter);
 
         sessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -50,10 +52,9 @@ public class UserareaActivity extends JSonArrayReceiveActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(UserareaActivity.this, SessionDetailActivity.class);
                 intent.putExtras(urls.get(i));
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
-
 
 
     }
@@ -61,7 +62,7 @@ public class UserareaActivity extends JSonArrayReceiveActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getProfile();
+        getProfile(method,url);
     }
 
     public void addNew(View view) {
@@ -77,35 +78,6 @@ public class UserareaActivity extends JSonArrayReceiveActivity {
     }
 
 
-    public void getProfile() {
-        final MyApp app = (MyApp) getApplication();
-        JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
-                Request.Method.GET,
-                Backend.url("/sessions/"),
-                app.getAuthProvider(),
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                                onReceiveSessionList(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // TODO: show error message
-                //System.out.println(error.toString());
-            }
-        });
-
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getProfileRequest);
-    }
 
     public void onReceiveSessionList(JSONArray array) throws JSONException {
         //System.out.println("log in response: " + array.toString());
@@ -123,6 +95,7 @@ public class UserareaActivity extends JSonArrayReceiveActivity {
             temp.putString("url", url);
             urls.add(temp);
         }
+        adapter.notifyDataSetChanged();
     }
 }
 
