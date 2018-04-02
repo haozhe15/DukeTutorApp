@@ -12,16 +12,28 @@ The app is developed in Java language and released on the Google Play app store.
 ## Pre-requisites
 This app is developed on Android studio.
 ## Installing
-
+...
 # Running the tests
 To be continued...
 
 # Project structure
-
+...
 # User guide
 ## Login and registration
-When you first
+If you first open this app, you need to click the "Register Here" prompt to register your account. Then you can type in your username, firstname, lastname, e-mail and set your password. Then tap the "REGISTER" button and you will be directed back to the login screen.
+If you already have an account, type in your username and password and tap the "LOGIN" button. Then you will enter the user area screen.
 ## User area
-## Search
+User area is your main screen to other activity. The sessions(classes) you have posted as a tutor will be displayed here. At the bottom there are three bottons:
+- Check Applied: View the sessions you have applied (the classes you want to learn).
+- Search: Search for sessions that you want to apply.
+- Add New: Add a new session as a tutor.
+## Check Applied:
+
+## Add new session
+
+## Message
+
+## Search classes
+
 
 
