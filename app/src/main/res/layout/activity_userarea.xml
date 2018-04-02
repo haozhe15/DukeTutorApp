@@ -62,4 +62,18 @@
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="431dp" />
 
+    <Button
+        android:id="@+id/btMsg"
+        android:layout_width="144dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="15dp"
+        android:onClick="checkMsg"
+        android:text="CHECK YOUR MESSAGE"
+        app:layout_constraintBottom_toTopOf="@+id/tvTest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tvTest"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
 </android.support.constraint.ConstraintLayout>

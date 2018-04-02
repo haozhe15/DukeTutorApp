@@ -58,6 +58,8 @@
         </activity>
         <activity
             android:name=".SessionAppliedActivity"/>
+        <activity
+            android:name=".MsgActivity" />
 </application>
 
 
