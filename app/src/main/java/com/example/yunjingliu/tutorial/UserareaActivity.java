@@ -20,6 +20,7 @@ import org.json.JSONObject;
 /**
  * Created by Haozhe Wang on 3/4/18.
  */
+
 public class UserareaActivity extends AppCompatActivity implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener {
     private SessionListAdapter sessionListAdapter;
 
@@ -28,6 +29,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userarea);
         // TODO welcome message is removed
+
         // we can use app.getUserInfo to get user name, etc.
 
         getProfile();
@@ -35,6 +37,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         sessionListAdapter = new SessionListAdapter(this, android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(sessionListAdapter);
         sessionList.setOnItemClickListener(this);
+
     }
 
     @Override
@@ -53,6 +56,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         Intent intent = new Intent(this, SearchableActivity.class);
         startActivity(intent);
     }
+
 
     private void getProfile() {
         final MyApp app = (MyApp) getApplication();
@@ -82,3 +86,4 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         }
     }
 }
+
