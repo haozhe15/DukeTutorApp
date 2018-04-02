@@ -8,6 +8,7 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ('tutor', )
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
+    session = SessionSerializer()
     class Meta:
         model = Application
         fields = ('url', 'session', 'applicant', 'accepted')
