@@ -41,8 +41,7 @@
                 android:value=".UserareaActivity"/>
         </activity>
         <activity
-            android:name=".SessionDetailActivity"
-            android:parentActivityName=".UserareaActivity"/>
+            android:name=".SessionDetailActivity"/>
         <!-- this is the searchable activity; it performs searches -->
         <activity android:name=".SearchableActivity"
             android:launchMode="singleTop">
