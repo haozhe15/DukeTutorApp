@@ -1,6 +1,7 @@
 package com.example.yunjingliu.tutorial;
 
 import android.content.Intent;
+import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -54,9 +55,14 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
 
     public void skipToSearch(View view) {
         Intent intent = new Intent(this, SearchableActivity.class);
+       // Intent intent = new Intent(this, SessionAppliedActivity.class);
         startActivity(intent);
     }
-
+    public void checkSessionApplied(View view) {
+        //Intent intent = new Intent(this, SearchableActivity.class);
+        Intent intent = new Intent(this, SessionAppliedActivity.class);
+        startActivity(intent);
+    }
 
     private void getProfile() {
         final MyApp app = (MyApp) getApplication();
@@ -79,7 +85,9 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         try {
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = sessionListAdapter.getItem(i);
-            intent.putExtras(Conversions.jsonToBundle(object));
+            Bundle b = Conversions.jsonToBundle(object);
+            b.putString("apply", "yes");
+            intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();

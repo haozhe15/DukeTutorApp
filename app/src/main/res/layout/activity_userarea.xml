@@ -53,4 +53,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btAppliedSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check Applied"
+        android:onClick="checkSessionApplied"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="431dp" />
+
 </android.support.constraint.ConstraintLayout>
