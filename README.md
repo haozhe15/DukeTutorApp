@@ -27,12 +27,13 @@ User area is your main screen to other activity. The sessions(classes) you have 
 - Check Applied: View the sessions you have applied (the classes you want to learn).
 - Search: Search for sessions that you want to apply.
 - Add New: Add a new session as a tutor.
+- Check Message: View the messages you have received. 
 ## Check Applied:
 
 ## Add new session
 
-## Message
-
+## Check Message
+In this page, you can see all the messages the user get. The messages are shown in a list. 
 ## Search classes
 
 
