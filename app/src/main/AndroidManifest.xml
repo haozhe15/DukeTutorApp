@@ -40,7 +40,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UserareaActivity" />
         </activity>
+
         <activity android:name=".SessionDetailActivity" />
+
         <!-- this is the searchable activity; it performs searches -->
         <activity
             android:name=".SearchableActivity"
@@ -59,8 +61,11 @@
         </activity>
         <activity android:name=".SessionAppliedActivity" />
         <activity
+            android:name=".SessionAppliedActivity"/>
+        <activity
+            android:name=".MsgActivity" />
+        <activity
             android:name=".test"
             android:label="@string/title_activity_test"></activity>
     </application>
-
 </manifest>

@@ -63,6 +63,12 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         Intent intent = new Intent(this, SessionAppliedActivity.class);
         startActivity(intent);
     }
+    public void checkMsg(View view) {
+        //Intent intent = new Intent(this, SearchableActivity.class);
+        Intent intent = new Intent(this, MsgActivity.class);
+        startActivity(intent);
+    }
+
 
     private void getProfile() {
         final MyApp app = (MyApp) getApplication();

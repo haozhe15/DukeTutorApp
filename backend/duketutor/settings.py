@@ -25,7 +25,7 @@ SECRET_KEY = 'ud!s%__jt^0=c7=k%^wyvf3+k)067#&0)^=_jfr!i0q^u1f-1p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'duketutor.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'duketutor',
+        'USER': 'duketutor',
+        'PASSWORD': 'abc123',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 

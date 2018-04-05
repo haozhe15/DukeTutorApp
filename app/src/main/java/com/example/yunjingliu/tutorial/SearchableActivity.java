@@ -34,12 +34,11 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        // Similar as in UserareaActivity.java
+        //Initialize the search result listview
         ListView searchList = findViewById(R.id.lvSearchResult);
         sessionListAdapter = new SessionListAdapter(this, android.R.layout.simple_list_item_1, null);
         searchList.setAdapter(sessionListAdapter);
         searchList.setOnItemClickListener(this);
-        // Stop the similarity
 
         handleIntent(getIntent());
     }

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="358dp"
+        android:layout_height="58dp"
+        android:text="Here are all the messages you have received:"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="35dp" />
+
+    <ListView
+        android:id="@+id/lvMsg"
+        android:layout_width="368dp"
+        android:layout_height="402dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="101dp" />
 </android.support.constraint.ConstraintLayout>
