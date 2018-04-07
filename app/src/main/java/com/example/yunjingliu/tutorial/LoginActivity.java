@@ -71,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
             Bundle userInfo = Conversions.jsonToBundle(response.getJSONObject(0));
             app.setUserInfo(userInfo);
             app.setAuthProvider(authProvider);
-            Intent LoginIntent = new Intent(this, UserareaActivity.class);
+            //Intent LoginIntent = new Intent(this, UserareaActivity.class);
+            Intent LoginIntent = new Intent(this, test.class);
             startActivity(LoginIntent);
         } catch (JSONException e) {
             e.printStackTrace();
