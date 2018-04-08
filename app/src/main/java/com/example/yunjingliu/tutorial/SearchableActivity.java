@@ -62,13 +62,12 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
 
     public void getSearchResult(JSONObject kwJSON) {
         final MyApp app = (MyApp) getApplication();
-        JsonArrayAuthRequest req = new JsonArrayAuthRequest(
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.POST,
                 Backend.url("/search/"),
                 app.getAuthProvider(),
                 kwJSON,
-                this, new ErrorListener(this));
-        app.getRequestQueue().add(req);
+                this, new ErrorListener(this)));
     }
 
     @Override

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.json.Conversions;
@@ -31,8 +30,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.session_detail_show);
-        updateDetail();
-        requestDetail();
+        updateDetail(getIntent().getExtras());
     }
 
     @Override
@@ -65,17 +63,20 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestDetail();
+    }
+
     public void requestDetail() {
         final MyApp app = (MyApp) getApplication();
-        JsonObjectAuthRequest getDetailRequest = new JsonObjectAuthRequest(
+        app.addRequest(new JsonObjectAuthRequest(
                 Request.Method.GET,
                 getIntent().getStringExtra("url"),
                 app.getAuthProvider(),
                 null,
-                this, errorListener);
-
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getDetailRequest);
+                this, errorListener));
     }
 
     @Override
@@ -83,22 +84,15 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
         try {
             Bundle bundle = Conversions.jsonToBundle(response);
             getIntent().putExtras(bundle);
-            updateDetail();
+            updateDetail(bundle);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        requestDetail();
-    }
 
-    private void updateDetail() {
+    private void updateDetail(Bundle bundle) {
         // TODO nicer appearance?
-        Bundle bundle = getIntent().getExtras();
-        assert bundle != null;
         StringBuilder b = new StringBuilder();
         final String[] fields = {"title", "description", "day", "time", "place"};
         for (String f : fields) {
@@ -111,7 +105,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
     private void onEditClick() {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
         intent.putExtras(getIntent());
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
 
     private void onApplyClick() {
@@ -124,7 +118,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
                     }
                 })
                 .setNegativeButton("No", null);
-        AlertDialog dialog = builder.show();
+        builder.show();
     }
 
     private void doApply() {
@@ -132,7 +126,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
             final MyApp app = (MyApp) getApplication();
             JSONObject requestBody = new JSONObject();
             requestBody.put("session", getIntent().getStringExtra("url"));
-            JsonObjectAuthRequest request = new JsonObjectAuthRequest(
+            app.addRequest(new JsonObjectAuthRequest(
                     Request.Method.POST,
                     Backend.url("/applications/"),
                     app.getAuthProvider(),
@@ -142,8 +136,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
                         public void onResponse(JSONObject response) {
                             onApplyResponse(response);
                         }
-                    }, errorListener);
-            app.getRequestQueue().add(request);
+                    }, errorListener));
         } catch (JSONException e) {
             e.printStackTrace();
         }

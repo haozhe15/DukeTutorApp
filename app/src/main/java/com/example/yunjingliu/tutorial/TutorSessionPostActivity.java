@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.JsonForm;
@@ -16,14 +15,10 @@ import com.zr.forms.SpinnerAdapter;
 import org.json.JSONObject;
 
 public class TutorSessionPostActivity extends AppCompatActivity {
-    private final JsonForm form;
     // To match backend definitions
     // Note: consider using OPTION to retrieve this information.
     private static final String[] dayChoices = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
-    public TutorSessionPostActivity() {
-        form = new JsonForm(this, new ErrorListener(this));
-    }
+    private final JsonForm form = new JsonForm(this, new ErrorListener(this));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +49,14 @@ public class TutorSessionPostActivity extends AppCompatActivity {
     public void onClickSubmit(View view) {
         final MyApp app = (MyApp) getApplication();
         int method;
-        String url = null;
-        Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            url = extras.getString("url");
-        }
+        String url = getIntent().getStringExtra("url");
         if (url != null) {
             method = Request.Method.PUT;
         } else {
             method = Request.Method.POST;
             url = Backend.url("/sessions/");
         }
-        JsonObjectAuthRequest postSessionRequest = new JsonObjectAuthRequest(
+        app.addRequest(new JsonObjectAuthRequest(
                 method,
                 url,
                 app.getAuthProvider(),
@@ -76,8 +67,6 @@ public class TutorSessionPostActivity extends AppCompatActivity {
                         finish();
                     }
                 },
-                form);
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(postSessionRequest);
+                form));
     }
 }

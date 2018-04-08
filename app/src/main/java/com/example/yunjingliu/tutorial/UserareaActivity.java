@@ -1,7 +1,6 @@
 package com.example.yunjingliu.tutorial;
 
 import android.content.Intent;
-import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
@@ -45,45 +43,34 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
         getProfile();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getProfile();
-    }
-
     public void addNew(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
-        //startActivity(intent);
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
 
     public void skipToSearch(View view) {
         Intent intent = new Intent(this, SearchableActivity.class);
-       // Intent intent = new Intent(this, SessionAppliedActivity.class);
         startActivity(intent);
     }
+
     public void checkSessionApplied(View view) {
-        //Intent intent = new Intent(this, SearchableActivity.class);
         Intent intent = new Intent(this, SessionAppliedActivity.class);
         startActivity(intent);
     }
+
     public void checkMsg(View view) {
-        //Intent intent = new Intent(this, SearchableActivity.class);
         Intent intent = new Intent(this, MsgActivity.class);
         startActivity(intent);
     }
 
-
     private void getProfile() {
         final MyApp app = (MyApp) getApplication();
-        JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.GET,
                 Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(this));
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getProfileRequest);
+                this, new ErrorListener(this)));
     }
 
     public void onResponse(JSONArray array) {

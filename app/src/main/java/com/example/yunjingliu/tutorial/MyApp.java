@@ -3,6 +3,7 @@ package com.example.yunjingliu.tutorial;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.zr.auth.AuthProvider;
@@ -44,5 +45,9 @@ public class MyApp extends Application {
     public boolean isCurrentUser(String url) {
         String userUrl = userInfo.getString("url");
         return userUrl != null && userUrl.equals(url);
+    }
+
+    public void addRequest(Request request) {
+        requestQueue.add(request);
     }
 }
