@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -14,7 +16,7 @@ import org.json.JSONException;
  * Created by rui on 3/31/18.
  */
 
-public class JsonArrayAdapter extends BaseAdapter {
+public class JsonArrayAdapter extends BaseAdapter implements Response.Listener<JSONArray> {
     protected final Context context;
     protected final int resId;
     protected final LayoutInflater inflater;
@@ -81,5 +83,10 @@ public class JsonArrayAdapter extends BaseAdapter {
     public void setJsonArray(JSONArray jsonArray) {
         this.jsonArray = jsonArray;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResponse(JSONArray response) {
+        setJsonArray(response);
     }
 }

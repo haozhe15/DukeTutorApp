@@ -10,51 +10,48 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
-
-import org.json.JSONArray;
 
 /**
  * Created by YunjingLiu on 4/8/18.
  */
 
-public class Fragment_msg  extends Fragment implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
-    MsgListAdapter adapter;
+public class MessageFragment extends Fragment implements AdapterView.OnItemClickListener{
+    private MsgListAdapter listAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.fragment_msg, container, false);
-        getMsg();
+        View view = inflater.inflate(R.layout.fragment_msg, container, false);
+
         ListView msgList = (ListView) view.findViewById(R.id.lvMsg);
-        adapter = new MsgListAdapter(getActivity(), android.R.layout.simple_list_item_1, null);
-        msgList.setAdapter(adapter);
+        listAdapter = new MsgListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
+        msgList.setAdapter(listAdapter);
         msgList.setOnItemClickListener(this);
         return view;
     }
 
-    private void getMsg() {
-        final MyApp app = (MyApp) getActivity().getApplication();
-        JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
+    @Override
+    public void onResume() {
+        super.onResume();
+        makeRequest();
+    }
+
+    private void makeRequest() {
+        MyApp app = (MyApp) getActivity().getApplication();
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.GET,
                 Backend.url("/messages/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(getActivity()));
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getProfileRequest);
-    }
-
-    public void onResponse(JSONArray array) {
-        adapter.setJsonArray(array);
+                listAdapter, new ErrorListener(getContext())));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         /*try {
             Intent intent = new Intent(this, SessionDetailActivity.class);
-            JSONObject object = adapter.getItem(i);
+            JSONObject object = listAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
             b.putString("apply", "no");
             intent.putExtras(b);

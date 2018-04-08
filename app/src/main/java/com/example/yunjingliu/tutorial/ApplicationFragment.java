@@ -11,12 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,49 +21,48 @@ import org.json.JSONObject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ApplicationFragment extends Fragment implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
+public class ApplicationFragment extends Fragment implements AdapterView.OnItemClickListener {
+    private ApplicationListAdapter listAdapter;
 
-    ApplicationListAdapter adapter;
     public ApplicationFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_application, container, false);
-        ListView sessionList = (ListView)view.findViewById(R.id.lvSessionPosted);
-        adapter = new ApplicationListAdapter(getActivity(), android.R.layout.simple_list_item_1, null);
-        sessionList.setAdapter(adapter);
+        View view = inflater.inflate(R.layout.fragment_application, container, false);
+
+        ListView sessionList = view.findViewById(R.id.lvSessionApplied);
+        listAdapter = new ApplicationListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
+        sessionList.setAdapter(listAdapter);
         sessionList.setOnItemClickListener(this);
-        getProfile();
         return view;
     }
-    private void getProfile() {
-        final MyApp app = (MyApp) getActivity().getApplication();
-        JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        makeRequest();
+    }
+
+    private void makeRequest() {
+        MyApp app = (MyApp) getActivity().getApplication();
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.GET,
                 Backend.url("/applications/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(this.getActivity()));
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getProfileRequest);
-    }
-
-    public void onResponse(JSONArray array) {
-        adapter.setJsonArray(array);
+                listAdapter, new ErrorListener(getContext())));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Intent intent = new Intent(getActivity(), SessionDetailActivity.class);
-            JSONObject object = adapter.getItem(i);
+            Intent intent = new Intent(getContext(), SessionDetailActivity.class);
+            JSONObject object = listAdapter.getItem(i).getJSONObject("session");
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "no");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
