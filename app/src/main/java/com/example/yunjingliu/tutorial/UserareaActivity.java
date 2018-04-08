@@ -52,8 +52,8 @@ public class UserareaActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void checkSessionApplied(View view) {
-        Intent intent = new Intent(this, SessionAppliedActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, SessionAppliedActivity.class);
+        startActivity(intent);*/
     }
 
     public void checkMsg(View view) {
