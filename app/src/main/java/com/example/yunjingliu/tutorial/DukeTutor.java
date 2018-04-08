@@ -24,7 +24,7 @@ public class DukeTutor extends AppCompatActivity {
                     //mTextMessage.setText(R.string.Title_search);
                     break;
                 case R.id.navigation_message:
-                    selectedFragment = new Fragment_msg();
+                    selectedFragment = new MessageFragment();
                     //mTextMessage.setText(R.string.Title_message);
                     break;
                 case R.id.navigation_application:

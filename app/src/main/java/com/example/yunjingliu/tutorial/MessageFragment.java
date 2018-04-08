@@ -20,7 +20,7 @@ import org.json.JSONArray;
  * Created by YunjingLiu on 4/8/18.
  */
 
-public class Fragment_msg  extends Fragment implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
+public class MessageFragment extends Fragment implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
     MsgListAdapter adapter;
     @Nullable
     @Override
