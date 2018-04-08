@@ -92,7 +92,7 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "yes");
+            b.putBoolean("can_apply", true);
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {

@@ -39,7 +39,8 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MyApp app = (MyApp) getApplication();
-        String tutor = getIntent().getStringExtra("tutor");
+        Intent intent = getIntent();
+        String tutor = intent.getStringExtra("tutor");
         if (app.isCurrentUser(tutor)) {
             MenuItem edit = menu.add("Edit");
             edit.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -50,18 +51,16 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
                     return true;
                 }
             });
-        } else {
-            if(getIntent().getExtras().getString("apply").equals("yes")) {
-                MenuItem apply = menu.add("Apply");
-                apply.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-                apply.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        onApplyClick();
-                        return true;
-                    }
-                });
-            }
+        } else if (intent.getBooleanExtra("can_apply", false)) {
+            MenuItem apply = menu.add("Apply");
+            apply.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            apply.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    onApplyClick();
+                    return true;
+                }
+            });
         }
         return true;
     }

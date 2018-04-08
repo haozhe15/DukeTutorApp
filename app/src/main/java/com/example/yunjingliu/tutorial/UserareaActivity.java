@@ -96,7 +96,6 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "yes");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {

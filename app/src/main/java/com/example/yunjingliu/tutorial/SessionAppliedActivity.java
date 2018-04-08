@@ -65,7 +65,6 @@ public class SessionAppliedActivity extends AppCompatActivity implements Respons
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = adapter.getItem(i).getJSONObject("session");
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "no");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
