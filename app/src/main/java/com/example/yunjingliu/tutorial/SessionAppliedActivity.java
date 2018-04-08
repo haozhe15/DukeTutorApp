@@ -63,7 +63,7 @@ public class SessionAppliedActivity extends AppCompatActivity implements Respons
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             Intent intent = new Intent(this, SessionDetailActivity.class);
-            JSONObject object = adapter.getItem(i);
+            JSONObject object = adapter.getItem(i).getJSONObject("session");
             Bundle b = Conversions.jsonToBundle(object);
             b.putString("apply", "no");
             intent.putExtras(b);
