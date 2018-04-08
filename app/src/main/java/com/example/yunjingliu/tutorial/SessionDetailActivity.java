@@ -51,15 +51,17 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
                 }
             });
         } else {
-            MenuItem apply = menu.add("Apply");
-            apply.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            apply.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    onApplyClick();
-                    return true;
-                }
-            });
+            if(getIntent().getExtras().getString("apply").equals("yes")) {
+                MenuItem apply = menu.add("Apply");
+                apply.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                apply.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        onApplyClick();
+                        return true;
+                    }
+                });
+            }
         }
         return true;
     }
