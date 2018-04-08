@@ -61,16 +61,16 @@ public class MsgActivity extends AppCompatActivity implements Response.Listener<
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        /*try {
-            Intent intent = new Intent(this, SessionDetailActivity.class);
+        try {
+            Intent intent = new Intent(this, MsgDetailActivity.class);
             JSONObject object = adapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "no");
+            //b.putString("apply", "no");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
 
