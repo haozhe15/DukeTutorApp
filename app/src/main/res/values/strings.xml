@@ -28,4 +28,5 @@
     <string name="Title_application">Application</string>
     <string name="Title_me">Me</string>
     <string name="applied_session">Applied Session:</string>
+    <string name="posted_session">Posted Session:</string>
 </resources>

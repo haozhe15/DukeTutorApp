@@ -33,12 +33,12 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
 
         // we can use app.getUserInfo to get user name, etc.
 
-        getProfile();
+
         ListView sessionList = findViewById(R.id.lvSessionList);
         sessionListAdapter = new SessionListAdapter(this, android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(sessionListAdapter);
         sessionList.setOnItemClickListener(this);
-
+        getProfile();
     }
 
     @Override

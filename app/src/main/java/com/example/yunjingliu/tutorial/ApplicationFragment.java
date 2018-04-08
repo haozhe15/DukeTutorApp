@@ -37,12 +37,11 @@ public class ApplicationFragment extends Fragment implements Response.Listener<J
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_application, container, false);
-        getProfile();
-        ListView sessionList = (ListView)view.findViewById(R.id.lvSessionApplied);
+        ListView sessionList = (ListView)view.findViewById(R.id.lvSessionPosted);
         adapter = new ApplicationListAdapter(getActivity(), android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(adapter);
         sessionList.setOnItemClickListener(this);
-
+        getProfile();
         return view;
     }
     private void getProfile() {

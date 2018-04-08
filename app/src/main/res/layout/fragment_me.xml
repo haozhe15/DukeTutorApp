@@ -6,9 +6,9 @@
     tools:context="com.example.yunjingliu.tutorial.MeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Me_Fragment" />
 
+    <ListView
+        android:id="@+id/lvMeList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>
