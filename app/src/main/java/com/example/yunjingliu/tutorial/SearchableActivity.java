@@ -13,11 +13,9 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +24,7 @@ import java.util.HashMap;
 /**
  * Created by Haozhe Wang on 3/30/18.
  */
-public class SearchableActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, Response.Listener<JSONArray> {
+public class SearchableActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private SessionListAdapter sessionListAdapter;
 
     @Override
@@ -67,7 +65,7 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
                 Backend.url("/search/"),
                 app.getAuthProvider(),
                 kwJSON,
-                this, new ErrorListener(this)));
+                sessionListAdapter, new ErrorListener(this)));
     }
 
     @Override
@@ -97,10 +95,5 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onResponse(JSONArray array) {
-        sessionListAdapter.setJsonArray(array);
     }
 }

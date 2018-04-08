@@ -8,11 +8,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +18,7 @@ import org.json.JSONObject;
  * Created by Haozhe Wang on 3/4/18.
  */
 
-public class UserareaActivity extends AppCompatActivity implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener {
+public class UserareaActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private SessionListAdapter sessionListAdapter;
 
     @Override
@@ -70,11 +68,7 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
                 Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(this)));
-    }
-
-    public void onResponse(JSONArray array) {
-        sessionListAdapter.setJsonArray(array);
+                sessionListAdapter, new ErrorListener(this)));
     }
 
     @Override

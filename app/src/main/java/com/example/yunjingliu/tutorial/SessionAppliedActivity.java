@@ -9,11 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,16 +19,16 @@ import org.json.JSONObject;
  * Created by YunjingLiu on 3/31/18.
  */
 
-public class SessionAppliedActivity extends AppCompatActivity implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
-    ApplicationListAdapter adapter;
+public class SessionAppliedActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private ApplicationListAdapter listAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_applied);
         ListView sessionList = findViewById(R.id.lvSessionApplied);
-        adapter = new ApplicationListAdapter(this, android.R.layout.simple_list_item_1, null);
-        sessionList.setAdapter(adapter);
+        listAdapter = new ApplicationListAdapter(this, android.R.layout.simple_list_item_1, null);
+        sessionList.setAdapter(listAdapter);
         sessionList.setOnItemClickListener(this);
     }
 
@@ -47,18 +45,14 @@ public class SessionAppliedActivity extends AppCompatActivity implements Respons
                 Backend.url("/applications/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(this)));
-    }
-
-    public void onResponse(JSONArray array) {
-        adapter.setJsonArray(array);
+                listAdapter, new ErrorListener(this)));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             Intent intent = new Intent(this, SessionDetailActivity.class);
-            JSONObject object = adapter.getItem(i).getJSONObject("session");
+            JSONObject object = listAdapter.getItem(i).getJSONObject("session");
             Bundle b = Conversions.jsonToBundle(object);
             intent.putExtras(b);
             startActivity(intent);
