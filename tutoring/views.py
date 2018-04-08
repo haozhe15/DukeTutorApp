@@ -30,16 +30,29 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(tutor=self.request.user, is_open=True)
 
+    def perform_destroy(self, instance):
+        applications = Application.objects.filter(session=instance)
+        message = "you application to \"%s\" is deleted" % instance.title
+        for app in applications:
+            send_message(None, app.applicant, message)
+
 
 class ApplicationPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
         action = view.action
         user = request.user
-        if obj.applicant == user: # tutee's view
-            return action in ('retrieve', 'destroy')
-        elif obj.session.tutor == user: # tutor's view
+        if obj.session.tutor == user: # tutor's view
             return action in ('retrieve', 'update')
+        elif obj.applicant == user: # tutee's view
+            return action in ('retrieve', 'destroy')
 
+def send_message(sender, recipient, message, application=None):
+        message = Message(
+                sender=sender,
+                recipient=recipient,
+                message=message,
+                application=application)
+        message.save()
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, ApplicationPermission)
@@ -75,13 +88,8 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         if application.accepted != None:
             raise exceptions.ValidationError(
                     "'accepted' must be unset on creation")
-        message = Message(
-                sender=user,
-                recipient=application.session.tutor,
-                application=application)
-        # TODO what to put in the message?
-        message.message = "new application"
-        message.save()
+        message = "new application"
+        send_message(user, application.session.tutor, message, application)
 
     @transaction.atomic
     def perform_update(self, serializer):
@@ -94,24 +102,19 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         if accepted is None:
             # this is a no-op
             return
-        session = Session.objects\
-                .filter(pk=application.session.pk)\
-                .select_for_update()\
-                .get()
-        if not session.is_open:
-            raise exceptions.ValidationError(
-                    "cannot accepted a closed session")
-        session.is_open = False
-        session.save()
+        if accepted:
+            session = Session.objects\
+                    .filter(pk=application.session.pk)\
+                    .select_for_update()\
+                    .get()
+            if not session.is_open:
+                raise exceptions.ValidationError(
+                        "cannot accepted a closed session")
+            session.is_open = False
+            session.save()
         serializer.save()
-        message = Message(
-                sender=self.request.user,
-                recipient=application.applicant,
-                application=application)
-        message.message = accepted and \
-                "your application is accepted" or \
-                "your application is declined"
-        message.save()
+        message = "application " + (accepted and "accepted" or "declined")
+        send_message(self.request.user, application.applicant, message, application)
 
     @transaction.atomic()
     def perform_destroy(self, instance):

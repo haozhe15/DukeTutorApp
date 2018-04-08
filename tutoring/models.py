@@ -56,11 +56,11 @@ class Application(models.Model):
         unique_together = ('session', 'applicant')
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE,
+    sender = models.ForeignKey(User, null=True, on_delete=models.CASCADE,
             related_name='sent_messages')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE,
             related_name='received_messages')
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    application = models.ForeignKey(Application, null=True, on_delete=models.CASCADE)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)
     read = models.BooleanField(default=False)
