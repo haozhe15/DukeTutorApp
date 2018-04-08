@@ -3,34 +3,41 @@ package com.example.yunjingliu.tutorial;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-public class test extends AppCompatActivity {
 
-    private TextView mTextMessage;
+public class DukeTutor extends AppCompatActivity {
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    mTextMessage.setText(R.string.Title_search);
-                    return true;
+                    selectedFragment = new SearchFragment();
+                    //mTextMessage.setText(R.string.Title_search);
+                    break;
                 case R.id.navigation_message:
-                    mTextMessage.setText(R.string.Title_message);
-                    return true;
+                    selectedFragment = new Fragment_msg();
+                    //mTextMessage.setText(R.string.Title_message);
+                    break;
                 case R.id.navigation_application:
-                    mTextMessage.setText(R.string.Title_application);
-                    return true;
+                    selectedFragment = new ApplicationFragment();
+                   // mTextMessage.setText(R.string.Title_application);
+                    break;
                 case R.id.navigation_me:
-                    mTextMessage.setText(R.string.Title_me);
-                    return true;
+                    selectedFragment = new MeFragment();
+                    //mTextMessage.setText(R.string.Title_me);
+                    break;
             }
-            return false;
+            getSupportFragmentManager().beginTransaction().replace(R.id.flContent, selectedFragment).commit();
+            return true;
         }
     };
 
@@ -39,9 +46,10 @@ public class test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent, new SearchFragment()).commit();
     }
 
 }

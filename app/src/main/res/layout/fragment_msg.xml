@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.yunjingliu.tutorial.MsgFragment">
+    android:background="@android:color/white"
+    tools:context="com.example.yunjingliu.tutorial.Fragment_msg">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ListView
+        android:id="@+id/lvMsg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Msg_Fragment" />
-
+        android:textSize="18dp"/>
 </FrameLayout>

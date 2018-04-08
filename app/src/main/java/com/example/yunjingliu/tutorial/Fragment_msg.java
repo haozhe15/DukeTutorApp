@@ -1,8 +1,7 @@
 package com.example.yunjingliu.tutorial;
 
-
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,45 +13,35 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
-import com.zr.json.Conversions;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by YunjingLiu on 4/8/18.
  */
-public class ApplicationFragment extends Fragment implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
 
-    ApplicationListAdapter adapter;
-    public ApplicationFragment() {
-        // Required empty public constructor
-    }
-
-
+public class Fragment_msg  extends Fragment implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener{
+    MsgListAdapter adapter;
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_application, container, false);
-        getProfile();
-        ListView sessionList = (ListView)view.findViewById(R.id.lvSessionApplied);
-        adapter = new ApplicationListAdapter(getActivity(), android.R.layout.simple_list_item_1, null);
-        sessionList.setAdapter(adapter);
-        sessionList.setOnItemClickListener(this);
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view  = inflater.inflate(R.layout.fragment_msg, container, false);
+        getMsg();
+        ListView msgList = (ListView) view.findViewById(R.id.lvMsg);
+        adapter = new MsgListAdapter(getActivity(), android.R.layout.simple_list_item_1, null);
+        msgList.setAdapter(adapter);
+        msgList.setOnItemClickListener(this);
         return view;
     }
-    private void getProfile() {
+
+    private void getMsg() {
         final MyApp app = (MyApp) getActivity().getApplication();
         JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
                 Request.Method.GET,
-                Backend.url("/applications/"),
+                Backend.url("/messages/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(this.getActivity()));
+                this, new ErrorListener(getActivity()));
         RequestQueue queue = app.getRequestQueue();
         queue.add(getProfileRequest);
     }
@@ -63,8 +52,8 @@ public class ApplicationFragment extends Fragment implements Response.Listener<J
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        try {
-            Intent intent = new Intent(getActivity(), SessionDetailActivity.class);
+        /*try {
+            Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = adapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
             b.putString("apply", "no");
@@ -72,6 +61,6 @@ public class ApplicationFragment extends Fragment implements Response.Listener<J
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

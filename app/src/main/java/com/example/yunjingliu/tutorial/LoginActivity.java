@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             app.setUserInfo(userInfo);
             app.setAuthProvider(authProvider);
             //Intent LoginIntent = new Intent(this, UserareaActivity.class);
-            Intent LoginIntent = new Intent(this, test.class);
+            Intent LoginIntent = new Intent(this, DukeTutor.class);
             startActivity(LoginIntent);
         } catch (JSONException e) {
             e.printStackTrace();
