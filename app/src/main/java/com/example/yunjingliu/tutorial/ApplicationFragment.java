@@ -1,10 +1,12 @@
 package com.example.yunjingliu.tutorial;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -15,43 +17,51 @@ import com.zr.json.Conversions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by YunjingLiu on 3/31/18.
- */
 
-public class SessionAppliedActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class ApplicationFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ApplicationListAdapter listAdapter;
 
+    public ApplicationFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_session_applied);
-        ListView sessionList = findViewById(R.id.lvSessionApplied);
-        listAdapter = new ApplicationListAdapter(this, android.R.layout.simple_list_item_1, null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_application, container, false);
+
+        ListView sessionList = view.findViewById(R.id.lvSessionApplied);
+        listAdapter = new ApplicationListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(listAdapter);
         sessionList.setOnItemClickListener(this);
+
+        return view;
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        getProfile();
+        makeRequest();
     }
 
-    private void getProfile() {
-        final MyApp app = (MyApp) getApplication();
+    private void makeRequest() {
+        MyApp app = (MyApp) getActivity().getApplication();
         app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.GET,
                 Backend.url("/applications/"),
                 app.getAuthProvider(),
                 null,
-                listAdapter, new ErrorListener(this)));
+                listAdapter, new ErrorListener(getContext())));
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Intent intent = new Intent(this, SessionDetailActivity.class);
+            Intent intent = new Intent(getContext(), SessionDetailActivity.class);
             JSONObject object = listAdapter.getItem(i).getJSONObject("session");
             Bundle b = Conversions.jsonToBundle(object);
             intent.putExtras(b);

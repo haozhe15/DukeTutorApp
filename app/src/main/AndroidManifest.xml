@@ -66,6 +66,9 @@
         <activity
             android:name=".MsgDetailActivity"
             android:label="@string/title_activity_msg_detail"/>
+		<activity
+            android:name=".DukeTutor"
+            android:label="@string/title_activity_test"/>
     </application>
 
 </manifest>
