@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.helper_class;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
  * Created by rui on 4/1/18.
  */
 
-class ErrorListener implements Response.ErrorListener {
+public class ErrorListener implements Response.ErrorListener {
     private final Context context;
 
     public ErrorListener(Context context) {

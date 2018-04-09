@@ -29,4 +29,7 @@
     <string name="Title_me">Me</string>
     <string name="applied_session">Applied Session:</string>
     <string name="posted_session">Posted Session:</string>
+    <string name="message_received">Message Received:</string>
+    <string name="session_edit">Edit</string>
+    <string name="session_apply">Apply</string>
 </resources>

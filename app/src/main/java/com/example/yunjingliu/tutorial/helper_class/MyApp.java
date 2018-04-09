@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.helper_class;
 
 import android.app.Application;
 import android.os.Bundle;

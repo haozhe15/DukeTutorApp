@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.navigation;
 
 
 import android.content.Intent;
@@ -11,6 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
+import com.example.yunjingliu.tutorial.helper_class.ApplicationListAdapter;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.example.yunjingliu.tutorial.R;
+import com.example.yunjingliu.tutorial.SessionDetailActivity;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 

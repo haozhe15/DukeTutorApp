@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.helper_class;
 
 import android.content.Context;
 import android.view.View;
@@ -15,7 +15,7 @@ import org.json.JSONObject;
  * Created by rui on 3/31/18.
  */
 
-class MsgListAdapter extends JsonArrayAdapter {
+public class MsgListAdapter extends JsonArrayAdapter {
     public MsgListAdapter(Context context, int resId, JSONArray jsonArray) {
         super(context, resId, jsonArray);
     }

@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.navigation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MsgListAdapter;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.example.yunjingliu.tutorial.R;
 import com.zr.auth.JsonArrayAuthRequest;
 
 /**

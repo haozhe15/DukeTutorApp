@@ -6,6 +6,9 @@ import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.JsonForm;
 

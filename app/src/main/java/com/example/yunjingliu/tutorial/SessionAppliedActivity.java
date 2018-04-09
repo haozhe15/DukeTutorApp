@@ -11,6 +11,10 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.ApplicationListAdapter;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 

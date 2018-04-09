@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.navigation;
 
 
 import android.os.Bundle;
@@ -12,11 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.android.volley.Response;
-
-import org.json.JSONArray;
-
-import java.util.ArrayList;
+import com.example.yunjingliu.tutorial.R;
 
 
 /**

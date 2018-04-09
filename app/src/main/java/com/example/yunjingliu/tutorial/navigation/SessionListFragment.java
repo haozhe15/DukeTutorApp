@@ -1,9 +1,10 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,12 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.example.yunjingliu.tutorial.R;
+import com.example.yunjingliu.tutorial.SessionDetailActivity;
+import com.example.yunjingliu.tutorial.helper_class.SessionListAdapter;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
@@ -57,12 +64,13 @@ public class SessionListFragment extends Fragment implements Response.Listener<J
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Intent intent = new Intent(getActivity(), SessionDetailActivity.class);
+            SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
             b.putString("apply", "yes");
-            intent.putExtras(b);
-            startActivity(intent);
+            sessionDetailFragment.setArguments(b);
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }

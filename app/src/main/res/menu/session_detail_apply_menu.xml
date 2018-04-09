@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_option_apply"
+        android:icon="@drawable/ic_session_apply"
+        android:title="@string/session_apply"
+        android:visible="true" />
+
+
+
+</menu>
