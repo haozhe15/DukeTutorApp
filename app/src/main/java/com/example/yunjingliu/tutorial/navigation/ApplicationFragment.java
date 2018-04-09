@@ -4,6 +4,7 @@ package com.example.yunjingliu.tutorial.navigation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,11 +67,13 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Intent intent = new Intent(getContext(), SessionDetailActivity.class);
-            JSONObject object = listAdapter.getItem(i).getJSONObject("session");
+            SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
+            JSONObject object = listAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            intent.putExtras(b);
-            startActivity(intent);
+            b.putString("apply", "yes");
+            sessionDetailFragment.setArguments(b);
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }
