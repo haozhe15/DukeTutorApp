@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvPosted_Session"
+            android:id="@+id/tvApplied_Session"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -21,13 +21,13 @@
             android:layout_marginStart="8dp"
             android:text="@string/applied_session"
             android:textSize="25dp"
-            app:layout_constraintBottom_toTopOf="@+id/lvSessionPosted"
+            app:layout_constraintBottom_toTopOf="@+id/lvSessionApplied"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
-            android:id="@+id/lvSessionPosted"
+            android:id="@+id/lvSessionApplied"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
@@ -36,6 +36,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPosted_Session" />
+            app:layout_constraintTop_toBottomOf="@+id/tvApplied_Session" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
