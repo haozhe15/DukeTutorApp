@@ -67,7 +67,6 @@ class ApplicationViewSet(viewsets.ModelViewSet):
                     .filter(applicant=user)
 #                    .annotate(max_message_timestamp=Max('message__timestamp'))\
 #                    .order_by('-max_message_timestamp')
-            print(queryset.query)
         return queryset
 
     def get_serializer_class(self):
