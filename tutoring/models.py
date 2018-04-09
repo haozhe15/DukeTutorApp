@@ -64,3 +64,8 @@ class Message(models.Model):
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)
     read = models.BooleanField(default=False)
+
+class Feedback(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    content = models.TextField()
+    rating = models.FloatField()

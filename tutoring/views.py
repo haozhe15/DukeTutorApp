@@ -8,8 +8,8 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 
 
-from .models import Session, Application, Message
-from .serializers import SessionSerializer, ApplicationSerializer, ApplicationListSerialzer, MessageSerializer, SearchSerializer
+from .models import Session, Application, Message, Feedback
+from .serializers import SessionSerializer, ApplicationSerializer, ApplicationListSerialzer, MessageSerializer, SearchSerializer, FeedbackSerializer
 
 
 # Create your views here.
@@ -116,7 +116,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         message = "application " + (accepted and "accepted" or "declined")
         send_message(self.request.user, application.applicant, message, application)
 
-    @transaction.atomic()
+    @transaction.atomic
     def perform_destroy(self, instance):
         if instance.accepted == True:
             session = Session.objects\
@@ -134,6 +134,21 @@ class MessageViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.
         query = Q(recipient=user)
         queryset = Message.objects.filter(query).order_by('read', '-timestamp')
         return queryset
+
+
+class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = FeedbackSerializer
+    queryset = Feedback.objects
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        user = self.request.user
+        feedback = serializer.save()
+        session = feedback.session
+        app = session.application_set.filter(applicant=user)
+        if not app.exists():
+            raise exceptions.ValidationError("not allowed")
 
 
 class ListResponseMixin:

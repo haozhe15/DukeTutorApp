@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import Session, Application, Message
+from .models import Session, Application, Message, Feedback
 
 class SessionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Session
-        fields = ('url', 'title', 'description', 'day', 'time', 'place', 'tutor')
-        read_only_fields = ('tutor', )
+        fields = ('url', 'title', 'description', 'day', 'time', 'place', 'tutor', 'feedback_set')
+        read_only_fields = ('tutor', 'feedback_set')
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -25,6 +25,11 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
         model = Message
         fields = ('url', 'sender', 'recipient', 'application', 'message', 'timestamp', 'read')
         read_only_fields = ('sender', 'recipient', 'application', 'message')
+
+class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Feedback
+        fields = ('url', 'session', 'content', 'rating')
 
 class SearchSerializer(serializers.Serializer):
     keyword = serializers.CharField()
