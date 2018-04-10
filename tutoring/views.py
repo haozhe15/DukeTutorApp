@@ -30,11 +30,13 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(tutor=self.request.user, is_open=True)
 
+    @transaction.atomic
     def perform_destroy(self, instance):
         applications = Application.objects.filter(session=instance)
         message = "you application to \"%s\" is deleted" % instance.title
         for app in applications:
             send_message(None, app.applicant, message)
+        super().perform_destroy(instance)
 
 
 class ApplicationPermission(BasePermission):
@@ -42,7 +44,7 @@ class ApplicationPermission(BasePermission):
         action = view.action
         user = request.user
         if obj.session.tutor == user: # tutor's view
-            return action in ('retrieve', 'update')
+            return action in ('retrieve', 'update', 'partial_update')
         elif obj.applicant == user: # tutee's view
             return action in ('retrieve', 'destroy')
 
@@ -56,9 +58,10 @@ def send_message(sender, recipient, message, application=None):
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, ApplicationPermission)
-    serializer_class = ApplicationSerializer
+    #serializer_class = ApplicationSerializer
 
     def get_queryset(self):
+        #print(self.patch, self.partial_update)
         queryset = Application.objects.all()
         action = self.action
         user = self.request.user
@@ -94,26 +97,27 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         # Note: only the owner can access this view
         application = serializer.instance
-        accepted = serializer.validated_data['accepted']
-        if application.accepted not in (None, accepted):
-            raise exceptions.ValidationError(
-                    "cannot change the accepted state")
-        if accepted is None:
-            # this is a no-op
-            return
-        if accepted:
-            session = Session.objects\
-                    .filter(pk=application.session.pk)\
-                    .select_for_update()\
-                    .get()
-            if not session.is_open:
+        if 'accepted' in serializer.validated_data:
+            accepted = serializer.validated_data['accepted']
+            if application.accepted not in (None, accepted):
                 raise exceptions.ValidationError(
-                        "cannot accepted a closed session")
-            session.is_open = False
-            session.save()
+                        "cannot change the accepted state")
+            if accepted is None:
+                # this is a no-op
+                return
+            if accepted:
+                session = Session.objects\
+                        .filter(pk=application.session.pk)\
+                        .select_for_update()\
+                        .get()
+                if not session.is_open:
+                    raise exceptions.ValidationError(
+                            "cannot accepted a closed session")
+                session.is_open = False
+                session.save()
+            message = "application " + (accepted and "accepted" or "declined")
+            send_message(self.request.user, application.applicant, message, application)
         serializer.save()
-        message = "application " + (accepted and "accepted" or "declined")
-        send_message(self.request.user, application.applicant, message, application)
 
     @transaction.atomic
     def perform_destroy(self, instance):
