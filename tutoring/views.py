@@ -151,10 +151,10 @@ class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins
             return FeedbackListSerializer
         return FeedbackSerializer
 
-    def get_queryset(self):
-        user = self.request.user
-        queryset = Feedback.objects.filter(session__tutor=user)
-        return queryset
+    #def get_queryset(self):
+    #    user = self.request.user
+    #    queryset = Feedback.objects.filter(session__tutor=user)
+    #    return queryset
 
     @transaction.atomic
     def perform_create(self, serializer):
