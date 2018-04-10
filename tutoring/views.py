@@ -9,7 +9,10 @@ from rest_framework.response import Response
 
 
 from .models import Session, Application, Message, Feedback
-from .serializers import SessionSerializer, ApplicationSerializer, ApplicationListSerialzer, MessageSerializer, SearchSerializer, FeedbackSerializer
+from .serializers import SessionSerializer, \
+        ApplicationSerializer, ApplicationListSerialzer, \
+        MessageSerializer, SearchSerializer, \
+        FeedbackSerializer, FeedbackListSerializer
 
 
 # Create your views here.
@@ -141,8 +144,12 @@ class MessageViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.
 
 class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = (IsAuthenticated, )
-    serializer_class = FeedbackSerializer
     queryset = Feedback.objects
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return FeedbackListSerializer
+        return FeedbackSerializer
 
     def get_queryset(self):
         user = self.request.user

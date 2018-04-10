@@ -26,8 +26,13 @@ class MessageSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'sender', 'recipient', 'application', 'message', 'timestamp', 'read')
         read_only_fields = ('sender', 'recipient', 'application', 'message')
 
-class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
+class FeedbackListSerializer(serializers.HyperlinkedModelSerializer):
     session = SessionSerializer()
+    class Meta:
+        model = Feedback
+        fields = ('url', 'session', 'content', 'rating')
+
+class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Feedback
         fields = ('url', 'session', 'content', 'rating')
