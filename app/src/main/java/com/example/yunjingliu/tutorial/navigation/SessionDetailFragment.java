@@ -85,6 +85,9 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
             case R.id.menu_option_apply:
                 onApplyClick();
                 break;
+            case R.id.menu_option_feedback:
+                onFeedbackClick();
+                break;
         }
         return true;
     }
@@ -185,6 +188,9 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         builder.show();
     }
 
+    private void onFeedbackClick(){
+        //to do list
+    }
     private void doApply() {
         try {
             final MyApp app = (MyApp) getActivity().getApplication();
