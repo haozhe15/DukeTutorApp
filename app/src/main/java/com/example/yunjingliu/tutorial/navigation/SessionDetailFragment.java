@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.FeedbackActivity;
 import com.example.yunjingliu.tutorial.R;
 import com.example.yunjingliu.tutorial.TutorSessionPostActivity;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
@@ -128,6 +130,9 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
         sessionDetail.setText(b);
 
+        if (feedbackSet == null) {
+            return;
+        }
         for (int i = 0; i < feedbackSet.length(); i++) {
             String url = null;
             try {
@@ -189,7 +194,12 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     }
 
     private void onFeedbackClick(){
-        //to do list
+        /**
+         * Edit by Haozhe Wang
+         */
+        Intent intent = new Intent(getContext(), FeedbackActivity.class);
+        intent.putExtra("session_url", getArguments().getString("url"));
+        startActivity(intent);
     }
     private void doApply() {
         try {

@@ -47,7 +47,7 @@ public class FeedbackActivity extends AppCompatActivity {
             app.addRequest(new JsonObjectAuthRequest(
                     Request.Method.POST,
                     Backend.url("/feedbacks/"),
-                    null,
+                    app.getAuthProvider(),
                     json,
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -59,7 +59,5 @@ public class FeedbackActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-    }
     }
 }
