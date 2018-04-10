@@ -112,7 +112,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     public void onResponse(JSONObject response) {
         try {
             Bundle bundle = Conversions.jsonToBundle(response);
-            getActivity().getIntent().putExtras(bundle);
+            setArguments(bundle);
             feedbackSet = response.getJSONArray("feedback_set");
             updateDetail(bundle);
         } catch (JSONException e) {
@@ -177,7 +177,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
 
     private void onEditClick() {
         Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
-        intent.putExtras(getActivity().getIntent());
+        intent.putExtras(getArguments());
         startActivity(intent);
     }
 
@@ -206,7 +206,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         try {
             final MyApp app = (MyApp) getActivity().getApplication();
             JSONObject requestBody = new JSONObject();
-            requestBody.put("session", getActivity().getIntent().getStringExtra("url"));
+            requestBody.put("session", getArguments().getString("url"));
             app.addRequest(new JsonObjectAuthRequest(
                     Request.Method.POST,
                     Backend.url("/applications/"),

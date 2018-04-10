@@ -12,6 +12,7 @@ import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.example.yunjingliu.tutorial.helper_class.SessionListAdapter;
+import com.example.yunjingliu.tutorial.navigation.MessageFragment;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
@@ -61,7 +62,7 @@ public class UserareaActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void checkMsg(View view) {
-        Intent intent = new Intent(this, MsgActivity.class);
+        Intent intent = new Intent(this, MessageFragment.class);
         startActivity(intent);
     }
 

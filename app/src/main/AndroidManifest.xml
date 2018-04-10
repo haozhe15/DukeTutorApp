@@ -65,7 +65,8 @@
         <activity
             android:name=".navigation.DukeTutor"
             android:label="@string/title_activity_test" />
-        <activity android:name=".navigation.TutorHistoryFragment"></activity>
+        <activity
+            android:name=".MsgDetailActivity"/>
     </application>
 
 </manifest>
