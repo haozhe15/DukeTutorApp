@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,6 +53,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.search_menu, menu);
 
         // Associate searchable configuration with the SearchView
@@ -94,12 +96,14 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            Intent intent = new Intent(getActivity(), SessionDetailActivity.class);
+            SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
             b.putBoolean("can_apply", true);
-            intent.putExtras(b);
-            startActivity(intent);
+            sessionDetailFragment.setArguments(b);
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction().replace(R.id.flContent, sessionDetailFragment, "sessionDetailfromsearch").addToBackStack("searchsession").commit();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
