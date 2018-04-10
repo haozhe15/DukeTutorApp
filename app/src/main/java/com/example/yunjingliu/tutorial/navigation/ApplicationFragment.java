@@ -68,9 +68,10 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
             SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
-            JSONObject object = listAdapter.getItem(i);
+            JSONObject object = listAdapter.getItem(i).getJSONObject("session");
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "yes");
+            b.putBoolean("can_apply", false);
+
             sessionDetailFragment.setArguments(b);
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();

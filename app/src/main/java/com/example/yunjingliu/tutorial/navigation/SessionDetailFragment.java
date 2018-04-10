@@ -39,7 +39,6 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
     }
 
@@ -48,9 +47,14 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_session_detail, container, false);
-        requestDetail();
+        //requestDetail();
         updateDetail(this.getArguments());
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        requestDetail();
     }
 
     @Override
@@ -61,8 +65,11 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         if (app.isCurrentUser(tutor)) {
             inflater.inflate(R.menu.session_detail_menu, menu);
 
-        } else if (temp.getBoolean("can_apply")) {
+        } else if (temp.getBoolean("can_apply", false)) {
             inflater.inflate(R.menu.session_detail_apply_menu, menu);
+        }
+        else if(temp.getBoolean("can_feedback", false)){
+            inflater.inflate(R.menu.session_detail_feedback_menu, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
