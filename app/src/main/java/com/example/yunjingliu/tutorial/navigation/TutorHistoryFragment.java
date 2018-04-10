@@ -1,6 +1,5 @@
 package com.example.yunjingliu.tutorial.navigation;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,25 +10,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
+import com.example.yunjingliu.tutorial.R;
 import com.example.yunjingliu.tutorial.helper_class.ApplicationListAdapter;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
-import com.example.yunjingliu.tutorial.R;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ApplicationFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class TutorHistoryFragment extends Fragment implements AdapterView.OnItemClickListener{
     private ApplicationListAdapter listAdapter;
-    ListView sessionList;
-    public ApplicationFragment() {
+
+    public TutorHistoryFragment() {
         // Required empty public constructor
     }
 
@@ -38,7 +33,8 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_application, container, false);
-        sessionList = view.findViewById(R.id.lvSessionApplied);
+
+        ListView sessionList = view.findViewById(R.id.lvSessionDone);
         listAdapter = new ApplicationListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(listAdapter);
         sessionList.setOnItemClickListener(this);
@@ -64,13 +60,10 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-
             SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
             JSONObject object = listAdapter.getItem(i);
-            Bundle b = Conversions.jsonToBundle(object.getJSONObject("session"));
-            if( (!object.isNull("accepted")) && object.getBoolean("accepted")){
-                b.putBoolean("can_feedback", true);
-            }
+            Bundle b = Conversions.jsonToBundle(object);
+            b.putString("apply", "yes");
             sessionDetailFragment.setArguments(b);
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();
@@ -79,3 +72,4 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
         }
     }
 }
+

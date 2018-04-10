@@ -59,10 +59,13 @@
                 android:value=".UserareaActivity" />
         </activity>
         <activity android:name=".SessionAppliedActivity" />
+        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".SessionHistoryActivity" />
         <activity android:name=".MsgActivity" />
         <activity
             android:name=".navigation.DukeTutor"
             android:label="@string/title_activity_test" />
+        <activity android:name=".navigation.TutorHistoryFragment"></activity>
     </application>
 
 </manifest>

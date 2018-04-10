@@ -41,9 +41,6 @@ public class MeFragment extends Fragment implements AdapterView.OnItemClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if(i==0) {
-            SessionListFragment sessionListFragment = new SessionListFragment();
-            FragmentManager manager = getFragmentManager();
-            manager.beginTransaction().add(R.id.flContent, sessionListFragment, "Profile").addToBackStack("listpage").commit();
 
         }
         if(i==1){
@@ -53,11 +50,10 @@ public class MeFragment extends Fragment implements AdapterView.OnItemClickListe
 
         }
         else{
-            ApplicationFragment af = new ApplicationFragment();
+            TutorHistoryFragment tutorHistoryFragment = new TutorHistoryFragment();
             FragmentManager manager = getFragmentManager();
-            manager.beginTransaction().add(R.id.flContent, af, "Profile").addToBackStack("listpage").commit();
+            manager.beginTransaction().add(R.id.flContent, tutorHistoryFragment, "Profile").addToBackStack("listpage").commit();
 
         }
     }
-
 }
