@@ -57,7 +57,7 @@ public class UserareaActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void checkMsg(View view) {
-        Intent intent = new Intent(this, MsgActivity.class);
+        Intent intent = new Intent(this, MessageFragment.class);
         startActivity(intent);
     }
 

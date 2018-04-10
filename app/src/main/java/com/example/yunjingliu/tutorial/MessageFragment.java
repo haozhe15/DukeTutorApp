@@ -1,7 +1,9 @@
 package com.example.yunjingliu.tutorial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.zr.auth.JsonArrayAuthRequest;
+import com.zr.json.Conversions;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by YunjingLiu on 4/8/18.
@@ -47,17 +56,22 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
                 listAdapter, new ErrorListener(getContext())));
     }
 
+    public void onResponse(JSONArray array) {
+        listAdapter.setJsonArray(array);
+    }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        /*try {
-            Intent intent = new Intent(this, SessionDetailActivity.class);
+        try {
+            Intent intent = new Intent(getContext(), MsgDetailActivity.class);
             JSONObject object = listAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "no");
+            //System.out.println(b);
+            //b.putString("apply", "no");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
