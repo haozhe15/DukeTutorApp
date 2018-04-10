@@ -30,7 +30,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-        <activity android:name=".SessionDetailActivity" />
 
         <!-- this is the searchable activity; it performs searches -->
         <activity android:name=".FeedbackActivity" />

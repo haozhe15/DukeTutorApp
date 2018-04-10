@@ -12,12 +12,9 @@ import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonObjectAuthRequest;
-import com.zr.forms.JsonForm;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 /**
  * Created by Haozhe Wang on 04/08/18.

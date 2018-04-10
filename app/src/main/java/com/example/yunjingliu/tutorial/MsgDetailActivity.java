@@ -1,9 +1,7 @@
 package com.example.yunjingliu.tutorial;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -155,9 +153,9 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
             String status;
             final boolean isUndecided = application.isNull("accepted");
             status = application.getString("accepted");
-            if (status == "null") {
+            if (status.equals("null")) {
                 status = "Undecided";
-            } else if (status == "true") {
+            } else if (status.equals("true")) {
                 status = "Accepted";
             } else {
                 status = "Declined";

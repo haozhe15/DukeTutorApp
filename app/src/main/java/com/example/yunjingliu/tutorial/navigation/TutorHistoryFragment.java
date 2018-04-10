@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.example.yunjingliu.tutorial.R;
-import com.example.yunjingliu.tutorial.helper_class.ApplicationListAdapter;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
