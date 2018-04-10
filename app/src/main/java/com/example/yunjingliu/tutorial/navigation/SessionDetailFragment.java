@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonObjectAuthRequest;
+import com.zr.auth.JsonStringAuthRequest;
 import com.zr.json.Conversions;
 
 import org.json.JSONArray;
@@ -87,6 +89,9 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
                 break;
             case R.id.menu_option_apply:
                 onApplyClick();
+                break;
+            case R.id.menu_option_delete:
+                onDeleteClick();
                 break;
             case R.id.menu_option_feedback:
                 onFeedbackClick();
@@ -162,6 +167,33 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         ));
     }
 
+    private void onDeleteClick(){
+
+        MyApp app = (MyApp) getActivity().getApplication();
+        app.addRequest(new JsonStringAuthRequest(
+                Request.Method.DELETE,
+                this.getArguments().getString("url"),
+                app.getAuthProvider(),
+                null,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setMessage("Successfully deleted this session.")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //getActivity().getSupportFragmentManager().popBackStack("sessionList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    }
+                                });
+                        builder.show();
+                        getActivity().getSupportFragmentManager().popBackStack("sessionList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
+                },
+                errorListener
+        ));
+    }
     private void onReceiveFeedback(JSONObject feedback) {
         try {
             TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
@@ -176,9 +208,13 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     }
 
     private void onEditClick() {
-        Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
-        intent.putExtras(getArguments());
-        startActivity(intent);
+        SessionPostFragment sessionPostFragment = new SessionPostFragment();
+        sessionPostFragment.setArguments(getArguments());
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.flContent, sessionPostFragment, "sessionPost").addToBackStack("sessionList").commit();
+        //Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
+
+        //startActivity(intent);
     }
 
     private void onApplyClick() {

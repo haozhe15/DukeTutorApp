@@ -39,6 +39,8 @@
             android:label="@string/title_activity_test" />
         <activity
             android:name=".MsgDetailActivity"/>
+        <activity
+            android:name=".TutorSessionPostActivity"/>
     </application>
 
 </manifest>

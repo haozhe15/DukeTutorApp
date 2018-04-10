@@ -7,6 +7,12 @@
         android:title="@string/session_edit"
         android:visible="true"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_option_delete"
+        android:icon="@drawable/ic_delete_session"
+        android:title="@string/delete_session"
+        android:visible="true"
+        app:showAsAction="always" />
 
 
 
