@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +35,7 @@ import org.json.JSONObject;
  */
 
 public class SessionDetailFragment extends Fragment implements Response.Listener<JSONObject>{
-    private final ErrorListener errorListener = new ErrorListener(getActivity());
+    private ErrorListener errorListener;
     private JSONArray feedbackSet;
     View view;
 
@@ -44,6 +43,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        errorListener = new ErrorListener(getContext());
     }
 
 
@@ -63,6 +63,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         MyApp app = (MyApp) getActivity().getApplication();
         Bundle temp = this.getArguments();
         String tutor = temp.getString("tutor");
@@ -111,7 +112,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     public void onResponse(JSONObject response) {
         try {
             Bundle bundle = Conversions.jsonToBundle(response);
-            getActivity().getIntent().putExtras(bundle);
+            setArguments(bundle);
             feedbackSet = response.getJSONArray("feedback_set");
             updateDetail(bundle);
         } catch (JSONException e) {
@@ -166,8 +167,8 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
             TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
             StringBuffer b = new StringBuffer();
             b.append("feedback\n");
-            b.append("content: ").append(feedback.getString("content"));
-            b.append("rating: ").append(feedback.getDouble("rating"));
+            b.append("content: ").append(feedback.getString("content")).append('\n');
+            b.append("rating: ").append(feedback.getDouble("rating")).append('\n');
             sessionDetail.append(b);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -176,7 +177,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
 
     private void onEditClick() {
         Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
-        intent.putExtras(getActivity().getIntent());
+        intent.putExtras(getArguments());
         startActivity(intent);
     }
 
@@ -205,7 +206,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         try {
             final MyApp app = (MyApp) getActivity().getApplication();
             JSONObject requestBody = new JSONObject();
-            requestBody.put("session", getActivity().getIntent().getStringExtra("url"));
+            requestBody.put("session", getArguments().getString("url"));
             app.addRequest(new JsonObjectAuthRequest(
                     Request.Method.POST,
                     Backend.url("/applications/"),

@@ -22,7 +22,6 @@ import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.example.yunjingliu.tutorial.R;
-import com.example.yunjingliu.tutorial.SessionDetailActivity;
 import com.example.yunjingliu.tutorial.helper_class.SessionListAdapter;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;

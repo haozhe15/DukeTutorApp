@@ -1,5 +1,6 @@
 package com.example.yunjingliu.tutorial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +16,11 @@ import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MsgListAdapter;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonArrayAuthRequest;
+import com.zr.json.Conversions;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by YunjingLiu on 3/31/18.
@@ -56,16 +60,16 @@ public class MsgActivity extends AppCompatActivity implements Response.Listener<
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        /*try {
-            Intent intent = new Intent(this, SessionDetailActivity.class);
+        try {
+            Intent intent = new Intent(this, MsgDetailActivity.class);
             JSONObject object = adapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "no");
+            //b.putString("apply", "no");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
 
