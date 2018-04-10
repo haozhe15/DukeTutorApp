@@ -33,7 +33,7 @@ public class TutorHistoryFragment extends Fragment implements AdapterView.OnItem
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_application, container, false);
+        View view = inflater.inflate(R.layout.fragment_tutor_history, container, false);
 
         ListView sessionList = view.findViewById(R.id.lvSessionDone);
         listAdapter = new TutorHistoryListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
