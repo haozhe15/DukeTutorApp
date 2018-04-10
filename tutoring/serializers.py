@@ -4,8 +4,8 @@ from .models import Session, Application, Message, Feedback
 class SessionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Session
-        fields = ('url', 'title', 'description', 'day', 'time', 'place', 'tutor', 'feedback_set')
-        read_only_fields = ('tutor', 'feedback_set')
+        fields = ('url', 'title', 'description', 'day', 'time', 'place', 'tutor', 'feedback_set', 'is_open')
+        read_only_fields = ('tutor', 'feedback_set', 'is_open')
 
 class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
