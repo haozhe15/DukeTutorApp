@@ -25,6 +25,7 @@ import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.json.Conversions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,6 +35,7 @@ import org.json.JSONObject;
 
 public class SessionDetailFragment extends Fragment implements Response.Listener<JSONObject>{
     private final ErrorListener errorListener = new ErrorListener(getActivity());
+    private JSONArray feedbackSet;
     View view;
 
     @Override
@@ -105,6 +107,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         try {
             Bundle bundle = Conversions.jsonToBundle(response);
             getActivity().getIntent().putExtras(bundle);
+            feedbackSet = response.getJSONArray("feedback_set");
             updateDetail(bundle);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -121,6 +124,46 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         }
         TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
         sessionDetail.setText(b);
+
+        for (int i = 0; i < feedbackSet.length(); i++) {
+            String url = null;
+            try {
+                url = feedbackSet.getString(i);
+                requestFeedback(url);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void requestFeedback(String url) {
+        MyApp app = (MyApp) getActivity().getApplication();
+        app.addRequest(new JsonObjectAuthRequest(
+                Request.Method.GET,
+                url,
+                app.getAuthProvider(),
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        onReceiveFeedback(response);
+                    }
+                },
+                errorListener
+        ));
+    }
+
+    private void onReceiveFeedback(JSONObject feedback) {
+        try {
+            TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
+            StringBuffer b = new StringBuffer();
+            b.append("feedback\n");
+            b.append("content: ").append(feedback.getString("content"));
+            b.append("rating: ").append(feedback.getDouble("rating"));
+            sessionDetail.append(b);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void onEditClick() {

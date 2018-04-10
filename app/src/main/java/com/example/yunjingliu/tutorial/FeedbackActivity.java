@@ -5,31 +5,61 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RatingBar;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.JsonForm;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * Created by Haozhe Wang on 04/08/18.
  */
 public class FeedbackActivity extends AppCompatActivity {
-    private final JsonForm form;
 
-    public FeedbackActivity() {
-        form = new JsonForm(this, new ErrorListener(this));
-    }
-
+    RatingBar simpleRatingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
-
-        RatingBar simpleRatingBar = (RatingBar) findViewById(R.id.ratingBar); // initiate a rating bar
+        setContentView(R.layout.actitivity_feedback);
+        simpleRatingBar = (RatingBar) findViewById(R.id.ratingBar); // initiate a rating bar
         simpleRatingBar.setRating((float) 3.5); // set default rating
-        Float ratingNumber = simpleRatingBar.getRating(); // get rating number from a rating bar
-
     }
 
-    public void onClickSubmit(View view){
+    public void onClickSubmit(View view) {
+        final MyApp app = (MyApp) getApplication();
 
+        String session_url = getIntent().getStringExtra("session_url");
+        Float ratingNumber = simpleRatingBar.getRating(); // get rating number from a rating bar
+
+        try {
+            JSONObject json = new JSONObject();
+            json.put("session",session_url);
+            json.put("content", R.id.fbContent);
+            json.put("rating", ratingNumber);
+
+            app.addRequest(new JsonObjectAuthRequest(
+                    Request.Method.POST,
+                    Backend.url("/feedbacks/"),
+                    null,
+                    json,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            finish();
+                        }
+                    },
+                    new ErrorListener(this)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     }
 }

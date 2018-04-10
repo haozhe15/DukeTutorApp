@@ -52,7 +52,7 @@ public class MeFragment extends Fragment implements AdapterView.OnItemClickListe
         else{
             TutorHistoryFragment tutorHistoryFragment = new TutorHistoryFragment();
             FragmentManager manager = getFragmentManager();
-            manager.beginTransaction().add(R.id.flContent, tutorHistoryFragment, "Profile").addToBackStack("listpage").commit();
+            manager.beginTransaction().add(R.id.flContent, tutorHistoryFragment, "Received Feedback").addToBackStack("meFragment").commit();
 
         }
     }

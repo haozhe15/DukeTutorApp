@@ -19,7 +19,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="@string/applied_session"
+            android:text="@string/feedback_session"
             android:textSize="25dp"
             app:layout_constraintBottom_toTopOf="@+id/lvSessionDone"
             app:layout_constraintEnd_toEndOf="parent"
