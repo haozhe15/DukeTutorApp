@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.helper_class;
 
 import android.content.Context;
 import android.view.View;
@@ -12,13 +12,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by YunjingLiu on 4/1/18.
+ * Created by rui on 3/31/18.
  */
 
-public class ApplicationListAdapter extends JsonArrayAdapter {
-    public ApplicationListAdapter(Context context, int resId, JSONArray jsonArray) {
+public class SessionListAdapter extends JsonArrayAdapter {
+    public SessionListAdapter(Context context, int resId, JSONArray jsonArray) {
         super(context, resId, jsonArray);
     }
+
     @Override
     public JSONObject getItem(int i) {
         return (JSONObject) super.getItem(i);
@@ -35,20 +36,7 @@ public class ApplicationListAdapter extends JsonArrayAdapter {
         view.setText("");
         JSONObject item = getItem(i);
         try {
-            JSONObject session = item.getJSONObject("session");
-            String text = session.getString("title");
-            String status;
-            if(item.isNull("accepted")){
-                status = "Undecided";
-            }
-            else if(item.getBoolean("accepted")){
-                status = "Accepted";
-            }
-            else{
-                status = "Denied";
-            }
-            text = "Session Title: "+text+"\nStatus: "+status;
-            view.setText(text);
+            view.setText(item.getString("title"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

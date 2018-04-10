@@ -1,7 +1,6 @@
 package com.example.yunjingliu.tutorial;
 
 import android.content.Intent;
-import android.media.MediaCas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,12 +8,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.example.yunjingliu.tutorial.helper_class.SessionListAdapter;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * Created by Haozhe Wang on 3/4/18.
  */
 
-public class UserareaActivity extends AppCompatActivity implements Response.Listener<JSONArray>, AdapterView.OnItemClickListener {
+public class UserareaActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private SessionListAdapter sessionListAdapter;
 
     @Override
@@ -33,57 +33,46 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
 
         // we can use app.getUserInfo to get user name, etc.
 
-        getProfile();
         ListView sessionList = findViewById(R.id.lvSessionList);
         sessionListAdapter = new SessionListAdapter(this, android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(sessionListAdapter);
         sessionList.setOnItemClickListener(this);
-
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onResume() {
+        super.onResume();
         getProfile();
     }
 
     public void addNew(View view) {
         Intent intent = new Intent(this, TutorSessionPostActivity.class);
-        //startActivity(intent);
-        startActivityForResult(intent, 1);
+        startActivity(intent);
     }
 
     public void skipToSearch(View view) {
         Intent intent = new Intent(this, SearchableActivity.class);
-       // Intent intent = new Intent(this, SessionAppliedActivity.class);
         startActivity(intent);
     }
+
     public void checkSessionApplied(View view) {
-        //Intent intent = new Intent(this, SearchableActivity.class);
-        Intent intent = new Intent(this, SessionAppliedActivity.class);
-        startActivity(intent);
+        /*Intent intent = new Intent(this, SessionAppliedActivity.class);
+        startActivity(intent);*/
     }
+
     public void checkMsg(View view) {
-        //Intent intent = new Intent(this, SearchableActivity.class);
         Intent intent = new Intent(this, MsgActivity.class);
         startActivity(intent);
     }
 
-
     private void getProfile() {
         final MyApp app = (MyApp) getApplication();
-        JsonArrayAuthRequest getProfileRequest = new JsonArrayAuthRequest(
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.GET,
                 Backend.url("/sessions/"),
                 app.getAuthProvider(),
                 null,
-                this, new ErrorListener(this));
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(getProfileRequest);
-    }
-
-    public void onResponse(JSONArray array) {
-        sessionListAdapter.setJsonArray(array);
+                sessionListAdapter, new ErrorListener(this)));
     }
 
     @Override
@@ -92,7 +81,6 @@ public class UserareaActivity extends AppCompatActivity implements Response.List
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "yes");
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {

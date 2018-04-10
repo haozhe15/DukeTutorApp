@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.example.yunjingliu.tutorial.navigation.DukeTutor;
 import com.zr.auth.AuthProvider;
 import com.zr.auth.BasicAuthProvider;
 import com.zr.auth.JsonArrayAuthRequest;
@@ -19,11 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class LoginActivity extends AppCompatActivity {
-    private final JsonForm form;
-
-    public LoginActivity() {
-        form = new JsonForm(this, new ErrorListener(this));
-    }
+    private final JsonForm form = new JsonForm(this, new ErrorListener(this));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         final MyApp app = (MyApp) getApplication();
         final String username = form.getString("username");
         final String password = form.getString("password");
-        final BasicAuthProvider authProvider = new BasicAuthProvider(username, password);
-        JsonArrayAuthRequest registerRequest = new JsonArrayAuthRequest(
+        final AuthProvider authProvider = new BasicAuthProvider(username, password);
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.GET,
                 Backend.url("/users/"),
                 authProvider,
@@ -59,10 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 },
                 form
-        );
-
-        RequestQueue queue = app.getRequestQueue();
-        queue.add(registerRequest);
+        ));
     }
 
     public void onLoginSuccess(JSONArray response, AuthProvider authProvider) {
@@ -71,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             Bundle userInfo = Conversions.jsonToBundle(response.getJSONObject(0));
             app.setUserInfo(userInfo);
             app.setAuthProvider(authProvider);
-            Intent LoginIntent = new Intent(this, UserareaActivity.class);
+            Intent LoginIntent = new Intent(this, DukeTutor.class);
             startActivity(LoginIntent);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -79,8 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickRegister(View view) {
-        //Intent registerIntent = new Intent(this, SessionAppliedActivity.class);
-        Intent registerIntent = new Intent(this, RegistrationActivity.class);
-        LoginActivity.this.startActivity(registerIntent);
+        Intent intent = new Intent(this, RegistrationActivity.class);
+        startActivity(intent);
     }
 }

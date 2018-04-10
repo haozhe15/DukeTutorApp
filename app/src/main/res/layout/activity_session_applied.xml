@@ -13,12 +13,12 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="34dp"
         android:text="Here are all the sessions you have applied:"
-        app:layout_constraintBottom_toTopOf="@+id/lvSessionApplied"
+        app:layout_constraintBottom_toTopOf="@+id/lvSessionPosted"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/lvSessionApplied"
+        android:id="@+id/lvSessionPosted"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

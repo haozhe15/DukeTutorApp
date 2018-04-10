@@ -13,11 +13,13 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
+import com.example.yunjingliu.tutorial.helper_class.SessionListAdapter;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +28,7 @@ import java.util.HashMap;
 /**
  * Created by Haozhe Wang on 3/30/18.
  */
-public class SearchableActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, Response.Listener<JSONArray> {
+public class SearchableActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private SessionListAdapter sessionListAdapter;
 
     @Override
@@ -62,13 +64,12 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
 
     public void getSearchResult(JSONObject kwJSON) {
         final MyApp app = (MyApp) getApplication();
-        JsonArrayAuthRequest req = new JsonArrayAuthRequest(
+        app.addRequest(new JsonArrayAuthRequest(
                 Request.Method.POST,
                 Backend.url("/search/"),
                 app.getAuthProvider(),
                 kwJSON,
-                this, new ErrorListener(this));
-        app.getRequestQueue().add(req);
+                sessionListAdapter, new ErrorListener(this)));
     }
 
     @Override
@@ -92,16 +93,11 @@ public class SearchableActivity extends AppCompatActivity implements AdapterView
             Intent intent = new Intent(this, SessionDetailActivity.class);
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "yes");
+            b.putBoolean("can_apply", true);
             intent.putExtras(b);
             startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onResponse(JSONArray array) {
-        sessionListAdapter.setJsonArray(array);
     }
 }

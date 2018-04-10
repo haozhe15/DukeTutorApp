@@ -1,27 +1,26 @@
 package com.example.yunjingliu.tutorial;
 
-import android.app.DownloadManager;
-import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.helper_class.ApplicationListAdapter;
+import com.example.yunjingliu.tutorial.helper_class.Backend;
+import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
+import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonArrayAuthRequest;
 import com.zr.json.Conversions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by YunjingLiu on 3/31/18.
@@ -36,7 +35,7 @@ public class SessionAppliedActivity extends AppCompatActivity implements Respons
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_applied);
         getProfile();
-        ListView sessionList = (ListView) findViewById(R.id.lvSessionApplied);
+        ListView sessionList = (ListView) findViewById(R.id.lvSessionPosted);
         adapter = new ApplicationListAdapter(this, android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(adapter);
         sessionList.setOnItemClickListener(this);

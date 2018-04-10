@@ -1,18 +1,24 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.navigation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.R;
+import com.example.yunjingliu.tutorial.TutorSessionPostActivity;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
@@ -23,60 +29,65 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by YunjingLiu on 3/27/18.
+ * Created by YunjingLiu on 4/8/18.
  */
 
-public class SessionDetailActivity extends AppCompatActivity implements Response.Listener<JSONObject> {
-    private final ErrorListener errorListener = new ErrorListener(this);
+public class SessionDetailFragment extends Fragment implements Response.Listener<JSONObject>{
+    private final ErrorListener errorListener = new ErrorListener(getActivity());
+    View view;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.session_detail_show);
-        updateDetail(getIntent().getExtras());
+
+        setHasOptionsMenu(true);
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_session_detail, container, false);
+        requestDetail();
+        updateDetail(this.getArguments());
+        return view;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MyApp app = (MyApp) getApplication();
-        Intent intent = getIntent();
-        String tutor = intent.getStringExtra("tutor");
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MyApp app = (MyApp) getActivity().getApplication();
+        Bundle temp = this.getArguments();
+        String tutor = temp.getString("tutor");
         if (app.isCurrentUser(tutor)) {
-            MenuItem edit = menu.add("Edit");
-            edit.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            edit.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    onEditClick();
-                    return true;
-                }
-            });
-        } else if (intent.getBooleanExtra("can_apply", false)) {
-            MenuItem apply = menu.add("Apply");
-            apply.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            apply.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    onApplyClick();
-                    return true;
-                }
-            });
+            inflater.inflate(R.menu.session_detail_menu, menu);
+
+        } else if (temp.getBoolean("can_apply")) {
+            inflater.inflate(R.menu.session_detail_apply_menu, menu);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_option_edit:
+                onEditClick();
+                break;
+            case R.id.menu_option_apply:
+                onApplyClick();
+                break;
         }
         return true;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        requestDetail();
-    }
+
+
 
     public void requestDetail() {
-        final MyApp app = (MyApp) getApplication();
+        final MyApp app = (MyApp) getActivity().getApplication();
         app.addRequest(new JsonObjectAuthRequest(
                 Request.Method.GET,
-                getIntent().getStringExtra("url"),
+                this.getArguments().getString("url"),
                 app.getAuthProvider(),
                 null,
                 this, errorListener));
@@ -86,7 +97,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
     public void onResponse(JSONObject response) {
         try {
             Bundle bundle = Conversions.jsonToBundle(response);
-            getIntent().putExtras(bundle);
+            getActivity().getIntent().putExtras(bundle);
             updateDetail(bundle);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -101,18 +112,18 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
         for (String f : fields) {
             b.append(f).append(": ").append(bundle.getString(f)).append('\n');
         }
-        TextView sessionDetail = findViewById(R.id.tvSessionDetail);
+        TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
         sessionDetail.setText(b);
     }
 
     private void onEditClick() {
-        Intent intent = new Intent(this, TutorSessionPostActivity.class);
-        intent.putExtras(getIntent());
+        Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
+        intent.putExtras(getActivity().getIntent());
         startActivity(intent);
     }
 
     private void onApplyClick() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Apply to this session?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -126,9 +137,9 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
 
     private void doApply() {
         try {
-            final MyApp app = (MyApp) getApplication();
+            final MyApp app = (MyApp) getActivity().getApplication();
             JSONObject requestBody = new JSONObject();
-            requestBody.put("session", getIntent().getStringExtra("url"));
+            requestBody.put("session", getActivity().getIntent().getStringExtra("url"));
             app.addRequest(new JsonObjectAuthRequest(
                     Request.Method.POST,
                     Backend.url("/applications/"),
@@ -146,7 +157,7 @@ public class SessionDetailActivity extends AppCompatActivity implements Response
     }
 
     private void onApplyResponse(JSONObject response) {
-        Toast toast = Toast.makeText(this, "Application sent", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getActivity(), "Application sent", Toast.LENGTH_SHORT);
         toast.show();
     }
 }

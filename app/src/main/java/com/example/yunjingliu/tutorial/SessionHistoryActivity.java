@@ -3,7 +3,7 @@ package com.example.yunjingliu.tutorial;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class TutorHistoryActivity extends AppCompatActivity {
+public class SessionHistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
