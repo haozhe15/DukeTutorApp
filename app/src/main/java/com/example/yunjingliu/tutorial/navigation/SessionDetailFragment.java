@@ -64,6 +64,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         MyApp app = (MyApp) getActivity().getApplication();
         Bundle temp = this.getArguments();
         String tutor = temp.getString("tutor");
