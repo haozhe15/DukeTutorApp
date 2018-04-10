@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -40,8 +41,9 @@ public class FeedbackActivity extends AppCompatActivity {
 
         try {
             JSONObject json = new JSONObject();
+            TextView textView = findViewById(R.id.fbContent);
             json.put("session",session_url);
-            json.put("content", R.id.fbContent);
+            json.put("content", textView.getText().toString());
             json.put("rating", ratingNumber);
 
             app.addRequest(new JsonObjectAuthRequest(

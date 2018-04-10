@@ -36,7 +36,7 @@ import org.json.JSONObject;
  */
 
 public class SessionDetailFragment extends Fragment implements Response.Listener<JSONObject>{
-    private final ErrorListener errorListener = new ErrorListener(getActivity());
+    private ErrorListener errorListener;
     private JSONArray feedbackSet;
     View view;
 
@@ -44,6 +44,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        errorListener = new ErrorListener(getContext());
     }
 
 
@@ -166,8 +167,8 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
             TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
             StringBuffer b = new StringBuffer();
             b.append("feedback\n");
-            b.append("content: ").append(feedback.getString("content"));
-            b.append("rating: ").append(feedback.getDouble("rating"));
+            b.append("content: ").append(feedback.getString("content")).append('\n');
+            b.append("rating: ").append(feedback.getDouble("rating")).append('\n');
             sessionDetail.append(b);
         } catch (JSONException e) {
             e.printStackTrace();
