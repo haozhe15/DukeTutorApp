@@ -41,9 +41,8 @@ public class MeFragment extends Fragment implements AdapterView.OnItemClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if(i==0) {
-
         }
-        if(i==1){
+        else if(i==1){
             SessionListFragment sessionListFragment = new SessionListFragment();
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction().add(R.id.flContent, sessionListFragment, "sessionList").addToBackStack("meFragment").commit();
