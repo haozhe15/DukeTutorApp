@@ -208,9 +208,13 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     }
 
     private void onEditClick() {
-        Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
-        intent.putExtras(getArguments());
-        startActivity(intent);
+        SessionPostFragment sessionPostFragment = new SessionPostFragment();
+        sessionPostFragment.setArguments(getArguments());
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.flContent, sessionPostFragment, "sessionPost").addToBackStack("sessionList").commit();
+        //Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
+
+        //startActivity(intent);
     }
 
     private void onApplyClick() {

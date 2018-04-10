@@ -88,7 +88,8 @@ public class SessionPostFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        getActivity().getSupportFragmentManager().popBackStack("sessionList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        //getActivity().getSupportFragmentManager().popBackStack("sessionList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
                 },
                 form));
