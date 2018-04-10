@@ -67,7 +67,6 @@ public class SessionListFragment extends Fragment implements Response.Listener<J
             SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
             JSONObject object = sessionListAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object);
-            b.putString("apply", "yes");
             sessionDetailFragment.setArguments(b);
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();

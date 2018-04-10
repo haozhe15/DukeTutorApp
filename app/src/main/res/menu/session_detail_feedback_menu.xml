@@ -3,11 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_option_feedback"
-        android:icon="@drawable/ic_feedback_session"
+        android:icon="@drawable/ic_rate_session"
         android:title="@string/session_detail_feedback"
         android:visible="true"
         app:showAsAction="always" />
-
 
 
 </menu>

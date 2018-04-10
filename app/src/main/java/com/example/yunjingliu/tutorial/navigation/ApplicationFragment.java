@@ -30,7 +30,7 @@ import org.json.JSONObject;
  */
 public class ApplicationFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ApplicationListAdapter listAdapter;
-
+    ListView sessionList;
     public ApplicationFragment() {
         // Required empty public constructor
     }
@@ -41,7 +41,7 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_application, container, false);
 
-        ListView sessionList = view.findViewById(R.id.lvSessionApplied);
+        sessionList = view.findViewById(R.id.lvSessionApplied);
         listAdapter = new ApplicationListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
         sessionList.setAdapter(listAdapter);
         sessionList.setOnItemClickListener(this);
@@ -67,11 +67,13 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
-            SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
-            JSONObject object = listAdapter.getItem(i).getJSONObject("session");
-            Bundle b = Conversions.jsonToBundle(object);
-            b.putBoolean("can_apply", false);
 
+            SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
+            JSONObject object = listAdapter.getItem(i);
+            Bundle b = Conversions.jsonToBundle(object.getJSONObject("session"));
+            if(object.getBoolean("accepted")){
+                b.putBoolean("can_feedback", true);
+            }
             sessionDetailFragment.setArguments(b);
             FragmentManager manager = getFragmentManager();
             manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();
