@@ -71,7 +71,7 @@ public class ApplicationFragment extends Fragment implements AdapterView.OnItemC
             SessionDetailFragment sessionDetailFragment = new SessionDetailFragment();
             JSONObject object = listAdapter.getItem(i);
             Bundle b = Conversions.jsonToBundle(object.getJSONObject("session"));
-            if(object.getBoolean("accepted")){
+            if( (!object.isNull("accepted")) && object.getBoolean("accepted")){
                 b.putBoolean("can_feedback", true);
             }
             sessionDetailFragment.setArguments(b);
