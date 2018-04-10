@@ -38,7 +38,7 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
         applications = Application.objects.filter(session=instance)
         message = "you application to \"%s\" is deleted" % instance.title
         for app in applications:
-            send_message(None, app.applicant, message)
+            send_message(instance.tutor, app.applicant, message)
         super().perform_destroy(instance)
 
 
