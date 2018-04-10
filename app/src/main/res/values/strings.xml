@@ -37,4 +37,5 @@
     <string name="session_detail_feedback">Feedback</string>
     <string name="feedback_session">Feedback for completed sessions:</string>
     <string name="add_session">Add New</string>
+    <string name="delete_session">Delete</string>
 </resources>

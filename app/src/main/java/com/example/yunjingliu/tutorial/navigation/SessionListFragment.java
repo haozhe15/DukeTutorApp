@@ -51,8 +51,11 @@ public class SessionListFragment extends Fragment implements Response.Listener<J
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
-        startActivity(intent);
+        SessionPostFragment sessionPostFragment = new SessionPostFragment();
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.flContent, sessionPostFragment, "sessionPost").addToBackStack("sessionList").commit();
+        //Intent intent = new Intent(getActivity(), TutorSessionPostActivity.class);
+        //startActivity(intent);
         return true;
     }
     @Override
@@ -95,7 +98,7 @@ public class SessionListFragment extends Fragment implements Response.Listener<J
             Bundle b = Conversions.jsonToBundle(object);
             sessionDetailFragment.setArguments(b);
             FragmentManager manager = getFragmentManager();
-            manager.beginTransaction().add(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();
+            manager.beginTransaction().replace(R.id.flContent, sessionDetailFragment, "sessionDetail").addToBackStack("sessionList").commit();
         } catch (JSONException e) {
             e.printStackTrace();
         }
