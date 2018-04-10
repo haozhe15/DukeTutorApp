@@ -135,10 +135,15 @@ class MessageViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.
         return queryset
 
 
-class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     permission_classes = (IsAuthenticated, )
     serializer_class = FeedbackSerializer
     queryset = Feedback.objects
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Feedback.objects.filter(session__tutor=user)
+        return queryset
 
     @transaction.atomic
     def perform_create(self, serializer):
