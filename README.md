@@ -29,9 +29,9 @@ User area is your main screen to other activity. The sessions(classes) you have 
 - Add New: Add a new session as a tutor.
 - Check Message: View the messages you have received. 
 ## Check Applied:
-
+In this page, you will see the sessions you have applied in a list. Click an item to view the details.
 ## Add new session
-
+Use this button to post a new session. Then you will be directed to fill in a form.
 ## Check Message
 In this page, you can see all the messages the user get. The messages are shown in a list. 
 ## Search classes
