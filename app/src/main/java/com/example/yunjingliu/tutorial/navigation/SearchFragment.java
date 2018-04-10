@@ -36,7 +36,7 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
     private SessionListAdapter sessionListAdapter;
 
 
@@ -62,18 +62,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getActivity().getComponentName()));
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                handleIntent(getActivity().getIntent());
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                handleIntent(getActivity().getIntent());
-                return true;
-            }
-        });
+        searchView.setOnQueryTextListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -88,22 +77,9 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
         sessionListAdapter = new SessionListAdapter(getActivity(), android.R.layout.simple_list_item_1, null);
         searchList.setAdapter(sessionListAdapter);
         searchList.setOnItemClickListener(this);
-        handleIntent(getActivity().getIntent());
         return view;
     }
 
-
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-
-            // Do my search activity
-            HashMap<String, String> params = new HashMap<>();
-            params.put("keyword", query);
-            getSearchResult(new JSONObject(params));
-        }
-    }
 
     public void getSearchResult(JSONObject kwJSON) {
         final MyApp app = (MyApp) getActivity().getApplication();
@@ -114,6 +90,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
                 kwJSON,
                 sessionListAdapter, new ErrorListener(getActivity())));
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         try {
@@ -128,4 +105,16 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
         }
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("keyword", s);
+        getSearchResult(new JSONObject(params));
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return false;
+    }
 }
