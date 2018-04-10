@@ -34,4 +34,5 @@
     <string name="session_edit">Edit</string>
     <string name="session_apply">Apply</string>
     <string name="session_detail_feedback">Feedback</string>
+    <string name="add_session">Add New</string>
 </resources>
