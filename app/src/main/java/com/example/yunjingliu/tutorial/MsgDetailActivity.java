@@ -105,12 +105,30 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
         for (String f : fields) {
             b.append(f).append(": ").append(bundle.getString(f)).append('\n');
         }
+
         TextView MsgDetail = findViewById(R.id.tvMsgDetail);
         MsgDetail.setText(b);
         MyApp app = (MyApp) getApplication();
+        String url = bundle.getString("application");
+        if (url == null) {
+
+        } else {
+            app.addRequest(new JsonObjectAuthRequest(
+                    Request.Method.GET,
+                    url,
+                    app.getAuthProvider(),
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            onReceiveApplication(response);
+                        }
+                    },
+                    errorListener));
+        }
         app.addRequest(new JsonObjectAuthRequest(
                 Request.Method.GET,
-                bundle.getString("application"),
+                url,
                 app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONObject>() {
@@ -155,9 +173,9 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
             String status;
             final boolean isUndecided = application.isNull("accepted");
             status = application.getString("accepted");
-            if (status == "null") {
+            if (status.equals("null")) {
                 status = "Undecided";
-            } else if (status == "true") {
+            } else if (status.equals("true")) {
                 status = "Accepted";
             } else {
                 status = "Declined";
