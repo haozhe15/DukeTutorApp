@@ -41,6 +41,9 @@ public class MeFragment extends Fragment implements AdapterView.OnItemClickListe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if(i==0) {
+            ProfileFragment profileFragment = new ProfileFragment();
+            FragmentManager manager = getFragmentManager();
+            manager.beginTransaction().add(R.id.flContent, profileFragment, "Profile").addToBackStack("meFragment").commit();
         }
         else if(i==1){
             SessionListFragment sessionListFragment = new SessionListFragment();
