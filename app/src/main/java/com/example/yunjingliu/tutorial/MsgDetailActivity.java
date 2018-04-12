@@ -103,12 +103,30 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
         for (String f : fields) {
             b.append(f).append(": ").append(bundle.getString(f)).append('\n');
         }
+
         TextView MsgDetail = findViewById(R.id.tvMsgDetail);
         MsgDetail.setText(b);
         MyApp app = (MyApp) getApplication();
+        String url = bundle.getString("application");
+        if (url == null) {
+
+        } else {
+            app.addRequest(new JsonObjectAuthRequest(
+                    Request.Method.GET,
+                    url,
+                    app.getAuthProvider(),
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            onReceiveApplication(response);
+                        }
+                    },
+                    errorListener));
+        }
         app.addRequest(new JsonObjectAuthRequest(
                 Request.Method.GET,
-                bundle.getString("application"),
+                url,
                 app.getAuthProvider(),
                 null,
                 new Response.Listener<JSONObject>() {
