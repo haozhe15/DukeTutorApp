@@ -198,7 +198,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
         try {
             TextView sessionDetail = view.findViewById(R.id.tvSessionDetail);
             StringBuffer b = new StringBuffer();
-            b.append("feedback\n");
+            b.append("\nfeedback\n");
             b.append("content: ").append(feedback.getString("content")).append('\n');
             b.append("rating: ").append(feedback.getDouble("rating")).append('\n');
             sessionDetail.append(b);

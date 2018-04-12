@@ -18,8 +18,8 @@ import com.zr.forms.JsonForm;
 import org.json.JSONObject;
 
 public class RegistrationActivity extends AppCompatActivity {
-    private final JsonForm form = new JsonForm(this, new ErrorListener(this));
-    private EditText etUsername, etPassword, etEmail, etFirstname, etLastname;
+    final JsonForm form = new JsonForm(this, new ErrorListener(this));
+    EditText etUsername, etPassword, etEmail, etFirstname, etLastname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
