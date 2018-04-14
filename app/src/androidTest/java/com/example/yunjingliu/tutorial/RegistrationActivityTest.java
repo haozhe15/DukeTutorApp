@@ -1,5 +1,6 @@
 package com.example.yunjingliu.tutorial;
 
+import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Patterns;
 import android.widget.EditText;
@@ -34,7 +35,7 @@ public class RegistrationActivityTest {
         assertNotNull(mActivity.findViewById(R.id.etPassword));
     }
 
-    @Test
+    @UiThreadTest
     public void testInput(){
         // Test the format of user's input
         EditText etUsername = mActivity.findViewById(R.id.etUsername);
