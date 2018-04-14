@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.util.Patterns;
 import android.widget.EditText;
 
+import com.example.yunjingliu.tutorial.registration_and_login.RegistrationActivity;
 import com.zr.forms.JsonForm;
 
 import org.junit.After;
