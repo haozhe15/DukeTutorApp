@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.otherActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.R;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MsgListAdapter;

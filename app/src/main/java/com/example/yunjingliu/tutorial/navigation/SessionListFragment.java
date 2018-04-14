@@ -1,6 +1,5 @@
 package com.example.yunjingliu.tutorial.navigation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,6 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.example.yunjingliu.tutorial.TutorSessionPostActivity;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;

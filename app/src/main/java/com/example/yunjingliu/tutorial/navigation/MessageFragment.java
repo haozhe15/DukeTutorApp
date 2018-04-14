@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.example.yunjingliu.tutorial.MsgDetailActivity;
+import com.example.yunjingliu.tutorial.otherActivities.MsgDetailActivity;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MsgListAdapter;

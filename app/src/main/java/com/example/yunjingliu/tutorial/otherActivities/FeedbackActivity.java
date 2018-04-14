@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.otherActivities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.R;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;

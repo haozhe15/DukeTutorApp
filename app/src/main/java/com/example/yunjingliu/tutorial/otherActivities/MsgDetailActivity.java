@@ -1,4 +1,4 @@
-package com.example.yunjingliu.tutorial;
+package com.example.yunjingliu.tutorial.otherActivities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.example.yunjingliu.tutorial.R;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonObjectAuthRequest;
