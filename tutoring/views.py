@@ -118,6 +118,11 @@ class ApplicationViewSet(viewsets.ModelViewSet):
                             "cannot accepted a closed session")
                 session.is_open = False
                 session.save()
+                for app in session.application_set.exclude(pk=application.pk):
+                    app.accepted = False
+                    app.save()
+                    message = "application declined"
+                    send_message(self.request.user, app.applicant, message, app)
             message = "application " + (accepted and "accepted" or "declined")
             send_message(self.request.user, application.applicant, message, application)
         serializer.save()
