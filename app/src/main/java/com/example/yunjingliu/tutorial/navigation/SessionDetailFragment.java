@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.example.yunjingliu.tutorial.FeedbackActivity;
+import com.example.yunjingliu.tutorial.otherActivities.FeedbackActivity;
 import com.example.yunjingliu.tutorial.R;
 //import com.example.yunjingliu.tutorial.TutorSessionPostActivity;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
