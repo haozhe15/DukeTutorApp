@@ -6,7 +6,7 @@ import android.view.View;
  * Created by rui on 3/13/18.
  */
 
-public abstract class FormEntryAdapter {
+public abstract class  FormEntryAdapter {
     final View view;
 
     public FormEntryAdapter(View view) {
