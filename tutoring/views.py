@@ -84,6 +84,9 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         user = self.request.user
         session = serializer.validated_data['session']
+        if not session.is_open:
+            raise exceptions.ValidationError(
+                    "the session is closed")
         if Application.objects.filter(
                 session=session,
                 applicant=user).exists():
