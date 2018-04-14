@@ -103,22 +103,27 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
         for (String f : fields) {
             b.append(f).append(": ").append(bundle.getString(f)).append('\n');
         }
+
         TextView MsgDetail = findViewById(R.id.tvMsgDetail);
         MsgDetail.setText(b);
         MyApp app = (MyApp) getApplication();
-        app.addRequest(new JsonObjectAuthRequest(
-                Request.Method.GET,
-                bundle.getString("application"),
-                app.getAuthProvider(),
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        onReceiveApplication(response);
-                    }
-                },
-                errorListener));
+        String url = bundle.getString("application");
+        if (url.equals("null")) {
 
+        } else {
+            app.addRequest(new JsonObjectAuthRequest(
+                    Request.Method.GET,
+                    url,
+                    app.getAuthProvider(),
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            onReceiveApplication(response);
+                        }
+                    },
+                    errorListener));
+        }
         app.addRequest(new JsonObjectAuthRequest(
                 Request.Method.GET,
                 bundle.getString("sender"),
@@ -152,12 +157,14 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
             String url = application.getString("session");
             String status;
             final boolean isUndecided = application.isNull("accepted");
-            status = application.getString("accepted");
-            if (status.equals("null")) {
+           // status = application.getString("accepted");
+            if (isUndecided) {
                 status = "Undecided";
-            } else if (status.equals("true")) {
+            }
+            else if (application.getBoolean("accepted")) {
                 status = "Accepted";
-            } else {
+            }
+            else {
                 status = "Declined";
             }
             StringBuilder sb = new StringBuilder();

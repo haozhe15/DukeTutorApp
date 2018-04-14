@@ -20,7 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.example.yunjingliu.tutorial.FeedbackActivity;
 import com.example.yunjingliu.tutorial.R;
-import com.example.yunjingliu.tutorial.TutorSessionPostActivity;
+//import com.example.yunjingliu.tutorial.TutorSessionPostActivity;
 import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
@@ -129,6 +129,7 @@ public class SessionDetailFragment extends Fragment implements Response.Listener
     private void updateDetail(Bundle bundle) {
         // TODO nicer appearance?
         StringBuilder b = new StringBuilder();
+        b.append("Session Detail:\n");
         final String[] fields = {"title", "description", "day", "time", "place"};
         for (String f : fields) {
             b.append(f).append(": ").append(bundle.getString(f)).append('\n');
