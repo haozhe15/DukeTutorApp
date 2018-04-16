@@ -16,7 +16,8 @@ The app is developed in Java language and released on the Google Play app store.
 
 API 15: Android 4.0.3 (IceCreamSandwich)
 
-###Install and Run
+### Install and Run
+
 Open the app in Android Studio, click /Build/Rebuild Project and then /Run/Run'App'. Then you can run it on either the Virtual Machine on Android Studio or the andriod mobile phone plugged in by yourself.
 For detail information about installing backend, see info below.
 
