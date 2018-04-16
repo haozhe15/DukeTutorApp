@@ -36,7 +36,7 @@ public class MsgActivity extends AppCompatActivity implements Response.Listener<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_msg);
         getMsg();
-        ListView msgList = (ListView) findViewById(R.id.lvMsg);
+        ListView msgList = findViewById(R.id.lvMsg);
         adapter = new MsgListAdapter(this, android.R.layout.simple_list_item_1, null);
         msgList.setAdapter(adapter);
         msgList.setOnItemClickListener(this);

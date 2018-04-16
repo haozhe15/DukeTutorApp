@@ -5,7 +5,6 @@ import android.util.Patterns;
 import android.widget.EditText;
 
 import com.example.yunjingliu.tutorial.registration_and_login.RegistrationActivity;
-import com.zr.forms.JsonForm;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class RegistrationActivityTest {
     @Rule
-    public ActivityTestRule<RegistrationActivity> mActivityTestRule = new ActivityTestRule<RegistrationActivity>(RegistrationActivity.class);
+    public ActivityTestRule<RegistrationActivity> mActivityTestRule = new ActivityTestRule<>(RegistrationActivity.class);
     private RegistrationActivity mActivity = null;
 
     @Before
