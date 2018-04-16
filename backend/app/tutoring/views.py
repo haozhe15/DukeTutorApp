@@ -8,8 +8,11 @@ from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 
 
-from .models import Session, Application, Message
-from .serializers import SessionSerializer, ApplicationSerializer, ApplicationListSerialzer, MessageSerializer, SearchSerializer
+from .models import Session, Application, Message, Feedback
+from .serializers import SessionSerializer, \
+        ApplicationSerializer, ApplicationListSerialzer, \
+        MessageSerializer, SearchSerializer, \
+        FeedbackSerializer, FeedbackListSerializer
 
 
 # Create your views here.
@@ -30,22 +33,38 @@ class TutorSessionViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(tutor=self.request.user, is_open=True)
 
+    @transaction.atomic
+    def perform_destroy(self, instance):
+        applications = Application.objects.filter(session=instance)
+        message = "you application to \"%s\" is deleted" % instance.title
+        for app in applications:
+            send_message(instance.tutor, app.applicant, message)
+        super().perform_destroy(instance)
+
 
 class ApplicationPermission(BasePermission):
     def has_object_permission(self, request, view, obj):
         action = view.action
         user = request.user
-        if obj.applicant == user: # tutee's view
+        if obj.session.tutor == user: # tutor's view
+            return action in ('retrieve', 'update', 'partial_update')
+        elif obj.applicant == user: # tutee's view
             return action in ('retrieve', 'destroy')
-        elif obj.session.tutor == user: # tutor's view
-            return action in ('retrieve', 'update')
 
+def send_message(sender, recipient, message, application=None):
+        message = Message(
+                sender=sender,
+                recipient=recipient,
+                message=message,
+                application=application)
+        message.save()
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, ApplicationPermission)
-    serializer_class = ApplicationSerializer
+    #serializer_class = ApplicationSerializer
 
     def get_queryset(self):
+        #print(self.patch, self.partial_update)
         queryset = Application.objects.all()
         action = self.action
         user = self.request.user
@@ -54,7 +73,6 @@ class ApplicationViewSet(viewsets.ModelViewSet):
                     .filter(applicant=user)
 #                    .annotate(max_message_timestamp=Max('message__timestamp'))\
 #                    .order_by('-max_message_timestamp')
-            print(queryset.query)
         return queryset
 
     def get_serializer_class(self):
@@ -66,6 +84,9 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         user = self.request.user
         session = serializer.validated_data['session']
+        if not session.is_open:
+            raise exceptions.ValidationError(
+                    "the session is closed")
         if Application.objects.filter(
                 session=session,
                 applicant=user).exists():
@@ -75,45 +96,41 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         if application.accepted != None:
             raise exceptions.ValidationError(
                     "'accepted' must be unset on creation")
-        message = Message(
-                sender=user,
-                recipient=application.session.tutor,
-                application=application)
-        # TODO what to put in the message?
-        message.message = "new application"
-        message.save()
+        message = "new application"
+        send_message(user, application.session.tutor, message, application)
 
     @transaction.atomic
     def perform_update(self, serializer):
         # Note: only the owner can access this view
         application = serializer.instance
-        accepted = serializer.validated_data['accepted']
-        if application.accepted not in (None, accepted):
-            raise exceptions.ValidationError(
-                    "cannot change the accepted state")
-        if accepted is None:
-            # this is a no-op
-            return
-        session = Session.objects\
-                .filter(pk=application.session.pk)\
-                .select_for_update()\
-                .get()
-        if not session.is_open:
-            raise exceptions.ValidationError(
-                    "cannot accepted a closed session")
-        session.is_open = False
-        session.save()
+        if 'accepted' in serializer.validated_data:
+            accepted = serializer.validated_data['accepted']
+            if application.accepted not in (None, accepted):
+                raise exceptions.ValidationError(
+                        "cannot change the accepted state")
+            if accepted is None:
+                # this is a no-op
+                return
+            if accepted:
+                session = Session.objects\
+                        .filter(pk=application.session.pk)\
+                        .select_for_update()\
+                        .get()
+                if not session.is_open:
+                    raise exceptions.ValidationError(
+                            "cannot accepted a closed session")
+                session.is_open = False
+                session.save()
+                for app in session.application_set.exclude(pk=application.pk):
+                    app.accepted = False
+                    app.save()
+                    message = "application declined"
+                    send_message(self.request.user, app.applicant, message, app)
+            message = "application " + (accepted and "accepted" or "declined")
+            send_message(self.request.user, application.applicant, message, application)
         serializer.save()
-        message = Message(
-                sender=self.request.user,
-                recipient=application.applicant,
-                application=application)
-        message.message = accepted and \
-                "your application is accepted" or \
-                "your application is declined"
-        message.save()
 
-    @transaction.atomic()
+    @transaction.atomic
     def perform_destroy(self, instance):
         if instance.accepted == True:
             session = Session.objects\
@@ -131,6 +148,33 @@ class MessageViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.
         query = Q(recipient=user)
         queryset = Message.objects.filter(query).order_by('read', '-timestamp')
         return queryset
+
+
+class FeedbackViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    permission_classes = (IsAuthenticated, )
+    queryset = Feedback.objects
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return FeedbackListSerializer
+        return FeedbackSerializer
+
+    def get_queryset(self):
+        if self.action == 'list':
+            user = self.request.user
+            queryset = Feedback.objects.filter(session__tutor=user)
+        else:
+            queryset = Feedback.objects
+        return queryset
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        user = self.request.user
+        feedback = serializer.save()
+        session = feedback.session
+        app = session.application_set.filter(applicant=user)
+        if not app.exists():
+            raise exceptions.ValidationError("not allowed")
 
 
 class ListResponseMixin:
