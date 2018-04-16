@@ -3,6 +3,7 @@ package com.example.yunjingliu.tutorial.navigation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +40,7 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
     View view;
     private ErrorListener errorListener;
     ArrayList<String> plist=new ArrayList<>();
+    Bundle b = new Bundle();
     ArrayAdapter<String> adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +75,13 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
         onEditClick();
         return true;
     }
-    private void onEditClick(){}
+    private void onEditClick(){
+        ProfileEditFragment profileEditFragment = new ProfileEditFragment();
+        profileEditFragment.setArguments(b);
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.flContent, profileEditFragment, "profileEdit").addToBackStack("profile").commit();
+
+    }
 
     private void getProfile() {
         final MyApp app = (MyApp) getActivity().getApplication();
@@ -88,11 +96,17 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
     @Override
     public void onResponse(JSONArray response) {
         try {
+            b.clear();
+            plist.clear();
             JSONObject response1 = response.getJSONObject(0);
             plist.add("Username: "+response1.getString("username"));
+            b.putString("username", response1.getString("username"));
             plist.add("Email: "+response1.getString("email"));
+            b.putString("email", response1.getString("email"));
             plist.add("First Name: "+response1.getString("first_name"));
+            b.putString("firstname", response1.getString("first_name"));
             plist.add("Last Name: "+response1.getString("last_name"));
+            b.putString("lastname", response1.getString("last_name"));
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
