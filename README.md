@@ -1,6 +1,6 @@
 # Support Manual
 
-##Description
+## Description
 
 Peer-to-peer tutoring has been shown to be one of the most effective ways for students to learn, but currently, there aren’t many services that help facilitate this.  This peer tutoring mobile android app aims at Duke community and surrounding Durham community and helps match peer tutors with peer tutees at ease. 
 
@@ -10,9 +10,10 @@ The tutee can directly contact the interested tutor via a private chat system. T
 
 The app is developed in Java language and released on the Google Play app store.  The user data is stored and arranged on a Linux server system, so the app needs to communicate with the server to fetch data to the user.
 
-##Installation
+## Installation
 
-###Android Environment
+### Android Environment
+
 API 15: Android 4.0.3 (IceCreamSandwich)
 
 ###Install and Run
@@ -30,7 +31,7 @@ for documentation.
 We put the application server in Docker containers.
 To set up the server, run
 
-docker-compose up --build
+    docker-compose up --build
 
 as __root__ in the directory which contains `docker-compose.yaml`.
 
@@ -74,7 +75,7 @@ instead of the web interface.
 Test cases are written in the `tests/` directory.
 To run the tests in the Docker container, run
 
-docker-compose run duketutor ./manage.py test
+    docker-compose run duketutor ./manage.py test
 
 as **root**.  You can also run the tests locally, but you need to properly
 set up the database (e.g., modify `duketutor/settings.py` for database
@@ -89,53 +90,36 @@ connection settings).
 We use Android Studio with Java language to develop front.
 Reference: https://developer.android.com/guide/index.html
 
-###Set Up
+### Set Up
 
 Open Android Studio, click on `build/rebuild project`, wait for building finished and then click on "run".
 
-###Overall Structure of Code
+### Overall Structure of Code
 
 If you get our code from Gitlab, the code for Frontend is under the folder named ‘app’. Go to the path: app/src/main/java/com/, you will find all the java code of Frontend.
 There are 2 main directories:
 
 * `example.yunjingliu.tutorial` : mainly functional code interacting with users
-
-  *`helper_class/`: providing Backend interaction abstraction class, our own customised ErrorListener class as well as all kinds of Adapter classes.
-
-  *`registration_and_login/` : providing login and registration functionalities
-
-  *`navigation/`: providing all the fragment class related to the navigation bar design
- 
-  *`otherActivities/` : providing other activities invoked inside a fragment class, for example: feedback activity or message detail activity.
+  * `helper_class/`: providing Backend interaction abstraction class, our own customised ErrorListener class as well as all kinds of Adapter classes.
+  * `registration_and_login/` : providing login and registration functionalities
+  * `navigation/`: providing all the fragment class related to the navigation bar design
+  * `otherActivities/` : providing other activities invoked inside a fragment class, for example: feedback activity or message detail activity.
 
 * `zr/` : mainly assisting classes providing our authorisation information throughout the whole system and provide different kind of translation of JSON or other staffs.
+  * `auth/` : provide authorisation interface to the backend, as well as any JSON request formality classes.
+  * `forms/`: dealing with the forms that needed to be filled out by user in any PUT method.
+  * `json/`: providing an abstracted class to deal with JSON response from backend.
 
-  *`auth/` : provide authorisation interface to the backend, as well as any JSON request formality classes.
+### Pointers to additional files
 
-  *`forms/`: dealing with the forms that needed to be filled out by user in any PUT method.
-
-  *`json/`: providing an abstracted class to deal with JSON response from backend.
-
-###Pointers to additional files
 All of our documents are under path `/documents`.
 
-###Pointers to automated test for Frontend
+### Pointers to automated test for Frontend
+
 On our gitlab, under the path `/app/src/androidTest/java/com/example/yunjingliu/tutorial`, you will find our testcases for login and registration validation. 
 
 To run the testcases, open it on Android Studio, follow the steps:
 
 * Right click the test class, then select "run…"
-
 * Choose the android device to run the test class
-
 * See the results to see whether all the tests pass.
-
-
-
-
-
-
-
-
-
-
