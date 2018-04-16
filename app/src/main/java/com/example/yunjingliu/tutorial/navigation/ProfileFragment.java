@@ -24,7 +24,7 @@ import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 
 import com.zr.auth.JsonArrayAuthRequest;
-import com.zr.auth.JsonObjectAuthRequest;
+import com.zr.json.Conversions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +39,7 @@ import java.util.ArrayList;
 public class ProfileFragment extends Fragment implements Response.Listener<JSONArray>{
     View view;
     private ErrorListener errorListener;
-    ArrayList<String> plist=new ArrayList<>();
-    Bundle b = new Bundle();
+    ArrayList<String> plist = new ArrayList<>();
     ArrayAdapter<String> adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,9 +52,8 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-       // plist = new ArrayList<>();
         ListView profileList = view.findViewById(R.id.lvProfile);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, plist);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, plist);
         profileList.setAdapter(adapter);
         return view;
     }
@@ -76,11 +74,11 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
         return true;
     }
     private void onEditClick(){
+        MyApp app = (MyApp) getActivity().getApplication();
         ProfileEditFragment profileEditFragment = new ProfileEditFragment();
-        profileEditFragment.setArguments(b);
+        profileEditFragment.setArguments(app.getUserInfo());
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().replace(R.id.flContent, profileEditFragment, "profileEdit").addToBackStack("profile").commit();
-
     }
 
     private void getProfile() {
@@ -96,18 +94,14 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
     @Override
     public void onResponse(JSONArray response) {
         try {
-            b.clear();
+            MyApp app = (MyApp) getActivity().getApplication();
             plist.clear();
             JSONObject response1 = response.getJSONObject(0);
+            app.setUserInfo(Conversions.jsonToBundle(response1));
             plist.add("Username: "+response1.getString("username"));
-            b.putString("username", response1.getString("username"));
             plist.add("Email: "+response1.getString("email"));
-            b.putString("email", response1.getString("email"));
             plist.add("First Name: "+response1.getString("first_name"));
-            b.putString("firstname", response1.getString("first_name"));
             plist.add("Last Name: "+response1.getString("last_name"));
-            b.putString("lastname", response1.getString("last_name"));
-            b.putString("url",response1.getString("url") );
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
