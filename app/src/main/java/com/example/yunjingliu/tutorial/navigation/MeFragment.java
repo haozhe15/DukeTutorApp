@@ -31,8 +31,8 @@ public class MeFragment extends Fragment implements AdapterView.OnItemClickListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_me, container, false);
-        ListView meList = (ListView) view.findViewById(R.id.lvMeList);
-        ListAdapter adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, list);
+        ListView meList = view.findViewById(R.id.lvMeList);
+        ListAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list);
         meList.setAdapter(adapter);
         meList.setOnItemClickListener(this);
         return view;

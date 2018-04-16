@@ -5,8 +5,6 @@ import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 
-import org.json.JSONException;
-
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -42,5 +40,5 @@ public class JsonStringAuthRequest extends JsonAuthRequest<String> {
     @Override
     protected String parseJson(String jsonString) {
         return jsonString;
-    };
+    }
 }

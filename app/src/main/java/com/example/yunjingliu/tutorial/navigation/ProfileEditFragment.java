@@ -3,6 +3,7 @@ package com.example.yunjingliu.tutorial.navigation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,18 +11,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.example.yunjingliu.tutorial.R;
-import com.example.yunjingliu.tutorial.helper_class.Backend;
 import com.example.yunjingliu.tutorial.helper_class.ErrorListener;
 import com.example.yunjingliu.tutorial.helper_class.MyApp;
 import com.zr.auth.JsonObjectAuthRequest;
 import com.zr.forms.EditTextAdapter;
 import com.zr.forms.JsonForm;
+import com.zr.json.Conversions;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -50,12 +51,20 @@ public class ProfileEditFragment extends Fragment {
         app.addRequest(new JsonObjectAuthRequest(
                     Request.Method.PATCH,
                     getArguments().getString("url"),
-                    null,
+                    app.getAuthProvider(),
                     form.getJson(),
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            getActivity().getSupportFragmentManager().popBackStack();
+                            FragmentActivity activity = getActivity();
+                            MyApp app = (MyApp) activity.getApplication();
+
+                            try {
+                                app.setUserInfo(Conversions.jsonToBundle(response));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            activity.getSupportFragmentManager().popBackStack();
                         }
                     },
                     form));
@@ -66,19 +75,17 @@ public class ProfileEditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_edit, container, false);
-        EditText username = (EditText)view.findViewById(R.id.etUsername);
-        EditText email = (EditText)view.findViewById(R.id.etEmail);
-        EditText firstname = (EditText)view.findViewById(R.id.etFirstname);
-        EditText lastname = (EditText)view.findViewById(R.id.etLastname);
-        form.put("username", new EditTextAdapter(view.findViewById(R.id.etUsername)));
-        form.put("email", new EditTextAdapter(view.findViewById(R.id.etEmail)));
-        form.put("first_name", new EditTextAdapter(view.findViewById(R.id.etFirstname)));
-        form.put("last_name", new EditTextAdapter(view.findViewById(R.id.etLastname)));
+        EditText username = view.findViewById(R.id.etUsername);
+        EditText email = view.findViewById(R.id.etEmail);
+        EditText firstname = view.findViewById(R.id.etFirstname);
+        EditText lastname = view.findViewById(R.id.etLastname);
 
-        username.setText(getArguments().getString("username"));
-        email.setText(getArguments().getString("email"));
-        firstname.setText(getArguments().getString("firstname"));
-        lastname.setText(getArguments().getString("lastname"));
+        form.put("username", new EditTextAdapter(username));
+        form.put("email", new EditTextAdapter(email));
+        form.put("first_name", new EditTextAdapter(firstname));
+        form.put("last_name", new EditTextAdapter(lastname));
+
+        form.setBundle(getArguments());
         return view;
     }
 }

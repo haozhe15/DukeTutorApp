@@ -27,7 +27,7 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actitivity_feedback);
-        simpleRatingBar = (RatingBar) findViewById(R.id.ratingBar); // initiate a rating bar
+        simpleRatingBar = findViewById(R.id.ratingBar); // initiate a rating bar
         simpleRatingBar.setRating((float) 3.5); // set default rating
     }
 

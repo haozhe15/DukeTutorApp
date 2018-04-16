@@ -206,7 +206,7 @@ public class MsgDetailActivity extends AppCompatActivity implements Response.Lis
                         return true;
                     }
                 });
-            };
+            }
             StringBuilder sb = new StringBuilder();
             sb.append("session title: ").append(title);
             TextView MsgDetail = findViewById(R.id.tvSessionTitle);

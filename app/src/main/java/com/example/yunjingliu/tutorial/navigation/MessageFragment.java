@@ -36,7 +36,7 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_msg, container, false);
 
-        ListView msgList = (ListView) view.findViewById(R.id.lvMsg);
+        ListView msgList = view.findViewById(R.id.lvMsg);
         listAdapter = new MsgListAdapter(getContext(), android.R.layout.simple_list_item_1, null);
         msgList.setAdapter(listAdapter);
         msgList.setOnItemClickListener(this);
