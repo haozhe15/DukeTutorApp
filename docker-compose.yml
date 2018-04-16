@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  db:
+      image: postgres
+  duketutor:
+      build: ./app
+      user: nobody
+      command: /code/entry.sh
+      volumes:
+        - static:/static
+      expose:
+        - "12345"
+      depends_on:
+        - db
+  nginx:
+     image: nginx:latest
+     ports:
+       - "8000:8000"
+     volumes:
+       - ./nginx/config:/etc/nginx/conf.d
+       - static:/static
+     depends_on:
+       - duketutor
+
+volumes:
+  static:
