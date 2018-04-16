@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment implements Response.Listener<JSONA
             b.putString("firstname", response1.getString("first_name"));
             plist.add("Last Name: "+response1.getString("last_name"));
             b.putString("lastname", response1.getString("last_name"));
+            b.putString("url",response1.getString("url") );
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
